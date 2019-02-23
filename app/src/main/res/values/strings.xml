@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GridFlare</string>
+    <string name="launch_test">Launch a test</string>
 </resources>
