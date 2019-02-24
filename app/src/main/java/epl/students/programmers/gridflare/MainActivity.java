@@ -15,6 +15,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final int NUMBER_OF_LEVELS=5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
         TextView value = findViewById(R.id.launch_value);
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        int numberOfLevels=5;
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        int level=WifiManager.calculateSignalLevel(wifiInfo.getRssi(), numberOfLevels);
+        int level = 0;
+        if(wifiManager.isWifiEnabled()) {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            level = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), NUMBER_OF_LEVELS);
+        }
 
         value.setText(Integer.toString(level));
     }
