@@ -1,6 +1,7 @@
 package epl.students.programmers.gridflare;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -44,5 +45,10 @@ public class MainActivity extends AppCompatActivity {
         //value.setText(Integer.toString(level));
 
         value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost() + "%\n Done");
+    }
+
+    public void go_to_scanner(View v){
+        Intent it = new Intent(this, ScanningActivity.class);
+        startActivity(it);
     }
 }

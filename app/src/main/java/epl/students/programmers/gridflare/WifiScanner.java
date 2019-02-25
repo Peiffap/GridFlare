@@ -24,18 +24,21 @@ public class WifiScanner {
     }
 
     public float getPing() {
-        pingRequest("www.google.com", 5);
         return averagePing;
     }
 
     public int getStrength() {//La ou je suis j'ai une bonne connection donc a tester voir ce que ca donne
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        strength = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), 100);
+        strength = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), 4);
         return strength;
     }
 
     public float getProportionOfLost() {
         return proportionOfLost;
+    }
+
+    public void update(){
+        pingRequest("8.8.8.8", 5);//We could ping on google but the DNS is more stable
     }
 
     private void pingRequest(String url, int n){
