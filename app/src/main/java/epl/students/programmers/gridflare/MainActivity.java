@@ -9,19 +9,20 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    WifiScanner wifi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Launch a test");
+        wifi = new WifiScanner(getApplicationContext());
     }
 
     public void launch_a_test(View v){
         Toast.makeText(getBaseContext(), "Test in progress. Stay where you are.",
                 Toast.LENGTH_LONG).show();
         TextView value = findViewById(R.id.launch_value);
-        Random rand = new Random();
-        int va = rand.nextInt();
-        value.setText(""+va);
+        value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + "Done");
     }
 }
