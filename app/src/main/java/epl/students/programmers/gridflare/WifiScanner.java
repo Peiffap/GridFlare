@@ -54,9 +54,9 @@ public class WifiScanner {
         try {
             Process p;
             if(!sudo)
-                p= Runtime.getRuntime().exec(cmd);
+                p = Runtime.getRuntime().exec(cmd);
             else
-                p= Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
+                p = Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String s;
             String res = "";
