@@ -43,6 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         //value.setText(Integer.toString(level));
 
-        value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost());
+        value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost() + "%\n Done");
     }
 }

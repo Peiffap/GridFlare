@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text="Wifi power"
         android:textColor="#000000"
-        android:textSize="32dp"
+        android:textSize="10dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
