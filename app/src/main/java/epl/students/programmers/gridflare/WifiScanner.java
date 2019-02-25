@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,7 +18,7 @@ public class WifiScanner {
     private WifiManager wifiManager;
 
     public WifiScanner(Context context){
-        wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         averagePing = 0;
         strength = 0;
         proportionOfLost = 0f;
@@ -45,6 +46,14 @@ public class WifiScanner {
         averagePing = 0;
         String command = "ping -c " + n + " " + url;
         String result = executeCmd(command, false);
+
+        //Case of an error: we got an empty String
+        if (result.length()==0) {
+            averagePing = -1;
+            proportionOfLost = -1;
+            return;
+        }
+
         //Analyse the result
         String[] splited1 = result.split("/");
         averagePing = Float.parseFloat(splited1[splited1.length - 3]);
@@ -62,11 +71,12 @@ public class WifiScanner {
                 p = Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String s;
-            String res = "";
+            StringBuilder sb = new StringBuilder();
             while ((s = stdInput.readLine()) != null) {
-                res += s + "\n";
+                sb.append(s).append("\n");
             }
             p.destroy();
+            String res = sb.toString();
             Log.w("Wifi Scanner", res);
             return res;
         } catch (Exception e) {

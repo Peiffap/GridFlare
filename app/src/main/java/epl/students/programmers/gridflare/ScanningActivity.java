@@ -1,5 +1,6 @@
 package epl.students.programmers.gridflare;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -29,10 +30,16 @@ public class ScanningActivity extends AppCompatActivity {
             public void run() {
                 wifi.update();
                 value.post(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
-                        value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost() + "%\n Done");
-                        //Stop the waiting animation
+                        if (wifi.getPing() == (float)-1 || wifi.getProportionOfLost() == (float)-1 || wifi.getStrength() == (float)-1){
+                            value.setText("Error. Check your connection, and try later.");
+                        }
+                        else {
+                            value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost() + "%\n Done");
+                            //Stop the waiting animation
+                        }
                     }
                 });
             }
