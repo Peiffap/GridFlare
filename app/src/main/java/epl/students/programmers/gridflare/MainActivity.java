@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
         TextView value = findViewById(R.id.launch_value);
 
-        //value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + "Done");
-
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         int level = 0;
         if(wifiManager.isWifiEnabled()) {
@@ -43,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
             level = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), NUMBER_OF_LEVELS);
         }
 
-        value.setText(Integer.toString(level));
+        //value.setText(Integer.toString(level));
+
+        value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost());
     }
 }

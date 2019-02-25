@@ -34,6 +34,10 @@ public class WifiScanner {
         return strength;
     }
 
+    public float getProportionOfLost() {
+        return proportionOfLost;
+    }
+
     private void pingRequest(String url, int n){
         averagePing = 0;
         String command = "ping -c " + n + " " + url;
@@ -41,6 +45,9 @@ public class WifiScanner {
         //Analyse the result
         String[] splited1 = result.split("/");
         averagePing = Float.parseFloat(splited1[splited1.length - 3]);
+
+        String[] splited2 = result.split("%")[0].split(" ");
+        proportionOfLost = Float.parseFloat(splited2[splited2.length - 1]);
     }
 
     private static String executeCmd(String cmd, boolean sudo){
@@ -57,7 +64,7 @@ public class WifiScanner {
                 res += s + "\n";
             }
             p.destroy();
-            Log.e("Wifi Scanner", res);
+            Log.w("Wifi Scanner", res);
             return res;
         } catch (Exception e) {
             e.printStackTrace();
