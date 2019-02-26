@@ -23,6 +23,14 @@ public class WifiScanner {
         proportionOfLost = 0f;
     }
 
+    public boolean isWifiEnabled(){
+        return wifiManager.isWifiEnabled();
+    }
+
+    public void enableWifi(){
+        wifiManager.setWifiEnabled(true);
+    }
+
     public float getPing() {
         return averagePing;
     }
