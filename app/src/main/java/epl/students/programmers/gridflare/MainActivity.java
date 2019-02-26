@@ -1,25 +1,20 @@
 package epl.students.programmers.gridflare;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
 
     WifiScanner wifi;
 
-    private final int NUMBER_OF_LEVELS=5;
 
 
     @Override
@@ -28,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("Launch a test");
         wifi = new WifiScanner(getApplicationContext());
+        if(!wifi.isWifiEnabled())
+            openDialog();
     }
 
     public void launch_a_test(View v){
@@ -35,14 +32,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
         TextView value = findViewById(R.id.launch_value);
 
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        int level = 0;
-        if(wifiManager.isWifiEnabled()) {
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            level = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), NUMBER_OF_LEVELS);
-        }
-
-        //value.setText(Integer.toString(level));
 
         value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost() + "%\n Done");
     }
@@ -50,5 +39,26 @@ public class MainActivity extends AppCompatActivity {
     public void go_to_scanner(View v){
         Intent it = new Intent(this, ScanningActivity.class);
         startActivity(it);
+    }
+
+    public void openDialog(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Wi-Fi disabled");
+        alertDialog.setMessage("Do you want turn on your Wi-Fi ?");
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wifi",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                wifi.enableWifi();
+            }
+
+        });
+
+        alertDialog.show();
     }
 }
