@@ -62,6 +62,16 @@ public class WifiScanner {
             return;
         }
 
+        //Analyse in case of all packets are lost
+        String[] check1 = result.split(", ");
+        if(check1.length == 4) {
+            if (check1[2].substring(0,3).equals("100")) {
+                averagePing = -1;
+                proportionOfLost = -1;
+                return;
+            }
+        }
+
         //Analyse the result
         String[] splited1 = result.split("/");
         averagePing = Float.parseFloat(splited1[splited1.length - 3]);
