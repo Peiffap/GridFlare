@@ -18,7 +18,7 @@ public class WifiScanner {
     private WifiManager wifiManager;
 
     public WifiScanner(Context context){
-        wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         averagePing = 0;
         strength = 0;
         proportionOfLost = 0f;
