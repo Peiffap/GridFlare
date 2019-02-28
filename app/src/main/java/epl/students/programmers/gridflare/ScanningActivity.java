@@ -47,8 +47,8 @@ public class ScanningActivity extends AppCompatActivity {
                         }
                         else {
                             String to_print = "Wi-Fi strength: " + wifi.getStrength() + "\n" +
-                                    "ping: " + wifi.getPing() + "\n" +
-                                    "Proportion of lost packets: " + wifi.getProportionOfLost() + "\n";
+                                    "ping: " + wifi.getPing() + "ms\n" +
+                                    "Proportion of lost packets: " + wifi.getProportionOfLost() + "%\n";
                             value.setText(to_print);
                             //Stop the waiting animation
                         }
