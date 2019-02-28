@@ -37,7 +37,10 @@ public class ScanningActivity extends AppCompatActivity {
                             value.setText("Error. Check your connection, and try later.");
                         }
                         else {
-                            value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost() + "%\n Done");
+                            String to_print = "Wi-Fi strength: " + wifi.getStrength() + "\n" +
+                                    "ping: " + wifi.getPing() + "\n" +
+                                    "Proportion of lost packets: " + wifi.getProportionOfLost() + "\n";
+                            value.setText(to_print);
                             //Stop the waiting animation
                         }
                     }
