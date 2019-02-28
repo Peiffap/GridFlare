@@ -1,8 +1,11 @@
 package epl.students.programmers.gridflare;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,12 +18,18 @@ public class ScanningActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wifi_scanning);
-        setTitle("Launch a test 2");
+        setTitle("Scanning");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
+
         wifi = new WifiScanner(getApplicationContext());
     }
 
     public void launch_a_test(View v){
-        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are ! ", Toast.LENGTH_LONG).show();
+
+        if(!wifi.isWifiEnabled())//Check one more time
+            openDialog();
 
         final TextView value = findViewById(R.id.launch_value);
         value.setText("Working");
@@ -47,5 +56,35 @@ public class ScanningActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    public void openDialog(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Wi-Fi disabled");
+        alertDialog.setMessage("Do you want turn on your Wi-Fi ?");
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wifi",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                wifi.enableWifi();
+            }
+
+        });
+
+        alertDialog.show();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            this.finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }

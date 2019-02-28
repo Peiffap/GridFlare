@@ -27,15 +27,6 @@ public class MainActivity extends AppCompatActivity {
             openDialog();
     }
 
-    public void launch_a_test(View v){
-        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are.",
-                Toast.LENGTH_LONG).show();
-        TextView value = findViewById(R.id.launch_value);
-
-
-        value.setText("" + wifi.getStrength() + "\n" + wifi.getPing() + "\n" + wifi.getProportionOfLost() + "%\n Done");
-    }
-
     public void go_to_scanner(View v){
         Intent it = new Intent(this, ScanningActivity.class);
         startActivity(it);

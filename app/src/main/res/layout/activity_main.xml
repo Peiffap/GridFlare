@@ -16,9 +16,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="Wifi power"
+        android:text="Welcome on GridFlare"
         android:textColor="#000000"
-        android:textSize="10dp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,24 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.466" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="149dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#3399ff"
-        android:onClick="launch_a_test"
-        android:textStyle="bold"
-        android:text="@string/launch_test"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/launch_value"
-        app:layout_constraintVertical_bias="0.883" />
 
     <Button
         android:id="@+id/go_to_scanner"

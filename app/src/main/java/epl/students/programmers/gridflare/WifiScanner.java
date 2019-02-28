@@ -101,6 +101,5 @@ public class WifiScanner {
             e.printStackTrace();
         }
         return "";
-
     }
 }
