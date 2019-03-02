@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class ScanningActivity extends AppCompatActivity {
 
     WifiScanner wifi;
-
+    TextView value;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,39 +23,38 @@ public class ScanningActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
         wifi = new WifiScanner(getApplicationContext());
+        value = findViewById(R.id.launch_value);
     }
 
     public void launch_a_test(View v){
-        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are ! ", Toast.LENGTH_LONG).show();
-
-        if(!wifi.isWifiEnabled())//Check one more time
+        if(!wifi.isWifiEnabled()){//Check one more time
             openDialog();
-
-        final TextView value = findViewById(R.id.launch_value);
-        value.setText("Working");
-
-        new Thread(new Runnable() {//Thread because the ping is a blocking function
-            @Override
-            public void run() {
-                wifi.update();
-                value.post(new Runnable() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void run() {
-                        if (wifi.getPing() == (float)-1 || wifi.getProportionOfLost() == (float)-1 || wifi.getStrength() == (float)-1){
-                            value.setText("Error. Check your connection, and try later.");
+        } else {
+            Toast.makeText(getBaseContext(), "Test in progress. Stay where you are ! ", Toast.LENGTH_LONG).show();
+            value.setText("Working");
+            new Thread(new Runnable() {//Thread because the ping is a blocking function
+                @Override
+                public void run() {
+                    wifi.update();
+                    value.post(new Runnable() {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void run() {
+                            if (wifi.getPing() == (float) -1 || wifi.getProportionOfLost() == (float) -1 || wifi.getStrength() == (float) -1) {
+                                value.setText("Error. Check your connection, and try later.");
+                            }
+                            else {
+                                String to_print = "Wi-Fi strength: " + wifi.getStrength() + "\n" +
+                                        "ping: " + wifi.getPing() + "ms\n" +
+                                        "Proportion of lost packets: " + wifi.getProportionOfLost() + "%\n";
+                                value.setText(to_print);
+                                //Stop the waiting animation
+                            }
                         }
-                        else {
-                            String to_print = "Wi-Fi strength: " + wifi.getStrength() + "\n" +
-                                    "ping: " + wifi.getPing() + "ms\n" +
-                                    "Proportion of lost packets: " + wifi.getProportionOfLost() + "%\n";
-                            value.setText(to_print);
-                            //Stop the waiting animation
-                        }
-                    }
-                });
-            }
-        }).start();
+                    });
+                }
+            }).start();
+        }
     }
 
     public void openDialog(){
@@ -65,7 +64,7 @@ public class ScanningActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wifi",Toast.LENGTH_LONG).show();
+                value.setText("Check your connection, and try later.");
             }
         });
 
