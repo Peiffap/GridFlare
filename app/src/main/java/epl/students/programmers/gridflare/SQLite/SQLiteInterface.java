@@ -11,7 +11,7 @@ import epl.students.programmers.gridflare.tools.Point;
 public class SQLiteInterface {
 
     private String name = "measure.sqlite";
-    private int v;
+    private int v = 1;
     private MySQLiteOpener access;
 
     public SQLiteInterface(Context context){
