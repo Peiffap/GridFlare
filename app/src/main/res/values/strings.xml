@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">GridFlare</string>
     <string name="launch_test">Launch a test</string>
+    <string name="what_is_this">What is this ?</string>
+    <string name="ping">
+        <b>Ping:</b>\n
+        Ping is a computer network administration software utility used to test the reachability of a host on an Internet Protocol (IP) network. It is available for virtually all operating systems that have networking capability, including most embedded network administration software.
+        Ping measures the round-trip-time for messages sent from the originating host to a destination computer that are echoed back to the source.
+        The round-trip-time is the sum of the time taken by the data to travel from the source to the destination and from the destination to the source.
+        \n
+        \n
+        <b>Wi-Fi strength:</b>\n
+        The Wi-Fi strength is the power of the received Wi-Fi wave from  your phone. This four-level (from 0 to 3) indicator is also represented on the top of your screen (the Wi-Fi indicator).
+        This parameter is important: the weaker the signal is, the more you could loose receiving/sending data.
+        \n
+        \n
+        <b>Proportion of lost packets:</b>\n
+        This parameter shows the percentage of data packets that have been lost during the tests. Even if this is not a precious
+        test, it can show the empirical probability of lost data packets during your utilisation of the network.
+    </string>
+    <string name="link_ping"><a href="https://en.wikipedia.org/wiki/Ping_%28networking_utility%29">More information about Ping</a></string>
 </resources>
