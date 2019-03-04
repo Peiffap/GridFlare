@@ -64,7 +64,7 @@ public class WifiScanner {
 
     public void update(){
         pingRequest("8.8.8.8", 5);//We could ping on google but the DNS is more stable
-        dl = uploadTime("www.google.be", 10000);//Send 10.000 on a server and test the speed
+        dl = uploadTime("http://ptsv2.com", 1000000);//Send 10.000 on a server and test the speed
     }
 
     private void pingRequest(String url, int n){
@@ -122,7 +122,7 @@ public class WifiScanner {
 
     private long uploadTime(String urlname, int nbrOfBytes){
         HttpURLConnection co = null;
-        long end = 0; long start = -1;
+        long end = 0; long start = 1;
         try {
             URL url = new URL(urlname);
             //Client setup
