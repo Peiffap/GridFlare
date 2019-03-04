@@ -14,6 +14,8 @@ import android.widget.Toast;
 //import android.widget.Toolbar;
 import android.support.v7.widget.Toolbar;
 
+import epl.students.programmers.gridflare.tools.WifiScanner;
+
 public class ScanningActivity extends AppCompatActivity {
 
     WifiScanner wifi;
@@ -37,6 +39,7 @@ public class ScanningActivity extends AppCompatActivity {
         return true;
     }
 
+    //Start a scan
     public void launch_a_test(View v){
         Toast.makeText(getBaseContext(), "Test in progress. Stay where you are ! ", Toast.LENGTH_LONG).show();
 
@@ -50,6 +53,10 @@ public class ScanningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 wifi.update();
+                //Update SQL
+                //Il faudra encore ajouter la position et le DL
+                Controller.getInstance().getSQLiteInterface(getBaseContext()).addPoint(0, 0, wifi.getStrength(), wifi.getPing(), 0);
+                //Update View
                 value.post(new Runnable() {
                     @SuppressLint("SetTextI18n")
                     @Override
@@ -60,7 +67,8 @@ public class ScanningActivity extends AppCompatActivity {
                         else {
                             String to_print = "Wi-Fi strength: " + wifi.getStrength() + "\n" +
                                     "ping: " + wifi.getPing() + "ms\n" +
-                                    "Proportion of lost packets: " + wifi.getProportionOfLost() + "%\n";
+                                    "Proportion of lost packets: " + wifi.getProportionOfLost() + "%\n" +
+                                    "Time for up : " + wifi.getDl() + "\n";
                             value.setText(to_print);
                             //Stop the waiting animation
                         }
@@ -70,6 +78,7 @@ public class ScanningActivity extends AppCompatActivity {
         }).start();
     }
 
+    //Check wifi connection
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Wi-Fi disabled");
@@ -91,6 +100,7 @@ public class ScanningActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    //Back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".Informations" android:label="Informations">
         </activity>
+        <activity android:name=".HeatmapActivity"/>
     </application>
 
 </manifest>
