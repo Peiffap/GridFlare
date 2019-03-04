@@ -3,11 +3,20 @@ package epl.students.programmers.gridflare.tools;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Debug;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.apache.http.client.HttpClient;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class WifiScanner {
 
@@ -101,5 +110,20 @@ public class WifiScanner {
             e.printStackTrace();
         }
         return "";
+    }
+
+    private long uploadTime(String urlname, String filename){
+        try {
+            URL url = new URL(urlname);
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
+            HttpURLConnection co = (HttpURLConnection) url.openConnection();
+
+            
+        } catch (MalformedURLException eu){
+            Log.w("Upload file", "Bad url : " + eu.getMessage());
+        } catch (IOException ioe){
+            Log.w("Upload file", "IOException with the connection : " + ioe.getMessage());
+        }
+        return 0;
     }
 }
