@@ -25,6 +25,7 @@ public class ScanningActivity extends AppCompatActivity {
         wifi = new WifiScanner(getApplicationContext());
     }
 
+    //Start a scan
     public void launch_a_test(View v){
         Toast.makeText(getBaseContext(), "Test in progress. Stay where you are ! ", Toast.LENGTH_LONG).show();
 
@@ -58,6 +59,7 @@ public class ScanningActivity extends AppCompatActivity {
         }).start();
     }
 
+    //Check wifi connection
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Wi-Fi disabled");
@@ -79,7 +81,7 @@ public class ScanningActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-
+    //Back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home)
