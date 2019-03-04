@@ -10,10 +10,12 @@ import android.widget.Toast;
 
 import org.apache.http.client.HttpClient;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,6 +25,7 @@ public class WifiScanner {
     private float averagePing;
     private int strength;//Between 0 and 100
     private float proportionOfLost;
+    private float dl;
 
     private WifiManager wifiManager;
 
@@ -55,8 +58,13 @@ public class WifiScanner {
         return proportionOfLost;
     }
 
+    public float getDl() {
+        return dl;
+    }
+
     public void update(){
         pingRequest("8.8.8.8", 5);//We could ping on google but the DNS is more stable
+        dl = uploadTime("www.google.be", 10000);//Send 10.000 on a server and test the speed
     }
 
     private void pingRequest(String url, int n){
@@ -112,18 +120,41 @@ public class WifiScanner {
         return "";
     }
 
-    private long uploadTime(String urlname, String filename){
+    private long uploadTime(String urlname, int nbrOfBytes){
+        HttpURLConnection co = null;
+        long end = 0; long start = -1;
         try {
             URL url = new URL(urlname);
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
-            HttpURLConnection co = (HttpURLConnection) url.openConnection();
+            //Client setup
+            co = (HttpURLConnection) url.openConnection();
+            co.setRequestMethod("POST");
+            co.setDoOutput(true);
+            co.setRequestProperty("Key", "Value");//Pas sur
+            co.setFixedLengthStreamingMode(nbrOfBytes);//Pas sur non plus :D
 
-            
+            //Output stream of the server
+            OutputStream outPost = new BufferedOutputStream(co.getOutputStream());
+            //Write the bytes
+            start = System.currentTimeMillis();
+            byte[] data = new byte[nbrOfBytes];
+            for(int i = 0; i < nbrOfBytes; i++){
+                data[i] = 'h';//Just to create a heavy packet
+            }
+            outPost.write(data);
+            //Flush
+            outPost.flush();//Je sais pas encore ou est le bloquant donc a voir
+            end = System.currentTimeMillis();
+            outPost.close();
+            co.disconnect();
+
         } catch (MalformedURLException eu){
             Log.w("Upload file", "Bad url : " + eu.getMessage());
         } catch (IOException ioe){
             Log.w("Upload file", "IOException with the connection : " + ioe.getMessage());
+        } finally {
+            if(co != null)
+                co.disconnect();
         }
-        return 0;
+        return end - start;
     }
 }
