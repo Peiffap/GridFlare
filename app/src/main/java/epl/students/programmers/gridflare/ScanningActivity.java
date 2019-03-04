@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import epl.students.programmers.gridflare.tools.WifiScanner;
+
 public class ScanningActivity extends AppCompatActivity {
 
     WifiScanner wifi;
@@ -39,6 +41,10 @@ public class ScanningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 wifi.update();
+                //Update SQL
+                //Il faudra encore ajouter la position et le DL
+                Controller.getInstance().getSQLiteInterface(getBaseContext()).addPoint(0, 0, wifi.getStrength(), wifi.getPing(), 0);
+                //Update View
                 value.post(new Runnable() {
                     @SuppressLint("SetTextI18n")
                     @Override

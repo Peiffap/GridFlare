@@ -1,4 +1,4 @@
-package epl.students.programmers.gridflare;
+package epl.students.programmers.gridflare.tools;
 
 import android.content.Context;
 import android.net.wifi.WifiInfo;
