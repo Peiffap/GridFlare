@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toolbar;
-import android.support.v7.widget.Toolbar;
 
 import epl.students.programmers.gridflare.tools.WifiScanner;
 
@@ -104,13 +103,13 @@ public class ScanningActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case android.R.id.home:
                 this.finish();
-
+                break;
             case R.id.informations:
-                Intent it = new Intent(this, Informations.class);
+                Intent it = new Intent(this, InformationsActivity.class);
                 startActivity(it);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

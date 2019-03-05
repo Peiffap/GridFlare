@@ -1,7 +1,9 @@
 package epl.students.programmers.gridflare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import java.util.Random;
 
@@ -34,5 +36,19 @@ public class HeatmapActivity extends AppCompatActivity {
 
         HeatMap.DataPoint point = new HeatMap.DataPoint(0.2f, 0.6f, 100.0);
         hm.addData(point);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                this.finish();
+                break;
+            case R.id.informations:
+                Intent it = new Intent(this, InformationsActivity.class);
+                startActivity(it);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

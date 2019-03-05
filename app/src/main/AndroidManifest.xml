@@ -21,12 +21,11 @@
         </activity>
         <activity android:name=".ScanningActivity" android:label="Scanning"><!-- The intent is just to try accessibility-->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Informations" android:label="Informations">
-        </activity>
+        <!-- <activity android:name=".ScanningActivity"/> -->
+        <activity android:name=".InformationsActivity" android:label="Informations"/>
         <activity android:name=".HeatmapActivity"/>
     </application>
 
