@@ -3,12 +3,16 @@ package epl.students.programmers.gridflare;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+//import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import epl.students.programmers.gridflare.tools.WifiScanner;
 
@@ -25,6 +29,14 @@ public class ScanningActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
         wifi = new WifiScanner(getApplicationContext());
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     //Start a scan
@@ -91,9 +103,15 @@ public class ScanningActivity extends AppCompatActivity {
     //Back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
-            this.finish();
+        switch (item.getItemId()) {
 
+            case android.R.id.home:
+                this.finish();
+
+            case R.id.informations:
+                Intent it = new Intent(this, Informations.class);
+                startActivity(it);
+        }
         return super.onOptionsItemSelected(item);
     }
 }
