@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScanningActivity" android:label="Scanning"><!-- The intent is just to try accessibility-->
+        <activity android:name=".ScanningActivity" android:label="Scanning"
+            android:screenOrientation="portrait"><!-- The intent is just to try accessibility-->
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
