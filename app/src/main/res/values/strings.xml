@@ -19,4 +19,8 @@
         test, it can show the empirical probability of lost data packets during your utilisation of the network.
     </string>
     <string name="link_ping"><a href="https://en.wikipedia.org/wiki/Ping_%28networking_utility%29">More information about Ping</a></string>
+    <string name="working">Working</string>
+    <string name="heatmap">HeatMap</string>
+    <string name="scanner">Scanner</string>
+    <string name="gridflare">GridFlare</string>
 </resources>

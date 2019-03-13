@@ -3,16 +3,10 @@ package epl.students.programmers.gridflare.tools;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Debug;
-import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
-
-import org.apache.http.client.HttpClient;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
