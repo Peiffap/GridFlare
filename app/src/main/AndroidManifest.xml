@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,21 +15,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity" android:label="GridFlare">
+        <activity android:name=".HistoricActivity"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="GridFlare">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScanningActivity" android:label="Scanning"
-            android:screenOrientation="portrait"><!-- The intent is just to try accessibility-->
+        <activity
+            android:name=".ScanningActivity"
+            android:label="Scanning"
+            android:screenOrientation="portrait"> <!-- The intent is just to try accessibility -->
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- <activity android:name=".ScanningActivity"/> -->
-        <activity android:name=".InformationsActivity" android:label="Informations"/>
-        <activity android:name=".HeatmapActivity"/>
+        </activity> <!-- <activity android:name=".ScanningActivity"/> -->
+        <activity
+            android:name=".InformationsActivity"
+            android:label="Informations" />
+        <activity android:name=".HeatmapActivity" />
     </application>
 
 </manifest>

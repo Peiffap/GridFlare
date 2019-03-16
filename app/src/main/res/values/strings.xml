@@ -23,4 +23,14 @@
     <string name="heatmap">HeatMap</string>
     <string name="scanner">Scanner</string>
     <string name="gridflare">GridFlare</string>
+    <string name="historic">historic</string>
+    <string-array name="spinner_items">
+        <item>Select a Room</item>
+        <item>living room</item>
+        <item>office</item>
+        <item>kitchen</item>
+        <item>bathroom</item>
+        <item>bedroom 1</item>
+        <item>bedroom 2</item>
+    </string-array>
 </resources>
