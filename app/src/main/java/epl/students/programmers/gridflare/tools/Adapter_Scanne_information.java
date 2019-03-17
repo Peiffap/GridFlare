@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import epl.students.programmers.gridflare.R;
 
-public class Adapter_Scanne_information extends ArrayAdapter<Scanne_information> {
+public class Adapter_Scanne_information extends ArrayAdapter<Test> {
     public Adapter_Scanne_information(@NonNull Context context, int resource) {
         super(context, resource);
     }
@@ -24,7 +24,7 @@ public class Adapter_Scanne_information extends ArrayAdapter<Scanne_information>
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = layoutInflater.inflate(R.layout.listview_items,null);
 
-        Scanne_information current_scan = getItem(position);
+        Test current_scan = getItem(position);
 
         TextView lv_strength  = v.findViewById(R.id.lv_strength);
         TextView lv_ping = v.findViewById(R.id.lv_ping);
@@ -37,9 +37,9 @@ public class Adapter_Scanne_information extends ArrayAdapter<Scanne_information>
         lv_strength.setText(String.valueOf(current_scan.getStrength()));
         lv_ping.setText(String.valueOf(current_scan.getPing()));
         lv_lost.setText(String.valueOf(current_scan.getProportionOfLost()));
-        lv_dl.setText(String.valueOf(current_scan.getDl()));
+        lv_dl.setText(String.valueOf(current_scan.getDL()));
         lv_date.setText(current_scan.getDate().toString());
-        lv_room.setText(current_scan.getRoom());
+        lv_room.setText(current_scan.getPlace());
 
         return v;
     }

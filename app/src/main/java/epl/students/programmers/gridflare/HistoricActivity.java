@@ -10,6 +10,7 @@ import java.util.Date;
 
 import epl.students.programmers.gridflare.tools.Adapter_Scanne_information;
 import epl.students.programmers.gridflare.tools.Scanne_information;
+import epl.students.programmers.gridflare.tools.Test;
 
 public class HistoricActivity extends AppCompatActivity {
 
@@ -26,12 +27,12 @@ public class HistoricActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
-        ArrayList<Scanne_information> historic = new ArrayList<>();
+        ArrayList<Test> historic = new ArrayList<>();
 
         //TODO ajouter a historic les objet Scanne_information
 
-        historic.add(new Scanne_information("bedroom",50,30.0F,0.0F,9000.0F,new Date()));
-        historic.add(new Scanne_information("bathroom",60,34.0F,2.0F,9500.0F,new Date()));
+        historic.add(new Test("bedroom",50,30.0F,0.0F,9000.0F));
+        historic.add(new Test("bathroom",60,34.0F,2.0F,9500.0F));
 
 
         adapter.addAll(historic);
