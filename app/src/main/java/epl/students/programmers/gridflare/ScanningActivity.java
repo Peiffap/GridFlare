@@ -95,7 +95,7 @@ public class ScanningActivity extends AppCompatActivity {
             openDialog();
 
         final TextView value = findViewById(R.id.launch_value);
-        value.setText("Working");
+        value.setText(R.string.working);
         waveLoadingView.setVisibility(View.VISIBLE);
 
         new Thread(new Runnable() {//Thread because the ping is a blocking function
