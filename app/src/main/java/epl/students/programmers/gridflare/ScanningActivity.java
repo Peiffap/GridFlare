@@ -9,15 +9,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toolbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import epl.students.programmers.gridflare.tools.WifiScanner;
 import me.itangqi.waveloadingview.WaveLoadingView;
 
-public class ScanningActivity extends AppCompatActivity {
+public class ScanningActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     WifiScanner wifi;
 
@@ -36,6 +42,10 @@ public class ScanningActivity extends AppCompatActivity {
     private TextView ping_title;
     private TextView lost_title;
     private TextView dl_title;
+
+
+    private Spinner spinner;
+    private String ROOM;
 
 
     @Override
@@ -66,6 +76,14 @@ public class ScanningActivity extends AppCompatActivity {
         waveLoadingView = findViewById(R.id.waveLoading);
         waveLoadingView.setProgressValue(50);
         waveLoadingView.setVisibility(View.INVISIBLE);
+
+
+        spinner = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> spinner_items = ArrayAdapter.createFromResource(this, R.array.spinner_items,android.R.layout.simple_spinner_item);
+        spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinner_items);
+        spinner.setOnItemSelectedListener(this);
+        spinner.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -77,6 +95,7 @@ public class ScanningActivity extends AppCompatActivity {
 
     //Start a scan
     public void launch_a_test(View v){
+        spinner.setVisibility(View.INVISIBLE);
         progressBar_strength.setVisibility(View.INVISIBLE);
         progressBar_ping.setVisibility(View.INVISIBLE);
         progressBar_lost.setVisibility(View.INVISIBLE);
@@ -155,6 +174,9 @@ public class ScanningActivity extends AppCompatActivity {
                                 progressBar_Dl.setProgress(25);
                             }
                             dl_value.setText(wifi.getDl()+"");
+
+                            spinner.setVisibility(View.VISIBLE);
+
                             value.setText("Done");
                             //Stop the waiting animation
                         }
@@ -199,5 +221,34 @@ public class ScanningActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //Spinner method
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if(spinner.getVisibility() == View.VISIBLE){
+            String text = adapterView.getItemAtPosition(i).toString();
+            if(text.equals("Select a Room")){
+                Toast.makeText(adapterView.getContext(),"Select a room please",Toast.LENGTH_LONG).show();
+            }
+            else {
+                ROOM = text;
+                text = "You are at :" + text;
+                Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_LONG).show();
+
+
+                //TODO UPDATE the DataBase
+                //Strength : wifi.getStrength()
+                //Ping : wifi.getPing()
+                //Lost : wifi.getProportionOfLost()
+                //Time for up : wifi.getDl()
+                //Location : ROOM
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
