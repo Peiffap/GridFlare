@@ -27,13 +27,16 @@ public class HistoricActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
-        ArrayList<Test> historic = new ArrayList<>();
 
-        //TODO ajouter a historic les objet Scanne_information
+        ArrayList<Scanne_information> historic = new ArrayList<>();
 
-        historic.add(new Test("bedroom",50,30.0F,0.0F,9000.0F));
-        historic.add(new Test("bathroom",60,34.0F,2.0F,9500.0F));
+        historic.add(new Scanne_information("bedroom",50,30.0F,0.0F,9000.0F,new Date()));
+        historic.add(new Scanne_information("bathroom",60,34.0F,2.0F,9500.0F,new Date()));
+        historic.add(new Scanne_information("bathroom",65,34.0F,2.0F,9500.0F,new Date()));
+        historic.add(new Scanne_information("bathroom",90,54.0F,30.0F,100500.0F,new Date()));
 
+        //TODO ici c'est a corriger
+        //ArrayList<Scanne_information> historic = Test.get_by_place("bathroom");
 
         adapter.addAll(historic);
     }

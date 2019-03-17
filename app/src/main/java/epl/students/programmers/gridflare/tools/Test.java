@@ -10,70 +10,30 @@ import java.util.Date;
 import epl.students.programmers.gridflare.SQLite.MySQLiteOpener;
 
 public class Test {
-    private String place;
-    private int ping;
-    private double proportionOfLost;
-    private double strength;
-    private double DL;
-    private String date;
 
-    public Test(String place, int ping, double proportionOfLost, double strength, double DL){
-        this.place = place;
-        this.ping = ping;
-        this.proportionOfLost = proportionOfLost;
-        this.strength = strength;
-        this.DL = DL;
-        Date date_e = new Date();
-        date = date_e.toString(); // Does it work like this ?
-    }
-
-    public String getPlace(){
-        return this.place;
-    }
-
-    public int getPing(){
-        return this.ping;
-    }
-
-    public double getProportionOfLost() {
-        return proportionOfLost;
-    }
-
-    public double getStrength() {
-        return strength;
-    }
-
-    public double getDL(){
-        return this.DL;
-    }
-
-    public String getDate(){
-        return this.date;
-    }
-
-    public void DB_delete(){
+    public void DB_delete(Date date){
         SQLiteDatabase db = MySQLiteOpener.get().getWritableDatabase();
-        db.delete("TEST", "WHEN =?", new String[]{date});
+        db.delete("TEST", "WHEN =?", new String[]{date.toString()});
         db.close();
     }
 
-    public void DB_add(){
+    public static void DB_add(String place, int ping, double proportionOfLost, double strength, double DL, Date date){
         SQLiteDatabase db = MySQLiteOpener.get().getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put("PLACE", this.place);
-        values.put("PING", this.ping);
-        values.put("PROPORTION_OF_LOST", this.proportionOfLost);
-        values.put("STRENGTH", this.strength);
-        values.put("DL", this.DL);
+        values.put("PLACE", place);
+        values.put("PING", ping);
+        values.put("PROPORTION_OF_LOST", proportionOfLost);
+        values.put("STRENGTH", strength);
+        values.put("DL", DL);
 
         db.insert("TEST", null, values);
 
         db.close();
     }
 
-    public ArrayList<Test> get_by_place(String place){
+    public static ArrayList<Scanne_information> get_by_place(String place){
         SQLiteDatabase db = MySQLiteOpener.get().getReadableDatabase();
 
         // Columns to get
@@ -83,7 +43,7 @@ public class Test {
 
         cursor.moveToFirst();
 
-        ArrayList<Test> al = new ArrayList<>();
+        ArrayList<Scanne_information> al = new ArrayList<>();
 
         while (!cursor.isAfterLast()){
             String pl = cursor.getString(0);
@@ -91,8 +51,8 @@ public class Test {
             double prop = cursor.getDouble(2);
             double str = cursor.getDouble(3);
             double dl = cursor.getDouble(4);
-
-            Test test = new Test(pl, ping, prop, str, dl);
+            Date date = new Date();
+            Scanne_information test = new Scanne_information(pl,ping, (float)prop, (float)str,(float) dl, date);
             al.add(test);
 
             cursor.moveToNext();

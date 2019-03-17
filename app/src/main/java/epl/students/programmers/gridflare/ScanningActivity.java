@@ -18,6 +18,7 @@ import android.widget.Toast;
 //import android.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import epl.students.programmers.gridflare.tools.Test;
@@ -244,9 +245,9 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                 //Lost : wifi.getProportionOfLost()
                 //Time for up : wifi.getDl()
                 //Location : ROOM
+                //TODO ici c'est a corriger
+                Test.DB_add(ROOM,(int)wifi.getPing(),(double)wifi.getProportionOfLost(),(double)wifi.getStrength(),(double)wifi.getDl(),new Date());
 
-                Test test = new Test(ROOM, (int)wifi.getPing(), wifi.getProportionOfLost(), wifi.getStrength(), wifi.getDl());
-                test.DB_add();
             }
         }
     }
