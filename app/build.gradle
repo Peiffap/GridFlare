@@ -32,4 +32,5 @@ dependencies {
     implementation 'me.itangqi.waveloadingview:library:0.3.5'
     //loaging
     implementation 'com.j256.ormlite:ormlite-android:5.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 }
