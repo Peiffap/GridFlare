@@ -17,10 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toolbar;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import epl.students.programmers.gridflare.tools.Test;
+import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Scan_information;
 import epl.students.programmers.gridflare.tools.WifiScanner;
 import me.itangqi.waveloadingview.WaveLoadingView;
 
@@ -238,15 +238,9 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                 Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_LONG).show();
 
 
-                //TODO UPDATE the DataBase
-                //Strength : wifi.getStrength()
-                //Ping : wifi.getPing()
-                //Lost : wifi.getProportionOfLost()
-                //Time for up : wifi.getDl()
-                //Location : ROOM
-
-                Test test = new Test(ROOM, (int)wifi.getPing(), wifi.getProportionOfLost(), wifi.getStrength(), wifi.getDl());
-                test.DB_add();
+                DatabaseManager databaseManager = new DatabaseManager(this);
+                databaseManager.insertScan(new Scan_information(ROOM,wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
+                databaseManager.close();
             }
         }
     }
