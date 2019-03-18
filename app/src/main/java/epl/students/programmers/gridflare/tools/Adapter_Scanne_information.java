@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import epl.students.programmers.gridflare.R;
 
-public class Adapter_Scanne_information extends ArrayAdapter<Scanne_information> {
+public class Adapter_Scanne_information extends ArrayAdapter<Scan_information> {
     public Adapter_Scanne_information(@NonNull Context context, int resource) {
         super(context, resource);
     }
@@ -24,7 +24,7 @@ public class Adapter_Scanne_information extends ArrayAdapter<Scanne_information>
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = layoutInflater.inflate(R.layout.listview_items,null);
 
-        Scanne_information current_scan = getItem(position);
+        Scan_information current_scan = getItem(position);
 
         TextView lv_strength  = v.findViewById(R.id.lv_strength);
         TextView lv_ping = v.findViewById(R.id.lv_ping);

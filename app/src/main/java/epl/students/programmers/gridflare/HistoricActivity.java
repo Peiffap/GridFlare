@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ListView;
 import java.util.ArrayList;
-import java.util.Date;
 
+import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Scanne_information;
-import epl.students.programmers.gridflare.tools.Scanne_information;
+import epl.students.programmers.gridflare.tools.Scan_information;
 
 public class HistoricActivity extends AppCompatActivity {
 
@@ -21,18 +21,16 @@ public class HistoricActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
+        DatabaseManager databaseManager = new DatabaseManager(this);
+
         ListView listView = findViewById(R.id.listView);
         Adapter_Scanne_information adapter = new Adapter_Scanne_information(getApplicationContext(), 0);
 
         listView.setAdapter(adapter);
 
-        ArrayList<Scanne_information> historic = new ArrayList<>();
+        ArrayList<Scan_information> historic = databaseManager.readScan("office");
 
-        //TODO ajouter a historic les objet Scanne_information
-
-        historic.add(new Scanne_information("bedroom",50,30.0F,0.0F,9000.0F,new Date()));
-        historic.add(new Scanne_information("bathroom",60,34.0F,2.0F,9500.0F,new Date()));
-
+        databaseManager.close();
 
         adapter.addAll(historic);
     }
