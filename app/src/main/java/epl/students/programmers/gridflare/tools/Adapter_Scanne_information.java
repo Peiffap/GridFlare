@@ -37,9 +37,9 @@ public class Adapter_Scanne_information extends ArrayAdapter<Scan_information> {
         lv_strength.setText(String.valueOf(current_scan.getStrength()));
         lv_ping.setText(String.valueOf(current_scan.getPing()));
         lv_lost.setText(String.valueOf(current_scan.getProportionOfLost()));
-        lv_dl.setText(String.valueOf(current_scan.getDl()));
+        lv_dl.setText(String.valueOf(current_scan.getDL()));
         lv_date.setText(current_scan.getDate().toString());
-        lv_room.setText(current_scan.getRoom());
+        lv_room.setText(current_scan.getPlace());
 
         return v;
     }

@@ -238,8 +238,6 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                 Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_LONG).show();
 
 
-                //TODO UPDATE the DataBase
-
                 DatabaseManager databaseManager = new DatabaseManager(this);
                 databaseManager.insertScan(new Scan_information(ROOM,wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
                 databaseManager.close();
