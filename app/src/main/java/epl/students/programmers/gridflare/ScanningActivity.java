@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,9 +45,9 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     private TextView lost_title;
     private TextView dl_title;
 
-
     private Spinner spinner;
     private String ROOM;
+    private Button save_button;
 
 
     @Override
@@ -77,6 +78,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         waveLoadingView = findViewById(R.id.waveLoading);
         waveLoadingView.setProgressValue(50);
         waveLoadingView.setVisibility(View.INVISIBLE);
+        save_button = findViewById(R.id.save_button);
+        save_button.setVisibility(View.INVISIBLE);
 
 
         spinner = findViewById(R.id.spinner);
@@ -139,6 +142,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                             progressBar_ping.setVisibility(View.VISIBLE);
                             progressBar_lost.setVisibility(View.VISIBLE);
                             progressBar_Dl.setVisibility(View.VISIBLE);
+                            save_button.setVisibility(View.VISIBLE);
                             strength_title.setText("Strength");
                             ping_title.setText("Ping");
                             lost_title.setText("Proportion of lost packets");
@@ -222,6 +226,15 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void saveScan(View v){
+        Intent intent = new Intent(this, SaveScan.class);
+
+        Scan_information scan = new Scan_information(wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Date());
+
+        intent.putExtra("Scan", scan);
+        startActivity(intent);
     }
 
     //Spinner method

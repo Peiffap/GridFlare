@@ -36,7 +36,11 @@
         <activity
             android:name=".InformationsActivity"
             android:label="Informations" />
-        <activity android:name=".HeatmapActivity" />
+        <activity
+            android:name=".HeatmapActivity" />
+        <activity
+            android:name=".SaveScan"
+            android:label="Save" />
     </application>
 
 </manifest>

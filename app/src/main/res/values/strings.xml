@@ -24,6 +24,9 @@
     <string name="scanner">Scanner</string>
     <string name="gridflare">GridFlare</string>
     <string name="historic">historic</string>
+    <string name="save_this_scan">Save this scan</string>
+    <string name="confirm_save">Confirm save</string>
+    <string name="cancel">Cancel</string>
     <string-array name="spinner_items">
         <item>Select a Room</item>
         <item>living room</item>
