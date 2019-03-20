@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Scan_information;
 import epl.students.programmers.gridflare.tools.WifiScanner;
 import me.itangqi.waveloadingview.WaveLoadingView;
+
+import static android.widget.Toast.makeText;
 
 public class ScanningActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -44,8 +47,9 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     private TextView lost_title;
     private TextView dl_title;
 
+    private Button saveButton;
 
-    private Spinner spinner;
+
     private String ROOM;
 
 
@@ -78,13 +82,9 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         waveLoadingView.setProgressValue(50);
         waveLoadingView.setVisibility(View.INVISIBLE);
 
+        saveButton = findViewById(R.id.save_scan);
+        saveButton.setVisibility(View.INVISIBLE);
 
-        spinner = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> spinner_items = ArrayAdapter.createFromResource(this, R.array.spinner_items,android.R.layout.simple_spinner_item);
-        spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinner_items);
-        spinner.setOnItemSelectedListener(this);
-        spinner.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -96,7 +96,6 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
     //Start a scan
     public void launch_a_test(View v){
-        spinner.setVisibility(View.INVISIBLE);
         progressBar_strength.setVisibility(View.INVISIBLE);
         progressBar_ping.setVisibility(View.INVISIBLE);
         progressBar_lost.setVisibility(View.INVISIBLE);
@@ -139,6 +138,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                             progressBar_ping.setVisibility(View.VISIBLE);
                             progressBar_lost.setVisibility(View.VISIBLE);
                             progressBar_Dl.setVisibility(View.VISIBLE);
+                            saveButton.setVisibility(View.VISIBLE);
                             strength_title.setText("Strength");
                             ping_title.setText("Ping");
                             lost_title.setText("Proportion of lost packets");
@@ -176,7 +176,6 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                             }
                             dl_value.setText(wifi.getDl()+"");
 
-                            spinner.setVisibility(View.VISIBLE);
 
                             value.setText("Done");
                             //Stop the waiting animation
@@ -225,28 +224,57 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     }
 
     //Spinner method
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if(spinner.getVisibility() == View.VISIBLE){
-            String text = adapterView.getItemAtPosition(i).toString();
-            if(text.equals("Select a Room")){
-                Toast.makeText(adapterView.getContext(),"Select a room please",Toast.LENGTH_LONG).show();
-            }
-            else {
-                ROOM = text;
-                text = "You are at :" + text;
-                Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_LONG).show();
-
-
-                DatabaseManager databaseManager = new DatabaseManager(this);
-                databaseManager.insertScan(new Scan_information(ROOM,wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
-                databaseManager.close();
-            }
-        }
+        
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void openDialogSave(View v){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = getLayoutInflater().inflate(R.layout.spinner_dialog, null);
+        alertDialog.setTitle("Save this scan");
+        alertDialog.setMessage("Do you want to save this scan ?");
+
+        final Spinner mySpinner = (Spinner) view.findViewById(R.id.spinner_dialog);
+
+        ArrayAdapter<CharSequence> spinner_items = ArrayAdapter.createFromResource(this, R.array.spinner_items,android.R.layout.simple_spinner_item);
+        spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(spinner_items);
+        mySpinner.setOnItemSelectedListener(this);
+
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                makeText(getBaseContext(),"Save canceled",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+                if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
+                    ROOM = mySpinner.getSelectedItem().toString();
+                    String text = "You are at :" + ROOM;
+
+                    DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+                    databaseManager.insertScan(new Scan_information(ROOM,wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
+                    databaseManager.close();
+
+                    makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+
+            }
+
+        });
+
+        alertDialog.setView(view);
+        alertDialog.show();
     }
 }
