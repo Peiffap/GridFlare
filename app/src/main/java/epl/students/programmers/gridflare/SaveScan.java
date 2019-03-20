@@ -32,7 +32,7 @@ public class SaveScan extends AppCompatActivity implements AdapterView.OnItemSel
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner_save);
         ArrayAdapter<CharSequence> spinner_items = ArrayAdapter.createFromResource(this, R.array.spinner_items,android.R.layout.simple_spinner_item);
         spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinner_items);
@@ -40,7 +40,7 @@ public class SaveScan extends AppCompatActivity implements AdapterView.OnItemSel
 
         Intent i = getIntent();
 
-        myScan = (Scan_information) i.getParcelableExtra("Scan");
+        myScan = new Scan_information();//i.getParcelableExtra("Scan");
 
 
         getWindow().setLayout((int)(width*0.8), (int) (height*0.6));
