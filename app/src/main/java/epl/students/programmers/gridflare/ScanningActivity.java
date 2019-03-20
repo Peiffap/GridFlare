@@ -49,8 +49,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
     private Button saveButton;
 
-
     private String ROOM;
+    private boolean alreadySaved;
 
 
     @Override
@@ -85,6 +85,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         saveButton = findViewById(R.id.save_scan);
         saveButton.setVisibility(View.INVISIBLE);
 
+        alreadySaved = false;
+
     }
 
     @Override
@@ -96,6 +98,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
     //Start a scan
     public void launch_a_test(View v){
+        alreadySaved = false;
         progressBar_strength.setVisibility(View.INVISIBLE);
         progressBar_ping.setVisibility(View.INVISIBLE);
         progressBar_lost.setVisibility(View.INVISIBLE);
@@ -227,7 +230,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        
+
     }
 
     @Override
@@ -251,16 +254,22 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),"Save canceled",Toast.LENGTH_SHORT).show();
+                makeText(getBaseContext(),"Save cancelled",Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int i) {
+                if(alreadySaved){
+                    makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
+                }
+
                 if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
+                    alreadySaved = true;
+
                     ROOM = mySpinner.getSelectedItem().toString();
-                    String text = "You are at :" + ROOM;
+                    String text = "You are at : " + ROOM;
 
                     DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
                     databaseManager.insertScan(new Scan_information(ROOM,wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
@@ -268,12 +277,11 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
                     makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
                     dialog.dismiss();
+
                 }
-
             }
-
         });
-
+        
         alertDialog.setView(view);
         alertDialog.show();
     }
