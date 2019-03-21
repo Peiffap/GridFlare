@@ -1,6 +1,7 @@
 package epl.students.programmers.gridflare;
 
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
+import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Scan_information;
 import epl.students.programmers.gridflare.tools.Scan_information;
 
 public class HistoricActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +26,37 @@ public class HistoricActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
+        String[] rooms = getResources().getStringArray(R.array.spinner_items);
+        Scan_information[] means = new Scan_information[rooms.length];
 
         DatabaseManager databaseManager = new DatabaseManager(this);
-        ArrayList<Scan_information> historic = databaseManager.readScan();
+        ArrayList<Scan_information> historicByRoom = new ArrayList<>();
+
+        for(int i = 0; i < rooms.length; i++){
+            ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms[i]);
+            int strength = 0;
+            float ping = 0;
+            float proportionOfLost = 0;
+            float dl = 0;
+            for(int j = 0; j < aRoom.size(); j++){
+                Scan_information si = aRoom.get(j);
+                strength += si.getStrength();
+                ping += si.getPing();
+                proportionOfLost += si.getProportionOfLost();
+                dl += si.getDl();
+            }
+            strength /= aRoom.size();
+            ping /= aRoom.size();
+            proportionOfLost /= aRoom.size();
+            dl /= aRoom.size();
+
+            Scan_information meaned = new Scan_information(rooms[i], strength, ping, proportionOfLost, dl, new Date());
+            historicByRoom.add(meaned);
+        }
 
 
         RecyclerView recyclerView = findViewById(R.id.listView);
-        Adapter_Scan_information adapter = new Adapter_Scan_information(historic);
+        Adapter_Scan_information adapter = new Adapter_Scan_information(historicByRoom);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL,false));
         recyclerView.setAdapter(adapter);
@@ -47,4 +74,5 @@ public class HistoricActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
