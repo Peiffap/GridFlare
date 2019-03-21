@@ -34,6 +34,7 @@ public class HistoricActivity extends AppCompatActivity {
 
         for(int i = 0; i < rooms.length; i++){
             ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms[i]);
+            if(aRoom.size() == 0) continue;
             int strength = 0;
             float ping = 0;
             float proportionOfLost = 0;
@@ -45,10 +46,10 @@ public class HistoricActivity extends AppCompatActivity {
                 proportionOfLost += si.getProportionOfLost();
                 dl += si.getDl();
             }
-            strength /= aRoom.size();
-            ping /= aRoom.size();
-            proportionOfLost /= aRoom.size();
-            dl /= aRoom.size();
+            strength = (int) (((double) strength) / ((double)aRoom.size()));
+            ping = (float) (((double) ping) / ((double)aRoom.size()));
+            proportionOfLost = (float) (((double) proportionOfLost) / ((double)aRoom.size()));
+            dl = (float) (((double) dl) / ((double)aRoom.size()));
 
             Scan_information meaned = new Scan_information(rooms[i], strength, ping, proportionOfLost, dl, new Date());
             historicByRoom.add(meaned);

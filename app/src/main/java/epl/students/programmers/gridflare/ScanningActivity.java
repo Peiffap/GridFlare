@@ -128,7 +128,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                 wifi.update();
                 //Update SQL
                 //Il faudra encore ajouter la position et le DL
-                Controller.getInstance().getSQLiteInterface(getBaseContext()).addPoint(0, 0, wifi.getStrength(), wifi.getPing(), 0);
+                //Controller.getInstance().getSQLiteInterface(getBaseContext()).addPoint(0, 0, wifi.getStrength(), wifi.getPing(), 0);
                 //Update View
                 value.post(new Runnable() {
                     @SuppressLint("SetTextI18n")
