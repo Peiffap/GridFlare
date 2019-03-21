@@ -99,6 +99,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     //Start a scan
     public void launch_a_test(View v){
         alreadySaved = false;
+        saveButton.setVisibility(View.INVISIBLE);
+
         progressBar_strength.setVisibility(View.INVISIBLE);
         progressBar_ping.setVisibility(View.INVISIBLE);
         progressBar_lost.setVisibility(View.INVISIBLE);
@@ -255,6 +257,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 makeText(getBaseContext(),"Save cancelled",Toast.LENGTH_SHORT).show();
+                alreadySaved = false;
                 dialog.dismiss();
             }
         });
@@ -265,7 +268,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
                 }
 
-                if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
+                else if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
                     alreadySaved = true;
 
                     ROOM = mySpinner.getSelectedItem().toString();
@@ -281,7 +284,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                 }
             }
         });
-        
+
         alertDialog.setView(view);
         alertDialog.show();
     }
