@@ -1,22 +1,27 @@
 package epl.students.programmers.gridflare;
 
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Scan_information;
+import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
 import epl.students.programmers.gridflare.tools.Scan_information;
 
-public class HistoricActivity extends AppCompatActivity {
+public class HistoricActivity extends AppCompatActivity{
 
+    ArrayList<Scan_information> historicByRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +32,9 @@ public class HistoricActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
         String[] rooms = getResources().getStringArray(R.array.spinner_items);
-        Scan_information[] means = new Scan_information[rooms.length];
 
         DatabaseManager databaseManager = new DatabaseManager(this);
-        ArrayList<Scan_information> historicByRoom = new ArrayList<>();
+        historicByRoom = new ArrayList<>();
 
         for(int i = 0; i < rooms.length; i++){
             ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms[i]);
@@ -52,12 +56,26 @@ public class HistoricActivity extends AppCompatActivity {
             dl = (float) (((double) dl) / ((double)aRoom.size()));
 
             Scan_information meaned = new Scan_information(rooms[i], strength, ping, proportionOfLost, dl, new Date());
+            meaned.setNumberOfScans(aRoom.size());
             historicByRoom.add(meaned);
         }
 
-
         RecyclerView recyclerView = findViewById(R.id.listView);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getBaseContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getBaseContext(), RoomSumUpActivity.class);
+                        intent.putExtra("theRoom", historicByRoom.get(position));
+                        startActivity(intent);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
         Adapter_Scan_information adapter = new Adapter_Scan_information(historicByRoom);
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL,false));
         recyclerView.setAdapter(adapter);
@@ -75,5 +93,6 @@ public class HistoricActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }

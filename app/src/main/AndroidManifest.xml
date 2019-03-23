@@ -37,6 +37,7 @@
             android:name=".InformationsActivity"
             android:label="Informations" />
         <activity android:name=".HeatmapActivity" />
+        <activity android:name=".RoomSumUpActivity"/>
     </application>
 
 </manifest>
