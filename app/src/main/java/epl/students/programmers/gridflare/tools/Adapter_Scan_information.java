@@ -1,12 +1,14 @@
 package epl.students.programmers.gridflare.tools;
 
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,31 +20,29 @@ public class Adapter_Scan_information extends RecyclerView.Adapter<Adapter_Scan_
     class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView lv_strength;
-        TextView lv_ping;
-        TextView lv_lost;
-        TextView lv_dl;
-        TextView lv_date;
         TextView lv_room;
+        ProgressBar progressBar;
 
         MyViewHolder(View itemView) {
             super(itemView);
             lv_strength  = itemView.findViewById(R.id.lv_strength);
-            lv_ping = itemView.findViewById(R.id.lv_ping);
-            lv_lost = itemView.findViewById(R.id.lv_lost);
-            lv_dl = itemView.findViewById(R.id.lv_dl);
-            lv_date = itemView.findViewById(R.id.lv_date);
             lv_room = itemView.findViewById(R.id.lv_room);
+            progressBar = itemView.findViewById(R.id.progress_historic);
 
         }
 
         void display(Scan_information current_scan){
             assert current_scan != null;
             lv_strength.setText(String.valueOf(current_scan.getStrength()));
-            lv_ping.setText(String.valueOf(current_scan.getPing()));
-            lv_lost.setText(String.valueOf(current_scan.getProportionOfLost()));
-            lv_dl.setText(String.valueOf(current_scan.getDl()));
-            lv_date.setText(current_scan.getDate().toString());
+            int prog = current_scan.getStrength();
             lv_room.setText(current_scan.getRoom());
+            progressBar.setProgress(prog);
+            if(prog > 70)
+                progressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
+            else if(prog > 40)
+                progressBar.setProgressTintList(ColorStateList.valueOf(Color.YELLOW));
+            else
+                progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
 
         }
     }

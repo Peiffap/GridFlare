@@ -48,6 +48,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     private TextView dl_title;
 
     private Button saveButton;
+    private Button launchScan;
 
     private String ROOM;
     private boolean alreadySaved;
@@ -84,6 +85,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
         saveButton = findViewById(R.id.save_scan);
         saveButton.setVisibility(View.INVISIBLE);
+        launchScan = findViewById(R.id.button);
+        launchScan.setTranslationX(235f);
 
         alreadySaved = false;
 
@@ -99,6 +102,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     //Start a scan
     public void launch_a_test(View v){
         alreadySaved = false;
+        launchScan.setTranslationX(235f);
         saveButton.setVisibility(View.INVISIBLE);
 
         progressBar_strength.setVisibility(View.INVISIBLE);
@@ -144,10 +148,11 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                             progressBar_lost.setVisibility(View.VISIBLE);
                             progressBar_Dl.setVisibility(View.VISIBLE);
                             saveButton.setVisibility(View.VISIBLE);
-                            strength_title.setText("Strength");
-                            ping_title.setText("Ping");
-                            lost_title.setText("Proportion of lost packets");
-                            dl_title.setText("Time for up");
+                            launchScan.setTranslationX(0);
+                            strength_title.setText(R.string.strength);
+                            ping_title.setText(R.string.ping_2);
+                            lost_title.setText(R.string.lost);
+                            dl_title.setText(R.string.time);
                             progressBar_strength.setProgress(wifi.getStrength());
                             strength_value.setText(wifi.getStrength()+" %");
                             float ping = wifi.getPing();
