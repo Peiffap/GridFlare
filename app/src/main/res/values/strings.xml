@@ -24,6 +24,11 @@
     <string name="scanner">Scanner</string>
     <string name="gridflare">GridFlare</string>
     <string name="historic">historic</string>
+    <string name="save_data">Save Data</string>
+    <string name="strength">Strength</string>
+    <string name="ping_2">Ping</string>
+    <string name="lost">Proportion of lost packets</string>
+    <string name="time">Time for up</string>
     <string-array name="spinner_items">
         <item>Select a Room</item>
         <item>living room</item>

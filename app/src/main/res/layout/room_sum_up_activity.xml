@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#99ccff">
 
     <ProgressBar
         android:id="@+id/progressBar_strength"
@@ -24,8 +25,8 @@
 
     <TextView
         android:id="@+id/strength_value"
-        android:layout_width="50dp"
-        android:layout_height="22dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar_strength"
         app:layout_constraintEnd_toEndOf="@+id/progressBar_strength"
         app:layout_constraintStart_toStartOf="@+id/progressBar_strength"
@@ -51,8 +52,8 @@
 
     <TextView
         android:id="@+id/ping_value"
-        android:layout_width="45dp"
-        android:layout_height="17dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar_ping"
         app:layout_constraintEnd_toEndOf="@+id/progressBar_ping"
         app:layout_constraintStart_toStartOf="@+id/progressBar_ping"
@@ -60,8 +61,8 @@
 
     <TextView
         android:id="@+id/strength_title"
-        android:layout_width="57dp"
-        android:layout_height="22dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,8 +73,8 @@
 
     <TextView
         android:id="@+id/ping_title"
-        android:layout_width="64dp"
-        android:layout_height="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,8 +99,8 @@
 
     <TextView
         android:id="@+id/lost_value"
-        android:layout_width="51dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar_lost"
         app:layout_constraintEnd_toEndOf="@+id/progressBar_lost"
         app:layout_constraintStart_toStartOf="@+id/progressBar_lost"
@@ -107,8 +108,8 @@
 
     <TextView
         android:id="@+id/lost_title"
-        android:layout_width="67dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -133,8 +134,8 @@
 
     <TextView
         android:id="@+id/Dl_value"
-        android:layout_width="49dp"
-        android:layout_height="26dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar_Dl"
         app:layout_constraintEnd_toEndOf="@+id/progressBar_Dl"
         app:layout_constraintStart_toStartOf="@+id/progressBar_Dl"
@@ -142,8 +143,8 @@
 
     <TextView
         android:id="@+id/dl_title"
-        android:layout_width="59dp"
-        android:layout_height="23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="@+id/progressBar_Dl"
         app:layout_constraintHorizontal_bias="0.444"
@@ -152,8 +153,8 @@
 
     <TextView
         android:id="@+id/room_sumup"
-        android:layout_width="109dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
