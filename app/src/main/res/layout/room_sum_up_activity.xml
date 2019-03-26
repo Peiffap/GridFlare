@@ -159,9 +159,8 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="room"
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/progressBar_strength"
@@ -177,9 +176,22 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="number of tests"
+        android:text="@string/number_of_tests"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lost_title" />
+
+    <Button
+        android:id="@+id/button_room_sum_up"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -13,8 +13,8 @@ public class Scan_information implements Parcelable {
 
     @DatabaseField(generatedId = true, unique = true)
     private int id_Scan_information;
-    @DatabaseField(canBeNull=false)
-    private String room;
+    @DatabaseField(canBeNull=false, foreign = true, foreignColumnName = "idRoom", foreignAutoCreate = true)
+    private Room room_idRoom;
     @DatabaseField(canBeNull=false)
     private int strength;
     @DatabaseField(canBeNull=false)
@@ -31,8 +31,8 @@ public class Scan_information implements Parcelable {
     //For ORM
     public Scan_information(){}
 
-    public Scan_information(String room, int strength, float ping, float proportionOfLost, float dl, Date date) {
-        this.room = room;
+    public Scan_information(Room room, int strength, float ping, float proportionOfLost, float dl, Date date) {
+        this.room_idRoom = room;
         this.strength = strength;
         this.ping = ping;
         this.proportionOfLost = proportionOfLost;
@@ -43,12 +43,22 @@ public class Scan_information implements Parcelable {
 
     protected Scan_information(Parcel in) {
         id_Scan_information = in.readInt();
-        room = in.readString();
+        room_idRoom = in.readParcelable(Room.class.getClassLoader());
         strength = in.readInt();
         ping = in.readFloat();
         proportionOfLost = in.readFloat();
         dl = in.readFloat();
-
+        numberOfScans = in.readInt();
+    }
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id_Scan_information);
+        parcel.writeParcelable(room_idRoom, i);
+        parcel.writeInt(strength);
+        parcel.writeFloat(ping);
+        parcel.writeFloat(proportionOfLost);
+        parcel.writeFloat(dl);
+        parcel.writeInt(numberOfScans);
     }
 
     public static final Creator<Scan_information> CREATOR = new Creator<Scan_information>() {
@@ -63,8 +73,8 @@ public class Scan_information implements Parcelable {
         }
     };
 
-    public String getRoom(){
-        return room;
+    public Room getRoom(){
+        return room_idRoom;
     }
 
     public int getStrength() {
@@ -100,14 +110,5 @@ public class Scan_information implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id_Scan_information);
-        parcel.writeString(room);
-        parcel.writeInt(strength);
-        parcel.writeFloat(ping);
-        parcel.writeFloat(proportionOfLost);
-        parcel.writeFloat(dl);
-        parcel.writeInt(numberOfScans);
-    }
+
 }

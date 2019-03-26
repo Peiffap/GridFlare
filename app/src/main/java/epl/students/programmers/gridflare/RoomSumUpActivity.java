@@ -54,14 +54,14 @@ public class RoomSumUpActivity extends AppCompatActivity {
         Intent i = getIntent();
         Scan_information myScan =  (Scan_information) i.getParcelableExtra("theRoom");
 
-        room.setText(myScan.getRoom().toUpperCase());
-        numberOfScans.setText("Number of scans for this room: " + myScan.getNumberOfScans());
+        room.setText(myScan.getRoom().toString().toUpperCase());
+        numberOfScans.setText(String.format("%s%d", getString(R.string.number_scan), myScan.getNumberOfScans()));
         strength_title.setText(R.string.strength);
         ping_title.setText(R.string.ping_2);
         lost_title.setText(R.string.lost);
         dl_title.setText(R.string.time);
         progressBar_strength.setProgress(myScan.getStrength());
-        strength_value.setText(myScan.getStrength()+" %");
+        strength_value.setText(String.format("%d %%", myScan.getStrength()));
         float ping = myScan.getPing();
         if(ping < 31){
             progressBar_ping.setProgress(100);
@@ -75,9 +75,9 @@ public class RoomSumUpActivity extends AppCompatActivity {
         else {
             progressBar_ping.setProgress(25);
         }
-        ping_value.setText(new StringBuilder().append(truncate(myScan.getPing(), 2)).append(" ms").toString());
+        ping_value.setText(String.format("%s ms", truncate(myScan.getPing())));
         progressBar_lost.setProgress((int)myScan.getProportionOfLost());
-        lost_value.setText(new StringBuilder().append(truncate(myScan.getProportionOfLost(), 2)).append(" %").toString());
+        lost_value.setText(String.format("%s %%", truncate(myScan.getProportionOfLost())));
         float dl = myScan.getDl();
         if(dl < 8999){
             progressBar_Dl.setProgress(100);
@@ -91,7 +91,7 @@ public class RoomSumUpActivity extends AppCompatActivity {
         else{
             progressBar_Dl.setProgress(25);
         }
-        dl_value.setText(new StringBuilder().append(truncate(myScan.getDl(), 2)).append("").toString());
+        dl_value.setText(String.format("%s", truncate(myScan.getDl())));
 
     }
 
@@ -106,8 +106,8 @@ public class RoomSumUpActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private static String truncate(float i, int N){
-        int tmp = (int)(i*Math.pow(10,N));
-        return Float.toString((float)(tmp/Math.pow(10,N)));
+    private static String truncate(float i){
+        int tmp = (int)(i*Math.pow(10, 2));
+        return Float.toString((float)(tmp/Math.pow(10, 2)));
     }
 }
