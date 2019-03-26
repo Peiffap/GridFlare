@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
@@ -276,12 +278,20 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
                 else if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
                     alreadySaved = true;
-
                     ROOM = mySpinner.getSelectedItem().toString();
                     String text = "You are at : " + ROOM;
 
                     DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                    databaseManager.insertScan(new Scan_information(new Room(ROOM,0),wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
+                    ArrayList<Room> test = databaseManager.readRoom(ROOM);
+                    if(test.size() == 0) {
+                        databaseManager.insertScan(new Scan_information(new Room(ROOM, 0), wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Date()));
+                        Log.i("DATABASE", "new room");
+                    }
+                    else {
+                        databaseManager.insertScan(new Scan_information(test.get(0), wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Date()));
+                        Log.i( "DATABASE", "reuse room" );
+                    }
+
                     databaseManager.close();
 
                     makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
