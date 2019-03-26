@@ -17,6 +17,7 @@ import java.util.Date;
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Scan_information;
 import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
+import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 
 public class HistoricActivity extends AppCompatActivity{
@@ -55,7 +56,7 @@ public class HistoricActivity extends AppCompatActivity{
             proportionOfLost = (float) (((double) proportionOfLost) / ((double)aRoom.size()));
             dl = (float) (((double) dl) / ((double)aRoom.size()));
 
-            Scan_information meaned = new Scan_information(rooms[i], strength, ping, proportionOfLost, dl, new Date());
+            Scan_information meaned = new Scan_information(new Room(rooms[i],0), strength, ping, proportionOfLost, dl, new Date());
             meaned.setNumberOfScans(aRoom.size());
             historicByRoom.add(meaned);
         }

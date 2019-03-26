@@ -33,9 +33,9 @@ public class Adapter_Scan_information extends RecyclerView.Adapter<Adapter_Scan_
 
         void display(Scan_information current_scan){
             assert current_scan != null;
-            lv_strength.setText(String.valueOf(current_scan.getStrength()));
+            lv_strength.setText(String.format("%s : %s", String.valueOf(lv_strength.getText()), String.valueOf(current_scan.getStrength() + "%")));
             int prog = current_scan.getStrength();
-            lv_room.setText(current_scan.getRoom());
+            lv_room.setText(current_scan.getRoom().toString());
             progressBar.setProgress(prog);
             if(prog > 70)
                 progressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));

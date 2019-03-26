@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 import epl.students.programmers.gridflare.tools.WifiScanner;
 import me.itangqi.waveloadingview.WaveLoadingView;
@@ -280,7 +281,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     String text = "You are at : " + ROOM;
 
                     DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                    databaseManager.insertScan(new Scan_information(ROOM,wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
+                    databaseManager.insertScan(new Scan_information(new Room(ROOM,0),wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
                     databaseManager.close();
 
                     makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
