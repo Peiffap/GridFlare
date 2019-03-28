@@ -38,6 +38,7 @@
             android:label="Informations" />
         <activity android:name=".HeatmapActivity" />
         <activity android:name=".RoomSumUpActivity"/>
+        <activity android:name=".LiveScanningActivity"/>
     </application>
 
 </manifest>
