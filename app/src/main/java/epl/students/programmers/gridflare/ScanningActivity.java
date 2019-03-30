@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -119,7 +120,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         ping_value.setText("");
         lost_title.setText("");
         dl_title.setText("");
-        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are ! ", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are! ", Toast.LENGTH_LONG).show();
 
         if(!wifi.isWifiEnabled())//Check one more time
             openDialog();
@@ -202,11 +203,11 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Wi-Fi disabled");
-        alertDialog.setMessage("Do you want turn on your Wi-Fi ?");
+        alertDialog.setMessage("Do you want turn on your Wi-Fi?");
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wifi",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wi-Fi",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -248,53 +249,54 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void openDialogSave(View v){
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        View view = getLayoutInflater().inflate(R.layout.spinner_dialog, null);
-        alertDialog.setTitle("Save this scan");
-        alertDialog.setMessage("Do you want to save this scan ?");
-
-        final Spinner mySpinner = (Spinner) view.findViewById(R.id.spinner_dialog);
-
         DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-        ArrayAdapter<Room> spinner_items = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, databaseManager.readRoom());
-        spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mySpinner.setAdapter(spinner_items);
-        mySpinner.setOnItemSelectedListener(this);
+        ArrayList<Room> rooms = databaseManager.readRoom();
+        if (rooms.size() == 0) {
+            makeText(getBaseContext(), "You need to register a room before saving a scan.", Toast.LENGTH_LONG).show();
+        } else {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            View view = getLayoutInflater().inflate(R.layout.spinner_dialog, null);
+            alertDialog.setTitle("Save this scan");
+            alertDialog.setMessage("Do you want to save this scan?");
 
+            final Spinner mySpinner = (Spinner) view.findViewById(R.id.spinner_dialog);
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),"Save cancelled",Toast.LENGTH_SHORT).show();
-                alreadySaved = false;
-                dialog.dismiss();
-            }
-        });
+            ArrayAdapter<Room> spinner_items = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, databaseManager.readRoom());
+            spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mySpinner.setAdapter(spinner_items);
+            mySpinner.setOnItemSelectedListener(this);
 
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int i) {
-                if(alreadySaved){
-                    makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
-                }
-
-                else if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
-                    alreadySaved = true;
-                    ROOM = (Room)mySpinner.getSelectedItem();
-                    String text = "You are at : " + ROOM;
-
-                    DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                    databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Date()));
-                    Log.i( "DATABASE", "reuse room" );
-
-                    databaseManager.close();
-
-                    makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    makeText(getBaseContext(),"Save cancelled",Toast.LENGTH_SHORT).show();
+                    alreadySaved = false;
                     dialog.dismiss();
-
                 }
-            }
-        });
+            });
 
-        alertDialog.setView(view);
-        alertDialog.show();
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int i) {
+                    if(alreadySaved){
+                        makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
+                    } else if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
+                        alreadySaved = true;
+                        ROOM = (Room) mySpinner.getSelectedItem();
+                        String text = "You are at: " + ROOM;
+
+                        DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Date()));
+                        Log.i( "DATABASE", "reuse room" );
+
+                        databaseManager.close();
+
+                        makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+
+                    }
+                }
+            });
+            alertDialog.setView(view);
+            alertDialog.show();
+        }
     }
 }
