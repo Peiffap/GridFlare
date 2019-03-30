@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.WifiScanner;
 
 import static android.widget.Toast.makeText;
@@ -24,13 +28,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("Launch a test");
         GridLayout gridLayout = findViewById(R.id.gridLayout);
-        GridLayout gridLayout1 = findViewById(R.id.gridLayout_1);
         wifi = new WifiScanner(getApplicationContext());
         if(!wifi.isWifiEnabled())
             openDialog();
 
         setSingleEvent(gridLayout);
-        setSingleEvent_1(gridLayout1);
+
     }
 
     public void go_to_scanner(View v){
@@ -45,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void go_to_historic(View v){
         Intent it = new Intent(this, HistoricActivity.class);
+        startActivity(it);
+    }
+
+    public void go_to_rooms(View v){
+        Intent it = new Intent(this, RoomsActivity.class);
         startActivity(it);
     }
 
@@ -80,22 +88,13 @@ public class MainActivity extends AppCompatActivity {
                         go_to_heatmap(view);
                     }
                     else if (finalI == 1){
-                        go_to_historic(view);
-                    }
-                    else makeText(MainActivity.this, "index " + finalI, Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    }
-    public void setSingleEvent_1(GridLayout singleEvent) {
-        for(int i = 0; i<singleEvent.getChildCount(); i++){
-            CardView cardView = (CardView)singleEvent.getChildAt(i);
-            final int finalI = i;
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(finalI == 0){
                         go_to_scanner(view);
+                    }
+                    else if(finalI == 2){
+                        go_to_rooms(view);
+                    }
+                    else if(finalI == 3){
+                        go_to_historic(view);
                     }
                     else makeText(MainActivity.this, "index " + finalI, Toast.LENGTH_LONG).show();
                 }

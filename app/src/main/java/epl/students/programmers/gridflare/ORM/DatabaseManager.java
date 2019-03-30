@@ -59,6 +59,15 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public void insertRoom( Room room) {
+        try {
+            Dao<Room, Integer> dao = getDao( Room.class );
+            dao.create(room);
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+        }
+    }
+
 
     public ArrayList<Scan_information> readScan(String room) {
         try {
@@ -85,6 +94,19 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Dao<Room, Integer> dao_room = getDao(Room.class);
 
             return (ArrayList<Room>) dao_room.queryBuilder().where().eq("room_name",room).query();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+    public ArrayList<Room> readRoom(String room, int floor){
+        try {
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+
+            roomQueryBuilder.where().eq("floor",floor).and().eq("room_name",room);
+
+            return (ArrayList<Room>) roomQueryBuilder.query();
         } catch( Exception exception ) {
             Log.e( "DATABASE", "Can't insert data into Database", exception );
             return null;

@@ -32,13 +32,13 @@ public class HistoricActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
-        String[] rooms = getResources().getStringArray(R.array.spinner_items);
 
         DatabaseManager databaseManager = new DatabaseManager(this);
+        ArrayList<Room> rooms = databaseManager.readRoom();
         historicByRoom = new ArrayList<>();
 
-        for(int i = 0; i < rooms.length; i++){
-            ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms[i]);
+        for(int i = 0; i < rooms.size(); i++){
+            ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms.get(i).getRoom_name());
             if(aRoom.size() == 0) continue;
             int strength = 0;
             float ping = 0;
@@ -56,7 +56,7 @@ public class HistoricActivity extends AppCompatActivity{
             proportionOfLost = (float) (((double) proportionOfLost) / ((double)aRoom.size()));
             dl = (float) (((double) dl) / ((double)aRoom.size()));
 
-            Scan_information meaned = new Scan_information(new Room(rooms[i],0), strength, ping, proportionOfLost, dl, new Date());
+            Scan_information meaned = new Scan_information(new Room(rooms.get(i).getRoom_name(),rooms.get(i).getFloor()), strength, ping, proportionOfLost, dl, new Date());
             meaned.setNumberOfScans(aRoom.size());
             historicByRoom.add(meaned);
         }

@@ -55,7 +55,7 @@ public class Room implements Parcelable {
 
     @Override
     public String toString() {
-        return "floor : " + getFloor() + " room : "+ getRoom_name();
+        return " room : "+ getRoom_name() + " floor : " + getFloor();
     }
 
     @Override
