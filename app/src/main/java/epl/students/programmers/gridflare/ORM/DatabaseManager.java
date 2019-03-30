@@ -3,6 +3,7 @@ package epl.students.programmers.gridflare.ORM;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.ScrollView;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -20,7 +21,7 @@ import epl.students.programmers.gridflare.tools.Scan_information;
 public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "GridFlare.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
 
     public DatabaseManager( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
@@ -58,6 +59,15 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public void insertRoom( Room room) {
+        try {
+            Dao<Room, Integer> dao = getDao( Room.class );
+            dao.create(room);
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+        }
+    }
+
 
     public ArrayList<Scan_information> readScan(String room) {
         try {
@@ -78,10 +88,35 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             return null;
         }
     }
-    public ArrayList<Scan_information> readScan() {
+
+    public ArrayList<Room> readRoom(String room){
         try {
-            Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
-            return (ArrayList<Scan_information>) dao.queryForAll();
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+
+            return (ArrayList<Room>) dao_room.queryBuilder().where().eq("room_name",room).query();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+    public ArrayList<Room> readRoom(String room, int floor){
+        try {
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+
+            roomQueryBuilder.where().eq("floor",floor).and().eq("room_name",room);
+
+            return (ArrayList<Room>) roomQueryBuilder.query();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+    public ArrayList<Room> readRoom(){
+        try {
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+
+            return (ArrayList<Room>) dao_room.queryForAll();
         } catch( Exception exception ) {
             Log.e( "DATABASE", "Can't insert data into Database", exception );
             return null;

@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".HistoricActivity"></activity>
+        <activity android:name=".RoomsActivity"></activity>
+        <activity android:name=".HistoricActivity" />
         <activity
             android:name=".MainActivity"
             android:label="GridFlare">
@@ -37,7 +38,7 @@
             android:name=".InformationsActivity"
             android:label="Informations" />
         <activity android:name=".HeatmapActivity" />
-        <activity android:name=".RoomSumUpActivity"/>
+        <activity android:name=".RoomSumUpActivity" />
     </application>
 
 </manifest>

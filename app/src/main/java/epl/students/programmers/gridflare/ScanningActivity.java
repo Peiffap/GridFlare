@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-//import android.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
@@ -51,7 +52,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     private Button saveButton;
     private Button launchScan;
 
-    private String ROOM;
+    private Room ROOM;
     private boolean alreadySaved;
 
 
@@ -254,7 +255,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
         final Spinner mySpinner = (Spinner) view.findViewById(R.id.spinner_dialog);
 
-        ArrayAdapter<CharSequence> spinner_items = ArrayAdapter.createFromResource(this, R.array.spinner_items,android.R.layout.simple_spinner_item);
+        DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+        ArrayAdapter<Room> spinner_items = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, databaseManager.readRoom());
         spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(spinner_items);
         mySpinner.setOnItemSelectedListener(this);
@@ -276,12 +278,13 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
                 else if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
                     alreadySaved = true;
-
-                    ROOM = mySpinner.getSelectedItem().toString();
+                    ROOM = (Room)mySpinner.getSelectedItem();
                     String text = "You are at : " + ROOM;
 
                     DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                    databaseManager.insertScan(new Scan_information(new Room(ROOM,0),wifi.getStrength(),wifi.getPing(),wifi.getProportionOfLost(),wifi.getDl(),new Date()));
+                    databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Date()));
+                    Log.i( "DATABASE", "reuse room" );
+
                     databaseManager.close();
 
                     makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
