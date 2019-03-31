@@ -54,7 +54,7 @@ public class RoomsActivity extends AppCompatActivity {
     private void displayData(){
         DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
 
-        rooms = databaseManager.readRoom(myPlace.getIdPlace());
+        rooms = databaseManager.readRoom(myPlace);
 
         RecyclerView recyclerView = findViewById(R.id.recycleView_rooms);
 
@@ -87,8 +87,8 @@ public class RoomsActivity extends AppCompatActivity {
                 String room = room_name.getText().toString();
                 int floor = Integer.parseInt(room_floor.getText().toString());
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                if(databaseManager.readRoom(room,floor).size() == 0) {
-                    Room tmp = new Room(room, floor, myPlace.getIdPlace());
+                if(databaseManager.readRoom(room,floor, myPlace).size() == 0) {
+                    Room tmp = new Room(room, floor, myPlace);
                     databaseManager.insertRoom(tmp);
                     Toast.makeText(getBaseContext(),tmp.toString(),Toast.LENGTH_LONG).show();
                     displayData();

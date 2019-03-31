@@ -22,7 +22,7 @@ import epl.students.programmers.gridflare.tools.Scan_information;
 public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "GridFlare.db";
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
 
     public DatabaseManager( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
@@ -125,12 +125,12 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public ArrayList<Room> readRoom(int idPlace){
+    public ArrayList<Room> readRoom(Place place){
         try {
             Dao<Room, Integer> dao_room = getDao(Room.class);
             QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
 
-            roomQueryBuilder.where().eq("idPlace",idPlace);
+            roomQueryBuilder.where().eq("place_idPlace_idPlace", place);
 
             return (ArrayList<Room>) roomQueryBuilder.query();
         } catch( Exception exception ) {
@@ -138,6 +138,21 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             return null;
         }
     }
+
+    public ArrayList<Room> readRoom(String room, int floor, Place place){
+        try {
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+
+            roomQueryBuilder.where().eq("floor",floor).and().eq("room_name",room).and().eq("place_idPlace_idPlace", place);
+
+            return (ArrayList<Room>) roomQueryBuilder.query();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
     public ArrayList<Room> readRoom(){
         try {
             Dao<Room, Integer> dao_room = getDao(Room.class);
