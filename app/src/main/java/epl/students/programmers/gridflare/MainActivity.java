@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(it);
     }
 
-    public void go_to_rooms(View v){
-        Intent it = new Intent(this, RoomsActivity.class);
+    public void go_to_places(View v){
+        Intent it = new Intent(this, PlacesActivity.class);
         startActivity(it);
     }
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         go_to_scanner(view);
                     }
                     else if(finalI == 2){
-                        go_to_rooms(view);
+                        go_to_places(view);
                     }
                     else if(finalI == 3){
                         go_to_historic(view);
