@@ -275,8 +275,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
                 }
                 else if(!mySpinner.getSelectedItem().toString().equals("Select a Place")){
-                    databaseManager.close();
                     openDialogSave2(databaseManager.readPlace(mySpinner.getSelectedItem().toString()));
+                    databaseManager.close();
                     dialog.dismiss();
                 }
             }
