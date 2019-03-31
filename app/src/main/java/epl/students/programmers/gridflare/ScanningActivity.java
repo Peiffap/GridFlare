@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Data;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 import epl.students.programmers.gridflare.tools.WifiScanner;
@@ -282,7 +283,12 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     String text = "You are at : " + ROOM;
 
                     DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                    databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Date()));
+                    ArrayList<Data> datas = databaseManager.readData(-1);
+                    if(datas.size() == 0)
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1,new Date())));
+                    else
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), datas.get(0)));
+
                     Log.i( "DATABASE", "reuse room" );
 
                     databaseManager.close();

@@ -3,7 +3,6 @@ package epl.students.programmers.gridflare.ORM;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.ScrollView;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -14,6 +13,8 @@ import com.j256.ormlite.table.TableUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import epl.students.programmers.gridflare.tools.Data;
 import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
@@ -22,7 +23,8 @@ import epl.students.programmers.gridflare.tools.Scan_information;
 public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "GridFlare.db";
-    private static final int DATABASE_VERSION = 14;
+
+    private static final int DATABASE_VERSION = 15;
 
     public DatabaseManager( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
@@ -33,6 +35,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable( connectionSource, Scan_information.class );
             TableUtils.createTable( connectionSource, Room.class );
+            TableUtils.createTable( connectionSource, Data.class );
             TableUtils.createTable( connectionSource, Place.class);
             Log.i( "DATABASE", "DB create" );
         } catch( Exception exception ) {
@@ -45,6 +48,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable( connectionSource, Scan_information.class, true );
             TableUtils.dropTable( connectionSource, Room.class, true );
+            TableUtils.dropTable( connectionSource, Data.class, true );
             TableUtils.dropTable( connectionSource, Place.class, true);
             onCreate( database, connectionSource);
             Log.i( "DATABASE", "DB update" );
@@ -66,6 +70,14 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         try {
             Dao<Room, Integer> dao = getDao( Room.class );
             dao.create(room);
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+        }
+    }
+    public void insertData( Data data) {
+        try {
+            Dao<Data, Integer> dao = getDao( Data.class );
+            dao.create(data);
         } catch( Exception exception ) {
             Log.e( "DATABASE", "Can't insert data into Database", exception );
         }
@@ -92,6 +104,32 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
 
             List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
+
+
+            return (ArrayList<Scan_information>) test;
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
+    public ArrayList<Scan_information> readScan(String room, int idScan) {
+        try {
+            Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+            Dao<Data, Integer> dao_data = getDao(Data.class);
+
+            QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
+
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            roomQueryBuilder.where().eq("room_name",room);
+
+            QueryBuilder<Data,Integer> dataQueryBuilder = dao_data.queryBuilder();
+            dataQueryBuilder.where().eq("idScan", idScan);
+
+            scan_informationQueryBuilder.join(roomQueryBuilder);
+            scan_informationQueryBuilder.join(dataQueryBuilder);
+            List<Scan_information> test = scan_informationQueryBuilder.query();
 
 
             return (ArrayList<Scan_information>) test;
@@ -130,7 +168,12 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Dao<Room, Integer> dao_room = getDao(Room.class);
             QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
 
-            roomQueryBuilder.where().eq("place_idPlace_idPlace", place);
+            Dao<Place, Integer> dao_place = getDao(Place.class);
+            QueryBuilder<Place, Integer> placeQueryBuilder = dao_place.queryBuilder();
+
+            placeQueryBuilder.where().eq("place_name", place.getPlace_name());
+
+            roomQueryBuilder.join(placeQueryBuilder);
 
             return (ArrayList<Room>) roomQueryBuilder.query();
         } catch( Exception exception ) {
@@ -142,9 +185,16 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
     public ArrayList<Room> readRoom(String room, int floor, Place place){
         try {
             Dao<Room, Integer> dao_room = getDao(Room.class);
-            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            Dao<Place, Integer> dao_place = getDao(Place.class);
 
-            roomQueryBuilder.where().eq("floor",floor).and().eq("room_name",room).and().eq("place_idPlace_idPlace", place);
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            roomQueryBuilder.where().eq("floor",floor).and().eq("room_name",room);
+
+            QueryBuilder<Place, Integer> placeQueryBuilder = dao_place.queryBuilder();
+            placeQueryBuilder.where().eq("place_name", place.getPlace_name());
+
+            roomQueryBuilder.join(placeQueryBuilder);
+
 
             return (ArrayList<Room>) roomQueryBuilder.query();
         } catch( Exception exception ) {
@@ -164,6 +214,26 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public ArrayList<Data> readData() {
+        try {
+            Dao<Data, Integer> dao_room = getDao(Data.class);
+
+            return (ArrayList<Data>) dao_room.queryForAll();
+        } catch (Exception exception) {
+            Log.e("DATABASE", "Can't insert data into Database", exception);
+            return null;
+        }
+    }
+    public ArrayList<Data> readData(int id) {
+        try {
+            Dao<Data, Integer> dao_room = getDao(Data.class);
+
+            return (ArrayList<Data>) dao_room.queryBuilder().where().eq("idScan",id).query();
+        } catch (Exception exception) {
+            Log.e("DATABASE", "Can't insert data into Database", exception);
+            return null;
+        }
+    }
     public ArrayList<Place> readPlace(){
         try {
             Dao<Place, Integer> dao_place = getDao(Place.class);
@@ -175,4 +245,19 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public int getNextIDScan(){
+        try {
+            Dao<Data, Integer> dao_room = getDao(Data.class);
+            QueryBuilder<Data, Integer> queryBuilder = dao_room.queryBuilder();
+            queryBuilder.orderBy("idScan",false);
+            ArrayList<Data> data = (ArrayList<Data>) queryBuilder.query();
+            if(data.size() == 0)
+                return 0;
+            else
+                return data.get(0).getIdScan() + 1;
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return -2;
+        }
+    }
 }
