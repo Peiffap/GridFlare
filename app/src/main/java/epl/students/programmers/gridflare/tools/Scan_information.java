@@ -23,21 +23,21 @@ public class Scan_information implements Parcelable {
     private float proportionOfLost;
     @DatabaseField(canBeNull=false)
     private float dl;
-    @DatabaseField(canBeNull=false)
-    private Date date;
+    @DatabaseField(canBeNull=false, foreign = true, foreignColumnName = "idData", foreignAutoCreate = true)
+    private Data data;
 
     private int numberOfScans; // Only used for the sum up
 
     //For ORM
     public Scan_information(){}
 
-    public Scan_information(Room room, int strength, float ping, float proportionOfLost, float dl, Date date) {
+    public Scan_information(Room room, int strength, float ping, float proportionOfLost, float dl, Data data) {
         this.room_idRoom = room;
         this.strength = strength;
         this.ping = ping;
         this.proportionOfLost = proportionOfLost;
         this.dl = dl;
-        this.date = date;
+        this.data = data;
         this.numberOfScans = 999;
     }
 
@@ -49,6 +49,7 @@ public class Scan_information implements Parcelable {
         proportionOfLost = in.readFloat();
         dl = in.readFloat();
         numberOfScans = in.readInt();
+        data = in.readParcelable(Data.class.getClassLoader());
     }
     @Override
     public void writeToParcel(Parcel parcel, int i) {
@@ -59,6 +60,7 @@ public class Scan_information implements Parcelable {
         parcel.writeFloat(proportionOfLost);
         parcel.writeFloat(dl);
         parcel.writeInt(numberOfScans);
+        parcel.writeParcelable(data,i);
     }
 
     public static final Creator<Scan_information> CREATOR = new Creator<Scan_information>() {
@@ -93,8 +95,8 @@ public class Scan_information implements Parcelable {
         return dl;
     }
 
-    public Date getDate(){
-        return date;
+    public Data getData(){
+        return data;
     }
 
     public int getNumberOfScans(){
@@ -110,5 +112,8 @@ public class Scan_information implements Parcelable {
         return 0;
     }
 
-
+    @Override
+    public String toString(){
+        return getRoom().toString() + "::::" +getData().toString();
+    }
 }

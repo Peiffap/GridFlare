@@ -14,6 +14,7 @@ import com.j256.ormlite.table.TableUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import epl.students.programmers.gridflare.tools.Data;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 
@@ -21,7 +22,7 @@ import epl.students.programmers.gridflare.tools.Scan_information;
 public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "GridFlare.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     public DatabaseManager( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
@@ -32,6 +33,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable( connectionSource, Scan_information.class );
             TableUtils.createTable( connectionSource, Room.class );
+            TableUtils.createTable( connectionSource, Data.class );
             Log.i( "DATABASE", "DB create" );
         } catch( Exception exception ) {
             Log.e( "DATABASE", "Can't create Database", exception );
@@ -43,6 +45,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable( connectionSource, Scan_information.class, true );
             TableUtils.dropTable( connectionSource, Room.class, true );
+            //TableUtils.dropTable( connectionSource, Data.class, true );
             onCreate( database, connectionSource);
             Log.i( "DATABASE", "DB update" );
         } catch( Exception exception ) {
@@ -67,6 +70,14 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Log.e( "DATABASE", "Can't insert data into Database", exception );
         }
     }
+    public void insertData( Data data) {
+        try {
+            Dao<Data, Integer> dao = getDao( Data.class );
+            dao.create(data);
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+        }
+    }
 
 
     public ArrayList<Scan_information> readScan(String room) {
@@ -80,6 +91,32 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
 
             List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
+
+
+            return (ArrayList<Scan_information>) test;
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
+    public ArrayList<Scan_information> readScan(String room, int idScan) {
+        try {
+            Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+            Dao<Data, Integer> dao_data = getDao(Data.class);
+
+            QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
+
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            roomQueryBuilder.where().eq("room_name",room);
+
+            QueryBuilder<Data,Integer> dataQueryBuilder = dao_data.queryBuilder();
+            dataQueryBuilder.where().eq("idScan", idScan);
+
+            scan_informationQueryBuilder.join(roomQueryBuilder);
+            scan_informationQueryBuilder.join(dataQueryBuilder);
+            List<Scan_information> test = scan_informationQueryBuilder.query();
 
 
             return (ArrayList<Scan_information>) test;
@@ -123,4 +160,30 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public ArrayList<Data> readData(){
+        try {
+            Dao<Data, Integer> dao_room = getDao(Data.class);
+
+            return (ArrayList<Data>) dao_room.queryForAll();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
+    public int getNextIDScan(){
+        try {
+            Dao<Data, Integer> dao_room = getDao(Data.class);
+            QueryBuilder<Data, Integer> queryBuilder = dao_room.queryBuilder();
+            queryBuilder.orderBy("idScan",false);
+            ArrayList<Data> data = (ArrayList<Data>) queryBuilder.query();
+            if(data.size() == 0)
+                return 0;
+            else
+                return data.get(0).getIdScan() + 1;
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return -2;
+        }
+    }
 }
