@@ -14,6 +14,8 @@ public class Room implements Parcelable {
     String room_name;
     @DatabaseField
     int floor;
+    @DatabaseField
+    int idPlace;
 
     public Room() {
     }
@@ -21,6 +23,13 @@ public class Room implements Parcelable {
     public Room(String room_name, int floor) {
         this.room_name = room_name;
         this.floor = floor;
+        this.idPlace = -1;
+    }
+
+    public Room(String room_name, int floor, int idPlace) {
+        this.room_name = room_name;
+        this.floor = floor;
+        this.idPlace = idPlace;
     }
 
     protected Room(Parcel in) {
@@ -51,6 +60,14 @@ public class Room implements Parcelable {
 
     public void setRoom_name(String room_name) {
         this.room_name = room_name;
+    }
+
+    public int getIdPlace(){
+        return this.idPlace;
+    }
+
+    public void setIdPlace(int idPlace) {
+        this.idPlace = idPlace;
     }
 
     @Override
