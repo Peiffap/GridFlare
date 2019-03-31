@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -121,7 +122,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         ping_value.setText("");
         lost_title.setText("");
         dl_title.setText("");
-        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are ! ", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are! ", Toast.LENGTH_LONG).show();
 
         if(!wifi.isWifiEnabled())//Check one more time
             openDialog();
@@ -204,11 +205,11 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Wi-Fi disabled");
-        alertDialog.setMessage("Do you want turn on your Wi-Fi ?");
+        alertDialog.setMessage("Do you want turn on your Wi-Fi?");
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wifi",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wi-Fi",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -335,14 +336,36 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     databaseManager.close();
 
                     makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
+
                     dialog.dismiss();
-
                 }
-            }
-        });
+            });
 
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int i) {
+                    if(alreadySaved){
+                        makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
+                    } else if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
+                        alreadySaved = true;
+                        ROOM = (Room) mySpinner.getSelectedItem();
+                        String text = "You are at: " + ROOM;
+                      
+                      DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+                      ArrayList<Data> datas = databaseManager.readData(-1);
+                      if(datas.size() == 0)
+                          databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1,new Date())));
+                      else
+                          databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), datas.get(0)));
+
+                      Log.i( "DATABASE", "reuse room" );
+
+                        databaseManager.close();
+
+                        makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
 
         alertDialog.setView(view);
         alertDialog.show();
+
     }
 }
