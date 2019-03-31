@@ -24,7 +24,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "GridFlare.db";
 
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
 
     public DatabaseManager( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
@@ -48,8 +48,8 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable( connectionSource, Scan_information.class, true );
             TableUtils.dropTable( connectionSource, Room.class, true );
-            //TableUtils.dropTable( connectionSource, Data.class, true );
-            //TableUtils.dropTable( connectionSource, Place.class, true);
+            TableUtils.dropTable( connectionSource, Data.class, true );
+            TableUtils.dropTable( connectionSource, Place.class, true);
             onCreate( database, connectionSource);
             Log.i( "DATABASE", "DB update" );
         } catch( Exception exception ) {
