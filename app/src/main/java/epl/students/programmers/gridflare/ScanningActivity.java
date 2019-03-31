@@ -280,6 +280,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     Place tmp = (Place) mySpinner.getSelectedItem();
 
                     openDialogSave2(databaseManager.readPlace(tmp.getPlace_name()));
+
                     databaseManager.close();
                     dialog.dismiss();
                 }
