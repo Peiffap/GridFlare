@@ -46,7 +46,6 @@ public class RoomsActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         myPlace =  (Place) i.getParcelableExtra("thePlace");
-        System.out.println("--------------------------------------------------\n" + myPlace.getIdPlace());
 
         displayData();
     }

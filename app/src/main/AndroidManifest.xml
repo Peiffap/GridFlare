@@ -40,6 +40,8 @@
         <activity android:name=".HeatmapActivity" />
         <activity android:name=".RoomSumUpActivity" />
         <activity android:name=".PlacesActivity"/>
+        <activity android:name=".GlobalTestActivity"/>
+        <activity android:name=".GlobalTestRoomsActivity"/>
     </application>
 
 </manifest>

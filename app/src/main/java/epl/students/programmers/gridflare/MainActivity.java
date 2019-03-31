@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void go_to_global_scan(View v){
+        Intent it = new Intent(this, GlobalTestActivity.class);
+        startActivity(it);
+    }
+
     public void go_to_scanner(View v){
         Intent it = new Intent(this, ScanningActivity.class);
         startActivity(it);
@@ -95,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else if(finalI == 3){
                         go_to_historic(view);
+                    }
+                    else if(finalI == 4){
+                        go_to_global_scan(view);
                     }
                     else makeText(MainActivity.this, "index " + finalI, Toast.LENGTH_LONG).show();
                 }
