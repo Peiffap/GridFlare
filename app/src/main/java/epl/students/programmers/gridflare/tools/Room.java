@@ -79,8 +79,8 @@ public class Room implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(idRoom);
-        parcel.writeString(room_name);
         parcel.writeParcelable(place_idPlace, i);
+        parcel.writeString(room_name);
         parcel.writeInt(floor);
     }
 
