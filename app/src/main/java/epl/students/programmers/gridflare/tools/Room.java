@@ -14,8 +14,8 @@ public class Room implements Parcelable {
     String room_name;
     @DatabaseField
     int floor;
-    @DatabaseField
-    int idPlace;
+    @DatabaseField(canBeNull=false, foreign = true, foreignColumnName = "idPlace", foreignAutoCreate = true)
+    private Place place_idPlace;
 
     public Room() {
     }
@@ -23,18 +23,18 @@ public class Room implements Parcelable {
     public Room(String room_name, int floor) {
         this.room_name = room_name;
         this.floor = floor;
-        this.idPlace = -1;
     }
 
-    public Room(String room_name, int floor, int idPlace) {
+    public Room(String room_name, int floor, Place place) {
         this.room_name = room_name;
         this.floor = floor;
-        this.idPlace = idPlace;
+        this.place_idPlace = place;
     }
 
     protected Room(Parcel in) {
         idRoom = in.readInt();
         room_name = in.readString();
+        place_idPlace = in.readParcelable(Place.class.getClassLoader());
         floor = in.readInt();
     }
 
@@ -62,12 +62,8 @@ public class Room implements Parcelable {
         this.room_name = room_name;
     }
 
-    public int getIdPlace(){
-        return this.idPlace;
-    }
-
-    public void setIdPlace(int idPlace) {
-        this.idPlace = idPlace;
+    public Place getIdPlace(){
+        return this.place_idPlace;
     }
 
     @Override
@@ -83,6 +79,7 @@ public class Room implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(idRoom);
+        parcel.writeParcelable(place_idPlace, i);
         parcel.writeString(room_name);
         parcel.writeInt(floor);
     }
