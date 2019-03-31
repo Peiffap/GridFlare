@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Data;
 import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
@@ -275,7 +276,11 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
                 }
                 else if(!mySpinner.getSelectedItem().toString().equals("Select a Place")){
-                    openDialogSave2(databaseManager.readPlace(mySpinner.getSelectedItem().toString()));
+
+                    Place tmp = (Place) mySpinner.getSelectedItem();
+
+                    openDialogSave2(databaseManager.readPlace(tmp.getPlace_name()));
+
                     databaseManager.close();
                     dialog.dismiss();
                 }
@@ -319,7 +324,12 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     String text = "You are at : " + ROOM;
 
                     DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                    databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Date()));
+                    ArrayList<Data> datas = databaseManager.readData(-1);
+                    if(datas.size() == 0)
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1,new Date())));
+                    else
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), datas.get(0)));
+
                     Log.i( "DATABASE", "reuse room" );
 
                     databaseManager.close();
@@ -331,8 +341,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
             }
         });
 
+
         alertDialog.setView(view);
         alertDialog.show();
     }
-
 }

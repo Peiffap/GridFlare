@@ -33,8 +33,8 @@ public class Room implements Parcelable {
 
     protected Room(Parcel in) {
         idRoom = in.readInt();
-        room_name = in.readString();
         place_idPlace = in.readParcelable(Place.class.getClassLoader());
+        room_name = in.readString();
         floor = in.readInt();
     }
 
