@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -315,23 +314,21 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "NEXT", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int i) {
-                if(alreadySaved){
+                if (alreadySaved) {
                     makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
-                }
-
-                else if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
+                } else if (!mySpinner.getSelectedItem().toString().equals("Select a Room")) {
                     alreadySaved = true;
-                    ROOM = (Room)mySpinner.getSelectedItem();
+                    ROOM = (Room) mySpinner.getSelectedItem();
                     String text = "You are at : " + ROOM;
 
                     DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
                     ArrayList<Data> datas = databaseManager.readData(-1);
-                    if(datas.size() == 0)
-                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1,new Date())));
+                    if (datas.size() == 0)
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1, new Date())));
                     else
                         databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), datas.get(0)));
 
-                    Log.i( "DATABASE", "reuse room" );
+                    Log.i("DATABASE", "reuse room");
 
                     databaseManager.close();
 
@@ -339,33 +336,10 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
                     dialog.dismiss();
                 }
-            });
-
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int i) {
-                    if(alreadySaved){
-                        makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
-                    } else if(!mySpinner.getSelectedItem().toString().equals("Select a Room")){
-                        alreadySaved = true;
-                        ROOM = (Room) mySpinner.getSelectedItem();
-                        String text = "You are at: " + ROOM;
-                      
-                      DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                      ArrayList<Data> datas = databaseManager.readData(-1);
-                      if(datas.size() == 0)
-                          databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1,new Date())));
-                      else
-                          databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), datas.get(0)));
-
-                      Log.i( "DATABASE", "reuse room" );
-
-                        databaseManager.close();
-
-                        makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
+            }
+        });
 
         alertDialog.setView(view);
         alertDialog.show();
-
     }
 }
