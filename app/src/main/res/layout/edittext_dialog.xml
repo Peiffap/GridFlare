@@ -5,18 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <EditText
-        android:id="@+id/add_room_name"
+        android:id="@+id/add_room_place_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter room's name"
         android:inputType="text"/>
 
     <EditText
         android:id="@+id/add_room_floor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/add_room_name"
-        android:hint="Enter the room's floor number"
+        android:layout_below="@id/add_room_place_name"
         android:inputType="number"/>
 
 </RelativeLayout>

@@ -23,30 +23,28 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Adapter_Places;
 import epl.students.programmers.gridflare.tools.Adapter_Rooms;
 import epl.students.programmers.gridflare.tools.Adapter_Scan_information;
 import epl.students.programmers.gridflare.tools.Place;
+import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 
 import static android.widget.Toast.makeText;
 
-public class RoomsActivity extends AppCompatActivity {
+public class PlacesActivity extends AppCompatActivity {
 
-    ArrayList<Room> rooms;
-    Place myPlace;
+    ArrayList<Place> places;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rooms);
-        setTitle("Rooms");
+        setContentView(R.layout.activity_place);
+        setTitle("Places");
         getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
-        Intent i = getIntent();
-        myPlace =  (Place) i.getParcelableExtra("thePlace");
-        System.out.println("--------------------------------------------------\n" + myPlace.getIdPlace());
 
         displayData();
     }
@@ -54,11 +52,23 @@ public class RoomsActivity extends AppCompatActivity {
     private void displayData(){
         DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
 
-        rooms = databaseManager.readRoom(myPlace.getIdPlace());
+        places = databaseManager.readPlace();
 
-        RecyclerView recyclerView = findViewById(R.id.recycleView_rooms);
+        RecyclerView recyclerView = findViewById(R.id.recycleView_places);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getBaseContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getBaseContext(), RoomsActivity.class);
+                        intent.putExtra("thePlace", places.get(position));
+                        startActivity(intent);
+                    }
 
-        Adapter_Rooms adapter = new Adapter_Rooms(rooms);
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+        Adapter_Places adapter = new Adapter_Places(places);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL,false));
         recyclerView.setAdapter(adapter);
@@ -69,27 +79,27 @@ public class RoomsActivity extends AppCompatActivity {
     private void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         View view = getLayoutInflater().inflate(R.layout.edittext_dialog,null);
-        alertDialog.setTitle("Add a new room");
+        alertDialog.setTitle("Add a new place");
 
-        final EditText room_name = view.findViewById(R.id.add_room_place_name);
-        room_name.setHint("Enter the room name");
-        final EditText room_floor = view.findViewById(R.id.add_room_floor);
-        room_floor.setHint("Enter the floor of this room");
+        final EditText place_name = view.findViewById(R.id.add_room_place_name);
+        place_name.setHint("Enter the name of the place/building");
+        final EditText number_of_floors = view.findViewById(R.id.add_room_floor);
+        number_of_floors.setHint("Enter the number of floors here");
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),room_name.getText().toString() + "::" + room_floor.getText().toString(),Toast.LENGTH_LONG).show();
+                makeText(getBaseContext(),place_name.getText().toString() + "::" + number_of_floors.getText().toString(),Toast.LENGTH_LONG).show();
             }
         });
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                String room = room_name.getText().toString();
-                int floor = Integer.parseInt(room_floor.getText().toString());
+                String place = place_name.getText().toString();
+                int floor = Integer.parseInt(number_of_floors.getText().toString());
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                if(databaseManager.readRoom(room,floor).size() == 0) {
-                    Room tmp = new Room(room, floor, myPlace.getIdPlace());
-                    databaseManager.insertRoom(tmp);
+                if(databaseManager.readRoom(place,floor).size() == 0) {
+                    Place tmp = new Place(place, floor);
+                    databaseManager.insertPlace(tmp);
                     Toast.makeText(getBaseContext(),tmp.toString(),Toast.LENGTH_LONG).show();
                     displayData();
                 }
