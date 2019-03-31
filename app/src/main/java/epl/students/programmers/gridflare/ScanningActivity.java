@@ -276,8 +276,11 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
                 }
                 else if(!mySpinner.getSelectedItem().toString().equals("Select a Place")){
+
+                    Place tmp = (Place) mySpinner.getSelectedItem();
+
+                    openDialogSave2(databaseManager.readPlace(tmp.getPlace_name()));
                     databaseManager.close();
-                    openDialogSave2(databaseManager.readPlace(mySpinner.getSelectedItem().toString()));
                     dialog.dismiss();
                 }
             }
@@ -337,8 +340,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
             }
         });
 
+
         alertDialog.setView(view);
         alertDialog.show();
     }
-
 }

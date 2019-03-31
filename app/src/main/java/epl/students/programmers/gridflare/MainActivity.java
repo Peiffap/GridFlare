@@ -34,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
         setSingleEvent(gridLayout);
 
+
+        TextView ewa = findViewById(R.id.ewa);
+        DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+        ewa.setText(databaseManager.readRoom(databaseManager.readPlace().get(0)).toString());
+
     }
 
     public void go_to_scanner(View v){
