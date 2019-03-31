@@ -283,7 +283,12 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                     String text = "You are at : " + ROOM;
 
                     DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                    databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1,new Date())));
+                    ArrayList<Data> datas = databaseManager.readData(-1);
+                    if(datas.size() == 0)
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1,new Date())));
+                    else
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), datas.get(0)));
+
                     Log.i( "DATABASE", "reuse room" );
 
                     databaseManager.close();
