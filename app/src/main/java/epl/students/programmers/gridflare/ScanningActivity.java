@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 import epl.students.programmers.gridflare.tools.WifiScanner;
@@ -255,22 +256,58 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
 
         final Spinner mySpinner = (Spinner) view.findViewById(R.id.spinner_dialog);
 
-        DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-        ArrayAdapter<Room> spinner_items = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, databaseManager.readRoom());
+        final DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+        ArrayAdapter<Place> spinner_items = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, databaseManager.readPlace());
         spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(spinner_items);
         mySpinner.setOnItemSelectedListener(this);
 
-
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 makeText(getBaseContext(),"Save cancelled",Toast.LENGTH_SHORT).show();
-                alreadySaved = false;
                 dialog.dismiss();
             }
         });
 
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "NEXT", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+                if(alreadySaved){
+                    makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
+                }
+                else if(!mySpinner.getSelectedItem().toString().equals("Select a Place")){
+                    databaseManager.close();
+                    openDialogSave2(databaseManager.readPlace(mySpinner.getSelectedItem().toString()));
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        alertDialog.setView(view);
+        alertDialog.show();
+    }
+
+    public void openDialogSave2(ArrayList<Place> places){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = getLayoutInflater().inflate(R.layout.spinner_dialog, null);
+        alertDialog.setTitle("Save this scan");
+        alertDialog.setMessage("Do you want to save this scan ?");
+
+        final Spinner mySpinner = (Spinner) view.findViewById(R.id.spinner_dialog);
+
+        final DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+        ArrayAdapter<Room> spinner_items = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, databaseManager.readRoom(places.get(0)));
+        spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(spinner_items);
+        mySpinner.setOnItemSelectedListener(this);
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                makeText(getBaseContext(),"Save cancelled",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "NEXT", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int i) {
                 if(alreadySaved){
                     makeText(getBaseContext(), "This scan is already saved", Toast.LENGTH_LONG).show();
@@ -297,4 +334,5 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         alertDialog.setView(view);
         alertDialog.show();
     }
+
 }

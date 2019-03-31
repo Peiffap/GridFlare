@@ -11,6 +11,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,6 +170,17 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Dao<Place, Integer> dao_place = getDao(Place.class);
 
             return (ArrayList<Place>) dao_place.queryForAll();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
+    public ArrayList<Place> readPlace(String place){
+        try {
+            Dao<Place, Integer> dao_place = getDao(Place.class);
+
+            return (ArrayList<Place>) dao_place.queryBuilder().where().eq("place_name",place).query();
         } catch( Exception exception ) {
             Log.e( "DATABASE", "Can't insert data into Database", exception );
             return null;
