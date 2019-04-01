@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go_to_historic(View v){
-        Intent it = new Intent(this, HistoricActivity.class);
+        Intent it = new Intent(this, HistoricPlacesActivity.class);
         startActivity(it);
     }
 

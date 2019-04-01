@@ -296,11 +296,11 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public ArrayList<GlobalScan> readGlobal(String place){
+    public ArrayList<GlobalScan> readGlobal(Place place){
         try {
             Dao<GlobalScan, Integer> dao_place = getDao(GlobalScan.class);
 
-            return (ArrayList<GlobalScan>) dao_place.queryBuilder().where().eq("place",place).query();
+            return (ArrayList<GlobalScan>) dao_place.queryBuilder().where().eq("place_idPlace",place).query();
         } catch( Exception exception ) {
             Log.e( "DATABASE", "Can't insert data into Database", exception );
             return null;
