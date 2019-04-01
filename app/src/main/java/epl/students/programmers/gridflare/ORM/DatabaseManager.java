@@ -26,7 +26,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "GridFlare.db";
 
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 20;
 
     public DatabaseManager( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
@@ -131,8 +131,9 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
             Dao<Room, Integer> dao_room = getDao(Room.class);
 
+
             QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
-            scan_informationQueryBuilder.where().eq("id_globalScan_idGlobalScan", global);
+            scan_informationQueryBuilder.where().eq("globalScan_idGlobalScan", global.getIdGlobalScan());
             QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
             roomQueryBuilder.where().eq("room_name",room);
 

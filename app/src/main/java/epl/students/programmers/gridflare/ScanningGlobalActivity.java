@@ -23,6 +23,7 @@ import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Data;
+import epl.students.programmers.gridflare.tools.GlobalScan;
 import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
@@ -55,6 +56,7 @@ public class ScanningGlobalActivity extends AppCompatActivity implements Adapter
     private Button launchScan;
 
     private Room ROOM;
+    private GlobalScan theGlobal;
     private boolean alreadySaved;
 
 
@@ -95,6 +97,7 @@ public class ScanningGlobalActivity extends AppCompatActivity implements Adapter
 
         Intent intent = getIntent();
         ROOM = intent.getParcelableExtra("theRoom");
+        theGlobal = intent.getParcelableExtra("theGlobal");
 
     }
 
@@ -277,9 +280,9 @@ public class ScanningGlobalActivity extends AppCompatActivity implements Adapter
                     alreadySaved = true;
                     ArrayList<Data> datas = databaseManager.readData(-1);
                     if (datas.size() == 0)
-                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1, new Date())));
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), new Data(-1, new Date()), theGlobal));
                     else
-                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), datas.get(0)));
+                        databaseManager.insertScan(new Scan_information(ROOM, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), datas.get(0), theGlobal));
 
                     Log.i("DATABASE", "reuse room");
 

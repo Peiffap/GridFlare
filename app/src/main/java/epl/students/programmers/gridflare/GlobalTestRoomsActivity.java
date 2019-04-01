@@ -71,6 +71,7 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
                     @Override public void onItemClick(View view, int position) {
                         Intent intent = new Intent(getBaseContext(), ScanningGlobalActivity.class);
                         intent.putExtra("theRoom", rooms.get(position));
+                        intent.putExtra("theGlobal", myGlobal);
                         startActivity(intent);
                     }
 

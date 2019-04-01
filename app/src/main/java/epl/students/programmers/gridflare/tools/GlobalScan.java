@@ -22,6 +22,23 @@ public class GlobalScan implements Parcelable {
         this.place = place;
     }
 
+    protected GlobalScan(Parcel in) {
+        idGlobalScan = in.readInt();
+        place = in.readParcelable(Place.class.getClassLoader());
+    }
+
+    public static final Creator<GlobalScan> CREATOR = new Creator<GlobalScan>() {
+        @Override
+        public GlobalScan createFromParcel(Parcel in) {
+            return new GlobalScan(in);
+        }
+
+        @Override
+        public GlobalScan[] newArray(int size) {
+            return new GlobalScan[size];
+        }
+    };
+
     public Date getDate(){
         return this.date;
     }
@@ -44,20 +61,7 @@ public class GlobalScan implements Parcelable {
 
     public GlobalScan(){ }
 
-    protected GlobalScan(Parcel in) {
-    }
 
-    public static final Creator<GlobalScan> CREATOR = new Creator<GlobalScan>() {
-        @Override
-        public GlobalScan createFromParcel(Parcel in) {
-            return new GlobalScan(in);
-        }
-
-        @Override
-        public GlobalScan[] newArray(int size) {
-            return new GlobalScan[size];
-        }
-    };
 
     @Override
     public int describeContents() {
@@ -66,6 +70,8 @@ public class GlobalScan implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(idGlobalScan);
+        parcel.writeParcelable(place, i);
     }
 
     @Override
