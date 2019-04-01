@@ -1,6 +1,7 @@
 package epl.students.programmers.gridflare.tools;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
@@ -45,7 +46,6 @@ public class WifiScanner {
     public int getStrength() {//La ou je suis j'ai une bonne connection donc a tester voir ce que ca donne
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         strength = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), 100);
-        //strength = wifiInfo.getRssi();
         return strength;
     }
 
@@ -152,4 +152,29 @@ public class WifiScanner {
         }
         return end - start;
     }
+
+    //Region Live Scanning
+    private int rssi;
+    private int v;
+
+    public int update_live_scan(){
+        WifiInfo wi = wifiManager.getConnectionInfo();
+        rssi = wi.getRssi();
+        v = rssi + 90;//RSSI ~ [-90, -30] => v = [0, 60];
+        if(v > 60)//Set the margins
+            v = 60;
+        else if(v < 0)
+            v = 0;
+        return rssi;
+    }
+
+    public int getLiveColor(){
+        int colorator = v*255/60;
+        return Color.argb(255, 255 - colorator, colorator, 0);
+    }
+
+    public int get_live_numeric_scale(){
+        return v*100/60;
+    }
+    //endregion
 }
