@@ -77,7 +77,7 @@ public class HistoricActivity extends AppCompatActivity{
         historicByRoom = new ArrayList<>();
 
         for(int i = 0; i < rooms.size(); i++){
-            ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms.get(i).getRoom_name());
+            ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms.get(i).getRoom_name(), theGlobalScan);
             int strength = 0;
             float ping = 0;
             float proportionOfLost = 0;
