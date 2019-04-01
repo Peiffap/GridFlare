@@ -63,7 +63,7 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getBaseContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(getBaseContext(), ScanningActivity.class);
+                        Intent intent = new Intent(getBaseContext(), ScanningGlobalActivity.class);
                         intent.putExtra("theRoom", rooms.get(position));
                         startActivity(intent);
                     }
@@ -95,7 +95,7 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
             avoir un readScan(rooms.get(i).getRoom_name(), MYGLOBAL)
             Pour récupérer tous les scans qui appartiennent au lieu ET au scan global actuel
              */
-            ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms.get(i).getRoom_name());
+            ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms.get(i).getRoom_name(), myGlobal);
             int strength = 0;
             float ping = 0;
             float proportionOfLost = 0;

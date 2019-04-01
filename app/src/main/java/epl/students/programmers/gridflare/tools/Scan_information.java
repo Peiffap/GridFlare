@@ -127,6 +127,6 @@ public class Scan_information implements Parcelable {
 
     @Override
     public String toString(){
-        return getRoom().toString() + "::::" +getData().toString();
+        return getRoom().toString() + "::::" +id_globalScan.toString();
     }
 }

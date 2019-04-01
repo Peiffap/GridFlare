@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class GlobalScan implements Parcelable {
 
-    @DatabaseField(canBeNull = false, generatedId = true)
+    @DatabaseField(canBeNull = false, generatedId = true, unique = true)
     private int idGlobalScan;
     @DatabaseField(canBeNull = false)
     private Date date;
@@ -66,5 +66,10 @@ public class GlobalScan implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+    }
+
+    @Override
+    public String toString(){
+        return "id" + idGlobalScan;
     }
 }

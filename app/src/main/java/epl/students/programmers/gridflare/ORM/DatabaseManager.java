@@ -126,6 +126,27 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public ArrayList<Scan_information> readScan(String room, GlobalScan global){
+        try {
+            Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+
+            QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
+            scan_informationQueryBuilder.where().eq("id_globalScan_idGlobalScan", global);
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            roomQueryBuilder.where().eq("room_name",room);
+
+
+            List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
+
+
+            return (ArrayList<Scan_information>) test;
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
     public ArrayList<Scan_information> readScan(String room, int idScan) {
         try {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
