@@ -88,9 +88,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         waveLoadingView.setVisibility(View.INVISIBLE);
 
         saveButton = findViewById(R.id.save_scan);
-        saveButton.setVisibility(View.INVISIBLE);
+        saveButton.setVisibility(View.GONE);
         launchScan = findViewById(R.id.button);
-        launchScan.setTranslationX(235f);
 
         alreadySaved = false;
 
@@ -106,9 +105,8 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
     //Start a scan
     public void launch_a_test(View v){
         alreadySaved = false;
-        launchScan.setTranslationX(235f);
         saveButton.setVisibility(View.INVISIBLE);
-
+        launchScan.setVisibility(View.INVISIBLE);
         progressBar_strength.setVisibility(View.INVISIBLE);
         progressBar_ping.setVisibility(View.INVISIBLE);
         progressBar_lost.setVisibility(View.INVISIBLE);
@@ -129,7 +127,6 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         final TextView value = findViewById(R.id.launch_value);
         value.setText(R.string.working);
         waveLoadingView.setVisibility(View.VISIBLE);
-
         new Thread(new Runnable() {//Thread because the ping is a blocking function
             @Override
             public void run() {
@@ -152,7 +149,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
                             progressBar_lost.setVisibility(View.VISIBLE);
                             progressBar_Dl.setVisibility(View.VISIBLE);
                             saveButton.setVisibility(View.VISIBLE);
-                            launchScan.setTranslationX(0);
+                            launchScan.setVisibility(View.VISIBLE);
                             strength_title.setText(R.string.strength);
                             ping_title.setText(R.string.ping_2);
                             lost_title.setText(R.string.lost);
