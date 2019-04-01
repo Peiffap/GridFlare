@@ -53,6 +53,12 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
         displayData();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        displayData();
+    }
+
     private void displayData(){
         DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
 
