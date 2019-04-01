@@ -94,11 +94,14 @@ public class GlobalTestActivity extends AppCompatActivity {
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
                 databaseManager.insertGlobalScan(scan);
                 databaseManager.close();
+
                 Intent intent = new Intent(getApplicationContext(), GlobalTestRoomsActivity.class);
                 intent.putExtra("thePlace", place);
-                startActivity(intent);
+                intent.putExtra("theGlobal", scan);
+
                 makeText(getBaseContext(),"New global scan started",Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
+                startActivity(intent);
             }
         });
 

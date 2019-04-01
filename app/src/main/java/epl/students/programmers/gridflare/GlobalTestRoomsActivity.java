@@ -21,6 +21,7 @@ import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Rooms;
 import epl.students.programmers.gridflare.tools.Adapter_globalScan;
 import epl.students.programmers.gridflare.tools.Data;
+import epl.students.programmers.gridflare.tools.GlobalScan;
 import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
 import epl.students.programmers.gridflare.tools.Room;
@@ -32,6 +33,8 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
 
     ArrayList<Room> rooms;
     Place myPlace;
+    GlobalScan myGlobal;
+
     boolean[] scanned;
     ArrayList<Scan_information> historicByRoom;
 
@@ -45,6 +48,7 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         myPlace =  (Place) i.getParcelableExtra("thePlace");
+        myGlobal = (GlobalScan) i.getParcelableExtra("theGlobal");
 
         displayData();
     }
@@ -82,10 +86,15 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
 
     public void computeMean(){
         DatabaseManager databaseManager = new DatabaseManager(this);
-        ArrayList<Room> rooms = databaseManager.readRoom();
+        ArrayList<Room> rooms = databaseManager.readRoom(myPlace.getPlace_name());
         historicByRoom = new ArrayList<>();
 
         for(int i = 0; i < rooms.size(); i++){
+            /*
+            ICI EDGAR
+            avoir un readScan(rooms.get(i).getRoom_name(), MYGLOBAL)
+            Pour récupérer tous les scans qui appartiennent au lieu ET au scan global actuel
+             */
             ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms.get(i).getRoom_name());
             int strength = 0;
             float ping = 0;
