@@ -53,7 +53,7 @@ public class RoomsActivity extends AppCompatActivity {
     private void displayData(){
         DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
 
-        rooms = databaseManager.readRoom(myPlace);
+        rooms = databaseManager.readRoom(myPlace.getPlace_name());
 
         RecyclerView recyclerView = findViewById(R.id.recycleView_rooms);
 

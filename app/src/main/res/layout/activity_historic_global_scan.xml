@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlacesActivity"
+    tools:context=".HistoricGlobalScanActivity"
     android:orientation="vertical"
     android:background="#99ccff">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView_places"
+            android:id="@+id/recycleView_global_scan_rooms_historic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

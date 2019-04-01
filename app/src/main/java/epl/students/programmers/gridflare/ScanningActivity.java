@@ -297,7 +297,7 @@ public class ScanningActivity extends AppCompatActivity implements AdapterView.O
         final Spinner mySpinner = (Spinner) view.findViewById(R.id.spinner_dialog);
 
         final DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-        ArrayAdapter<Room> spinner_items = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, databaseManager.readRoom(places.get(0)));
+        ArrayAdapter<Room> spinner_items = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, databaseManager.readRoom(places.get(0).getPlace_name()));
         spinner_items.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(spinner_items);
         mySpinner.setOnItemSelectedListener(this);
