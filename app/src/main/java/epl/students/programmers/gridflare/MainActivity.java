@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go_to_heatmap(View v){
-        Intent it = new Intent(this, HeatmapActivity.class);
+        Intent it = new Intent(this, LiveScanningActivity.class);
         startActivity(it);
     }
 

@@ -40,6 +40,7 @@ public class LiveScanningActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case android.R.id.home:
+                stop = true;
                 this.finish();
                 break;
             case R.id.informations:
@@ -57,12 +58,6 @@ public class LiveScanningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 while(!stop){
-                    /*
-                    WifiInfo wi = wifiManager.getConnectionInfo();
-                    final int rssi = wi.getRssi();
-                    if(rssi > -30)
-
-                    final int plotValue = rssi + 90;//Testons (donc compris entre 0 et 60 en théorie*/
                     final int rssi = wifi.update_live_scan();
                     pourcent.post(new Runnable() {
                         @Override

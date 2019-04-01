@@ -153,28 +153,28 @@ public class WifiScanner {
         return end - start;
     }
 
-    //Region Live Scanning
+    //region Live Scanning
     private int rssi;
     private int v;
 
     public int update_live_scan(){
         WifiInfo wi = wifiManager.getConnectionInfo();
         rssi = wi.getRssi();
-        v = rssi + 90;//RSSI ~ [-90, -30] => v = [0, 60];
-        if(v > 60)//Set the margins
-            v = 60;
+        v = rssi + 94;//RSSI ~ [-94, -60] => v = [0, 34];
+        if(v > 34)//Set the margins
+            v = 34;
         else if(v < 0)
             v = 0;
         return rssi;
     }
 
     public int getLiveColor(){
-        int colorator = v*255/60;
+        int colorator = v*255/34;
         return Color.argb(255, 255 - colorator, colorator, 0);
     }
 
     public int get_live_numeric_scale(){
-        return v*100/60;
+        return v*100/34;
     }
     //endregion
 }
