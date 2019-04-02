@@ -48,6 +48,7 @@ public class HistoricGlobalScanActivity extends AppCompatActivity {
                     @Override public void onItemClick(View view, int position) {
                         Intent intent = new Intent(getBaseContext(), HistoricActivity.class);
                         intent.putExtra("theGlobalScan", when.get(position));
+                        intent.putExtra("thePlace", thePlace);
                         startActivity(intent);
                     }
 

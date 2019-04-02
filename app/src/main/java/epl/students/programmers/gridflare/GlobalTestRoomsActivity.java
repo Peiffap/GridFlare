@@ -97,11 +97,6 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
         historicByRoom = new ArrayList<>();
 
         for(int i = 0; i < rooms.size(); i++){
-            /*
-            ICI EDGAR
-            avoir un readScan(rooms.get(i).getRoom_name(), MYGLOBAL)
-            Pour récupérer tous les scans qui appartiennent au lieu ET au scan global actuel
-             */
             ArrayList<Scan_information> aRoom = databaseManager.readScan(rooms.get(i).getRoom_name(), myGlobal);
             int strength = 0;
             float ping = 0;

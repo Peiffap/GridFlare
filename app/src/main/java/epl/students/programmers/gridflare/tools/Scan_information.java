@@ -25,7 +25,7 @@ public class Scan_information implements Parcelable {
     private float dl;
     @DatabaseField(canBeNull=false, foreign = true, foreignColumnName = "idData", foreignAutoCreate = true)
     private Data data;
-    @DatabaseField(canBeNull = false, foreign = true, foreignColumnName = "idGlobalScan", foreignAutoCreate = true)
+    @DatabaseField(canBeNull = true, foreign = true, foreignColumnName = "idGlobalScan", foreignAutoCreate = true)
     private GlobalScan globalScan;
 
     private int numberOfScans; // Only used for the sum up

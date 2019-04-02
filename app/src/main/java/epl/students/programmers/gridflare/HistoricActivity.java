@@ -19,6 +19,7 @@ import epl.students.programmers.gridflare.tools.Adapter_Scan_information;
 import epl.students.programmers.gridflare.tools.Adapter_globalScan;
 import epl.students.programmers.gridflare.tools.Data;
 import epl.students.programmers.gridflare.tools.GlobalScan;
+import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
@@ -27,6 +28,7 @@ public class HistoricActivity extends AppCompatActivity{
 
     ArrayList<Scan_information> historicByRoom;
     GlobalScan theGlobalScan;
+    Place thePlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,10 @@ public class HistoricActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         theGlobalScan = intent.getParcelableExtra("theGlobalScan");
+        thePlace = intent.getParcelableExtra("thePlace");
 
         DatabaseManager databaseManager = new DatabaseManager(this);
         ArrayList<Room> rooms = databaseManager.readRoom();
-        historicByRoom = new ArrayList<>();
-
-        computeMean();
 
         RecyclerView recyclerView = findViewById(R.id.listView);
         recyclerView.addOnItemTouchListener(
@@ -62,8 +62,10 @@ public class HistoricActivity extends AppCompatActivity{
                     }
                 })
         );
-        Adapter_globalScan adapter = new Adapter_globalScan(historicByRoom);
 
+        computeMean();
+
+        Adapter_globalScan adapter = new Adapter_globalScan(historicByRoom);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL,false));
         recyclerView.setAdapter(adapter);
@@ -73,7 +75,7 @@ public class HistoricActivity extends AppCompatActivity{
 
     public void computeMean(){
         DatabaseManager databaseManager = new DatabaseManager(this);
-        ArrayList<Room> rooms = databaseManager.readRoom();
+        ArrayList<Room> rooms = databaseManager.readRoom(thePlace.getPlace_name());
         historicByRoom = new ArrayList<>();
 
         for(int i = 0; i < rooms.size(); i++){
