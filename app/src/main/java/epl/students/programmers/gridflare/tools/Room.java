@@ -62,13 +62,17 @@ public class Room implements Parcelable {
         this.room_name = room_name;
     }
 
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
+
     public Place getIdPlace(){
         return this.place_idPlace;
     }
 
     @Override
     public String toString() {
-        return " room : "+ getRoom_name() + " floor : " + getFloor();
+        return "" + getRoom_name() + "\n (floor " + getFloor() + ")";
     }
 
     @Override

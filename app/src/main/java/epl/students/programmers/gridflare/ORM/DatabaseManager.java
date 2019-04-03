@@ -335,5 +335,24 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public void deleteRoom(Room room){
+        try{
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+
+            dao_room.delete(room);
+        } catch( Exception exception) {
+            Log.e("DATABASE", "Can't delete from database", exception);
+        }
+    }
+
+    public void updateRoom(Room room){
+        try{
+            Dao<Room, Integer> dao = getDao(Room.class);
+            dao.update(room);
+        } catch( Exception exception) {
+            Log.e("DATABASE", "Can't delete from database", exception);
+        }
+    }
+
 
 }
