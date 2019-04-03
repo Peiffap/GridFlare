@@ -75,6 +75,10 @@ public class Scan_information implements Parcelable {
         }
     };
 
+    public int getId_Scan_information(){
+        return id_Scan_information;
+    }
+
     public Room getRoom(){
         return room_idRoom;
     }

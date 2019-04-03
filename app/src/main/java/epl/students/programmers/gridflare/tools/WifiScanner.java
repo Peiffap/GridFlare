@@ -59,7 +59,7 @@ public class WifiScanner {
 
     public void update(){
         pingRequest("8.8.8.8", 5);//We could ping on google but the DNS is more stable
-        dl = uploadTime("http://ptsv2.com", 10000);//Send 10.000 on a server and test the speed
+        dl = uploadTime("http://ptsv2.com", 10000);//Send 10.000 on a server and test the speed 0.01 Mb
     }
 
     private void pingRequest(String url, int n){

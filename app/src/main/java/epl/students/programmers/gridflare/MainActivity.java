@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.EmailBot;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.WifiScanner;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void go_to_heatmap(View v){
         Intent it = new Intent(this, LiveScanningActivity.class);
+
         startActivity(it);
     }
 

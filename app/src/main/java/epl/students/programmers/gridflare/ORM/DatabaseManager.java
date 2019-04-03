@@ -58,6 +58,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    //region insert
     public void insertScan( Scan_information info) {
         try {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
@@ -75,6 +76,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Log.e( "DATABASE", "Can't insert data into Database", exception );
         }
     }
+
     public void insertData( Data data) {
         try {
             Dao<Data, Integer> dao = getDao( Data.class );
@@ -92,8 +94,9 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Log.e( "DATABASE", "Can't insert data into Database", exception );
         }
     }
+    //endregion
 
-
+    //region read
     public ArrayList<Scan_information> readScan(String room) {
         try {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
@@ -140,6 +143,30 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public Scan_information readLastScan(String room){
+        try {
+            Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+
+            QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            roomQueryBuilder.where().eq("room_name",room);
+
+
+            List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
+            Scan_information max = test.get(0);
+            for(Scan_information scan: test){
+                if(scan.getId_Scan_information() > max.getId_Scan_information())
+                    max = scan;
+            }
+            return max;
+
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't read data into Database", exception );
+            return null;
+        }
+    }
+
     public ArrayList<Room> readRoom(String room){
         try {
             Dao<Room, Integer> dao_room = getDao(Room.class);
@@ -150,6 +177,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             return null;
         }
     }
+
     public ArrayList<Room> readRoom(String room, int floor){
         try {
             Dao<Room, Integer> dao_room = getDao(Room.class);
@@ -164,6 +192,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    //Return all the rooms of a place
     public ArrayList<Room> readRoom(Place place){
         try {
             Dao<Room, Integer> dao_room = getDao(Room.class);
@@ -172,7 +201,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Dao<Place, Integer> dao_place = getDao(Place.class);
             QueryBuilder<Place, Integer> placeQueryBuilder = dao_place.queryBuilder();
 
-            placeQueryBuilder.where().eq("place_name", place.getPlace_name());
+            placeQueryBuilder.where().eq("place_name", place.getPlace_name());//Why not by id?
 
             roomQueryBuilder.join(placeQueryBuilder);
 
@@ -225,6 +254,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             return null;
         }
     }
+
     public ArrayList<Data> readData(int id) {
         try {
             Dao<Data, Integer> dao_room = getDao(Data.class);
@@ -235,6 +265,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             return null;
         }
     }
+
     public ArrayList<Place> readPlace(){
         try {
             Dao<Place, Integer> dao_place = getDao(Place.class);
@@ -261,6 +292,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             return -2;
         }
     }
+
     public ArrayList<Place> readPlace(String place){
         try {
             Dao<Place, Integer> dao_place = getDao(Place.class);
@@ -271,4 +303,6 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             return null;
         }
     }
+    //endregion
+
 }
