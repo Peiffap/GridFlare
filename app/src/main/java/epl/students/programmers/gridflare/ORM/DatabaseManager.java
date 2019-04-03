@@ -212,6 +212,25 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public ArrayList<Room> readRoomFromPlace(String place){
+        try {
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+
+            Dao<Place, Integer> dao_place = getDao(Place.class);
+            QueryBuilder<Place, Integer> placeQueryBuilder = dao_place.queryBuilder();
+
+            placeQueryBuilder.where().eq("place_name", place);//Why not by id?
+
+            roomQueryBuilder.join(placeQueryBuilder);
+
+            return (ArrayList<Room>) roomQueryBuilder.query();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
     public ArrayList<Room> readRoom(String room, int floor, Place place){
         try {
             Dao<Room, Integer> dao_room = getDao(Room.class);

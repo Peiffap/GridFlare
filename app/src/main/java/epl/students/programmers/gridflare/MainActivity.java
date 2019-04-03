@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go_to_heatmap(View v){
+        /*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EmailBot bot = new EmailBot();
+                bot.sendScanReport("jimmy.fraiture@gmail.com", "unif", getApplicationContext());
+            }
+        }).start();*/
         Intent it = new Intent(this, LiveScanningActivity.class);
 
         startActivity(it);
