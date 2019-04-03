@@ -155,7 +155,7 @@ public class RoomsActivity extends AppCompatActivity {
     }
 
     public void openDialogDelete(final Room room){
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         View view = getLayoutInflater().inflate(R.layout.alert_dialog_base,null);
         alertDialog.setTitle("Delete this room");
 
@@ -163,7 +163,7 @@ public class RoomsActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                //
+                alertDialog.dismiss();
             }
         });
 
@@ -171,8 +171,13 @@ public class RoomsActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
                 databaseManager.deleteRoom(room);
+                ArrayList<Scan_information> scans_for_this_room = databaseManager.readScan(room.getRoom_name());
+                for(Scan_information si: scans_for_this_room){
+                    databaseManager.deleteScan(si);
+                }
                 databaseManager.close();
                 makeText(getBaseContext(),"Room " + room.getRoom_name() +" deleted", Toast.LENGTH_LONG).show();
+                alertDialog.dismiss();
             }
 
         });
