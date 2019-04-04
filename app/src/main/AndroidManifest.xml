@@ -43,6 +43,9 @@
         <activity android:name=".GlobalTestActivity"/>
         <activity android:name=".GlobalTestRoomsActivity"/>
         <activity android:name=".LiveScanningActivity"/>
+        <activity android:name=".HistoricPlacesActivity" />
+        <activity android:name=".HistoricGlobalScanActivity" />
+        <activity android:name=".ScanningGlobalActivity" />
     </application>
 
 </manifest>

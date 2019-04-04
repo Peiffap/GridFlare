@@ -95,16 +95,22 @@ public class PlacesActivity extends AppCompatActivity {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 String place = place_name.getText().toString();
-                int floor = Integer.parseInt(number_of_floors.getText().toString());
+                int floor;
+                try{
+                    floor = Integer.parseInt(number_of_floors.getText().toString());
+                } catch (Exception e){
+                    Toast.makeText(getBaseContext(), "Please enter the number of floor", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
                 if(databaseManager.readRoom(place,floor).size() == 0) {
                     Place tmp = new Place(place, floor);
                     databaseManager.insertPlace(tmp);
-                    Toast.makeText(getBaseContext(),tmp.toString(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),tmp.toString(),Toast.LENGTH_SHORT).show();
                     displayData();
                 }
                 else
-                    Toast.makeText(getBaseContext(),"Already saved",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Already saved",Toast.LENGTH_SHORT).show();
                 databaseManager.close();
             }
 

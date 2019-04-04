@@ -19,13 +19,14 @@ import epl.students.programmers.gridflare.tools.Data;
 import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
+import epl.students.programmers.gridflare.tools.GlobalScan;
 
 
 public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "GridFlare.db";
 
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 21;
 
     public DatabaseManager( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
@@ -38,6 +39,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable( connectionSource, Room.class );
             TableUtils.createTable( connectionSource, Data.class );
             TableUtils.createTable( connectionSource, Place.class);
+            TableUtils.createTable( connectionSource, GlobalScan.class);
             Log.i( "DATABASE", "DB create" );
         } catch( Exception exception ) {
             Log.e( "DATABASE", "Can't create Database", exception );
@@ -51,6 +53,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable( connectionSource, Room.class, true );
             TableUtils.dropTable( connectionSource, Data.class, true );
             TableUtils.dropTable( connectionSource, Place.class, true);
+            TableUtils.dropTable( connectionSource, GlobalScan.class, true);
             onCreate( database, connectionSource);
             Log.i( "DATABASE", "DB update" );
         } catch( Exception exception ) {
@@ -97,12 +100,43 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
     //endregion
 
     //region read
+    public void insertGlobalScan(GlobalScan global){
+        try {
+            Dao<GlobalScan, Integer> dao = getDao(GlobalScan.class);
+            dao.create(global);
+        } catch( Exception exception) {
+            Log.e("DATABASE", "Can't insert data into database", exception);
+        }
+    }
+
     public ArrayList<Scan_information> readScan(String room) {
         try {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
             Dao<Room, Integer> dao_room = getDao(Room.class);
 
             QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            roomQueryBuilder.where().eq("room_name",room);
+
+
+            List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
+
+
+            return (ArrayList<Scan_information>) test;
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
+    public ArrayList<Scan_information> readScan(String room, GlobalScan global){
+        try {
+            Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+
+
+            QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
+            scan_informationQueryBuilder.where().eq("globalScan_idGlobalScan", global.getIdGlobalScan());
             QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
             roomQueryBuilder.where().eq("room_name",room);
 
@@ -168,6 +202,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
     }
 
     public ArrayList<Room> readRoom(String room){
+    //public ArrayList<Room> readRoom2(String room){
         try {
             Dao<Room, Integer> dao_room = getDao(Room.class);
 
@@ -200,7 +235,6 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
             Dao<Place, Integer> dao_place = getDao(Place.class);
             QueryBuilder<Place, Integer> placeQueryBuilder = dao_place.queryBuilder();
-
             placeQueryBuilder.where().eq("place_name", place.getPlace_name());//Why not by id?
 
             roomQueryBuilder.join(placeQueryBuilder);
@@ -285,6 +319,17 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public ArrayList<Data> readData(GlobalScan globalScan){
+        try {
+            Dao<Data, Integer> dao_room = getDao(Data.class);
+
+            return (ArrayList<Data>) dao_room.queryBuilder().where().eq("id_globalScan",globalScan).query();
+        } catch (Exception exception) {
+            Log.e("DATABASE", "Can't insert data into Database", exception);
+            return null;
+        }
+    }
+
     public ArrayList<Place> readPlace(){
         try {
             Dao<Place, Integer> dao_place = getDao(Place.class);
@@ -323,5 +368,51 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
     //endregion
+
+    public ArrayList<GlobalScan> readGlobal(Place place){
+        try {
+            Dao<GlobalScan, Integer> dao_gs = getDao(GlobalScan.class);
+            Dao<Place, Integer> dao_place = getDao(Place.class);
+
+            QueryBuilder<Place,Integer> placeQueryBuilder = dao_place.queryBuilder();
+            placeQueryBuilder.where().eq("place_name",place.getPlace_name());
+
+            QueryBuilder<GlobalScan,Integer> globalScanQueryBuilder = dao_gs.queryBuilder();
+
+            return (ArrayList<GlobalScan>) globalScanQueryBuilder.join(placeQueryBuilder).query();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
+    public void deleteRoom(Room room){
+        try{
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+
+            dao_room.delete(room);
+        } catch( Exception exception) {
+            Log.e("DATABASE", "Can't delete from database", exception);
+        }
+    }
+
+    public void deleteScan(Scan_information si){
+        try{
+            Dao<Scan_information, Integer> dao_scan = getDao(Scan_information.class);
+
+            dao_scan.delete(si);
+        } catch( Exception exception) {
+            Log.e("DATABASE", "Can't delete from database", exception);
+        }
+    }
+
+    public void updateRoom(Room room){
+        try{
+            Dao<Room, Integer> dao = getDao(Room.class);
+            dao.update(room);
+        } catch( Exception exception) {
+            Log.e("DATABASE", "Can't delete from database", exception);
+        }
+    }
 
 }

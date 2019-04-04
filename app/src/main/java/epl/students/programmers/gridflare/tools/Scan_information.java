@@ -25,6 +25,8 @@ public class Scan_information implements Parcelable {
     private float dl;
     @DatabaseField(canBeNull=false, foreign = true, foreignColumnName = "idData", foreignAutoCreate = true)
     private Data data;
+    @DatabaseField(canBeNull = true, foreign = true, foreignColumnName = "idGlobalScan", foreignAutoCreate = true)
+    private GlobalScan globalScan;
 
     private int numberOfScans; // Only used for the sum up
 
@@ -39,6 +41,17 @@ public class Scan_information implements Parcelable {
         this.dl = dl;
         this.data = data;
         this.numberOfScans = 999;
+    }
+
+    public Scan_information(Room room, int strength, float ping, float proportionOfLost, float dl, Data data, GlobalScan scan) {
+        this.room_idRoom = room;
+        this.strength = strength;
+        this.ping = ping;
+        this.proportionOfLost = proportionOfLost;
+        this.dl = dl;
+        this.data = data;
+        this.numberOfScans = 999;
+        this.globalScan = scan;
     }
 
     protected Scan_information(Parcel in) {
@@ -118,6 +131,6 @@ public class Scan_information implements Parcelable {
 
     @Override
     public String toString(){
-        return getRoom().toString() + "::::" +getData().toString();
+        return getRoom().toString() + "::::" + globalScan.toString();
     }
 }

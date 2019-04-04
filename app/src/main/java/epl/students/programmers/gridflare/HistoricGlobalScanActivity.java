@@ -13,21 +13,26 @@ import java.util.ArrayList;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Places;
+import epl.students.programmers.gridflare.tools.Adapter_When;
+import epl.students.programmers.gridflare.tools.GlobalScan;
 import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
 
-public class GlobalTestActivity extends AppCompatActivity {
+public class HistoricGlobalScanActivity extends AppCompatActivity {
 
-    ArrayList<Place> places;
+    ArrayList<GlobalScan> when;
+    Place thePlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_global_scan);
-        setTitle("Places");
+        setContentView(R.layout.activity_historic_global_scan);
+        setTitle("All the scans for this place");
         getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
+        Intent i = getIntent();
+        thePlace =  (Place) i.getParcelableExtra("thePlace");
 
         displayData();
     }
@@ -35,14 +40,15 @@ public class GlobalTestActivity extends AppCompatActivity {
     private void displayData(){
         DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
 
-        places = databaseManager.readPlace();
+        when = databaseManager.readGlobal(thePlace);
 
-        RecyclerView recyclerView = findViewById(R.id.recycleView_places);
+        RecyclerView recyclerView = findViewById(R.id.recycleView_global_scan_rooms_historic);
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getBaseContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(getBaseContext(), GlobalTestRoomsActivity.class);
-                        intent.putExtra("thePlace", places.get(position));
+                        Intent intent = new Intent(getBaseContext(), HistoricActivity.class);
+                        intent.putExtra("theGlobalScan", when.get(position));
+                        intent.putExtra("thePlace", thePlace);
                         startActivity(intent);
                     }
 
@@ -51,7 +57,7 @@ public class GlobalTestActivity extends AppCompatActivity {
                     }
                 })
         );
-        Adapter_Places adapter = new Adapter_Places(places);
+        Adapter_When adapter = new Adapter_When(when);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL,false));
         recyclerView.setAdapter(adapter);
@@ -59,19 +65,15 @@ public class GlobalTestActivity extends AppCompatActivity {
         databaseManager.close();
     }
 
+    //Back button
     @Override
-    protected void onResume(){
-        super.onResume();
-        getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
-
-
-        displayData();
-    }
-
-    public void create_new_place(View v){
-        Intent it = new Intent(this, PlacesActivity.class);
-        startActivity(it);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //Back button

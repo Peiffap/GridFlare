@@ -7,16 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,8 +19,9 @@ import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Rooms;
-import epl.students.programmers.gridflare.tools.Adapter_Scan_information;
+import epl.students.programmers.gridflare.tools.GlobalScan;
 import epl.students.programmers.gridflare.tools.Place;
+import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 
@@ -51,11 +47,24 @@ public class RoomsActivity extends AppCompatActivity {
     }
 
     private void displayData(){
-        DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+        final DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
 
-        rooms = databaseManager.readRoom(myPlace);
+        rooms = databaseManager.readRoom(myPlace.getPlace_name());
 
         RecyclerView recyclerView = findViewById(R.id.recycleView_rooms);
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override public void onItemClick(View view, int position) {
+                Room theRoom = rooms.get(position);
+                openDialogUpgrade(theRoom);
+
+            }
+
+            @Override public void onLongItemClick(View view, int position) {
+                Room theRoom = rooms.get(position);
+                openDialogDelete(theRoom);
+            }
+        }));
 
         Adapter_Rooms adapter = new Adapter_Rooms(rooms);
 
@@ -84,7 +93,13 @@ public class RoomsActivity extends AppCompatActivity {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 String room = room_name.getText().toString();
-                int floor = Integer.parseInt(room_floor.getText().toString());
+                int floor;
+                try{
+                    floor = Integer.parseInt(room_floor.getText().toString());
+                } catch (Exception e){
+                    Toast.makeText(getBaseContext(), "Please enter the  floor number", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
                 if(databaseManager.readRoom(room,floor, myPlace).size() == 0) {
                     Room tmp = new Room(room, floor, myPlace);
@@ -99,6 +114,117 @@ public class RoomsActivity extends AppCompatActivity {
 
         });
 
+
+        alertDialog.setView(view);
+        alertDialog.show();
+    }
+
+    private void openDialogUpgrade(final Room room){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = getLayoutInflater().inflate(R.layout.edittext_dialog,null);
+        alertDialog.setTitle("Modify this room");
+
+        final EditText room_name = view.findViewById(R.id.add_room_place_name);
+        room_name.setText(room.getRoom_name());
+        final EditText room_floor = view.findViewById(R.id.add_room_floor);
+        room_floor.setText(""+room.getFloor());
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                makeText(getBaseContext(),room_name.getText().toString() + "::" + room_floor.getText().toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "CONFIRM", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String room_n = room_name.getText().toString();
+                int floor = Integer.parseInt(room_floor.getText().toString());
+                DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+                room.setRoom_name(room_n);
+                room.setFloor(floor);
+                databaseManager.updateRoom(room);
+
+                databaseManager.close();
+            }
+
+        });
+
+        alertDialog.setView(view);
+        alertDialog.show();
+    }
+
+    public void openDialogDelete(final Room room){
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = getLayoutInflater().inflate(R.layout.alert_dialog_base,null);
+        alertDialog.setTitle("Delete this room");
+
+
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "CONFIRM", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+                databaseManager.deleteRoom(room);
+                ArrayList<Scan_information> scans_for_this_room = databaseManager.readScan(room.getRoom_name());
+                for(Scan_information si: scans_for_this_room){
+                    databaseManager.deleteScan(si);
+                }
+                databaseManager.close();
+                makeText(getBaseContext(),"Room " + room.getRoom_name() +" deleted", Toast.LENGTH_LONG).show();
+                alertDialog.dismiss();
+            }
+
+        });
+
+        alertDialog.setView(view);
+        alertDialog.show();
+    }
+
+    public void go_to_historic(View v){
+        Intent intent = new Intent(this, HistoricGlobalScanActivity.class);
+        intent.putExtra("thePlace", myPlace);
+        startActivity(intent);
+    }
+
+    public void go_to_global_scan(View v){
+        openCreateGlobalTestConfirmation(v);
+    }
+
+    protected void openCreateGlobalTestConfirmation(View v){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = getLayoutInflater().inflate(R.layout.alert_dialog_base, null);
+        alertDialog.setTitle("Confirmation");
+        alertDialog.setMessage("Do you want to start a new global scan?");
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                makeText(getBaseContext(),"Cancelled", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                GlobalScan scan = new GlobalScan(new Date(), myPlace);
+                DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+                databaseManager.insertGlobalScan(scan);
+                databaseManager.close();
+
+                Intent intent = new Intent(getApplicationContext(), GlobalTestRoomsActivity.class);
+                intent.putExtra("thePlace", myPlace);
+                intent.putExtra("theGlobal", scan);
+
+                makeText(getBaseContext(),"New global scan started",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                startActivity(intent);
+            }
+        });
 
         alertDialog.setView(view);
         alertDialog.show();
