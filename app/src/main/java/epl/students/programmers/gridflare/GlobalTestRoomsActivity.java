@@ -62,7 +62,7 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
     private void displayData(){
         DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
 
-        rooms = databaseManager.readRoom(myPlace.getPlace_name());
+        rooms = databaseManager.readRoomFromPlace(myPlace.getPlace_name());
         scanned = new boolean[rooms.size()];
 
         RecyclerView recyclerView = findViewById(R.id.recycleView_global_scan_rooms);
@@ -93,7 +93,7 @@ public class GlobalTestRoomsActivity extends AppCompatActivity {
 
     public void computeMean(){
         DatabaseManager databaseManager = new DatabaseManager(this);
-        ArrayList<Room> rooms = databaseManager.readRoom(myPlace.getPlace_name());
+        ArrayList<Room> rooms = databaseManager.readRoomFromPlace(myPlace.getPlace_name());
         historicByRoom = new ArrayList<>();
 
         for(int i = 0; i < rooms.size(); i++){

@@ -75,15 +75,4 @@ public class HistoricGlobalScanActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //Back button
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

@@ -71,7 +71,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public void insertRoom( Room room) {
+    public void insertRoom(Room room) {
         try {
             Dao<Room, Integer> dao = getDao( Room.class );
             dao.create(room);

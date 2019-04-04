@@ -75,7 +75,7 @@ public class HistoricActivity extends AppCompatActivity{
 
     public void computeMean(){
         DatabaseManager databaseManager = new DatabaseManager(this);
-        ArrayList<Room> rooms = databaseManager.readRoom(thePlace.getPlace_name());
+        ArrayList<Room> rooms = databaseManager.readRoomFromPlace(thePlace.getPlace_name());
         historicByRoom = new ArrayList<>();
 
         for(int i = 0; i < rooms.size(); i++){
