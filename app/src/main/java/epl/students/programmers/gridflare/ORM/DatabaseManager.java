@@ -347,7 +347,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     public void deleteScan(Scan_information si){
         try{
-            Dao<Scan_information, Integer> dao_scan = getDao(Room.class);
+            Dao<Scan_information, Integer> dao_scan = getDao(Scan_information.class);
 
             dao_scan.delete(si);
         } catch( Exception exception) {

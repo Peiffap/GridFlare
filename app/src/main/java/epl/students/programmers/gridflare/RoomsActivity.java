@@ -7,16 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,14 +19,12 @@ import java.util.Date;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Rooms;
-import epl.students.programmers.gridflare.tools.Adapter_Scan_information;
 import epl.students.programmers.gridflare.tools.GlobalScan;
 import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 
-import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.makeText;
 
 public class RoomsActivity extends AppCompatActivity {
@@ -100,7 +93,13 @@ public class RoomsActivity extends AppCompatActivity {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 String room = room_name.getText().toString();
-                int floor = Integer.parseInt(room_floor.getText().toString());
+                int floor;
+                try{
+                    floor = Integer.parseInt(room_floor.getText().toString());
+                } catch (Exception e){
+                    Toast.makeText(getBaseContext(), "Please enter the  floor number", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
                 if(databaseManager.readRoom(room,floor, myPlace).size() == 0) {
                     Room tmp = new Room(room, floor, myPlace);
