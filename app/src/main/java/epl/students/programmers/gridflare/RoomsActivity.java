@@ -49,20 +49,18 @@ public class RoomsActivity extends AppCompatActivity {
     private void displayData(){
         final DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
 
-        rooms = databaseManager.readRoom(myPlace.getPlace_name());
+        rooms = databaseManager.readRoomFromPlace(myPlace.getPlace_name());
 
         RecyclerView recyclerView = findViewById(R.id.recycleView_rooms);
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override public void onItemClick(View view, int position) {
-                Room theRoom = rooms.get(position);
-                openDialogUpgrade(theRoom);
-
+                // Do nothing
             }
 
             @Override public void onLongItemClick(View view, int position) {
                 Room theRoom = rooms.get(position);
-                openDialogDelete(theRoom);
+                openDialogUpgrade(theRoom);
             }
         }));
 
@@ -149,12 +147,18 @@ public class RoomsActivity extends AppCompatActivity {
 
         });
 
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DELETE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                openDialogDelete(room);
+            }
+        });
+
         alertDialog.setView(view);
         alertDialog.show();
     }
 
     public void openDialogDelete(final Room room){
-        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         View view = getLayoutInflater().inflate(R.layout.alert_dialog_base,null);
         alertDialog.setTitle("Delete this room");
 
@@ -162,21 +166,19 @@ public class RoomsActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
             }
         });
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "CONFIRM", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
-                databaseManager.deleteRoom(room);
                 ArrayList<Scan_information> scans_for_this_room = databaseManager.readScan(room.getRoom_name());
                 for(Scan_information si: scans_for_this_room){
                     databaseManager.deleteScan(si);
                 }
+                databaseManager.deleteRoom(room);
                 databaseManager.close();
                 makeText(getBaseContext(),"Room " + room.getRoom_name() +" deleted", Toast.LENGTH_LONG).show();
-                alertDialog.dismiss();
             }
 
         });

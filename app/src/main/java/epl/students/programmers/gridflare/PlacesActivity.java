@@ -26,6 +26,7 @@ import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Adapter_Places;
 import epl.students.programmers.gridflare.tools.Adapter_Rooms;
 import epl.students.programmers.gridflare.tools.Adapter_Scan_information;
+import epl.students.programmers.gridflare.tools.GlobalScan;
 import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.RecyclerItemClickListener;
 import epl.students.programmers.gridflare.tools.Room;
@@ -64,7 +65,7 @@ public class PlacesActivity extends AppCompatActivity {
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
+                        openDialogUpgrade(places.get(position));
                     }
                 })
         );
@@ -116,12 +117,91 @@ public class PlacesActivity extends AppCompatActivity {
 
         });
 
+        alertDialog.setView(view);
+        alertDialog.show();
+    }
+
+    public void openDialogUpgrade(final Place place){
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = getLayoutInflater().inflate(R.layout.edittext_dialog,null);
+        alertDialog.setTitle("Modify this room");
+
+        final EditText place_name = view.findViewById(R.id.add_room_place_name);
+        place_name.setText(place.getPlace_name());
+        final EditText place_floor = view.findViewById(R.id.add_room_floor);
+        place_floor.setText(""+place.getNumber_of_floor());
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                makeText(getBaseContext(),place_name.getText().toString() + "::" + place_floor.getText().toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "CONFIRM", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String place_n = place_name.getText().toString();
+                int floor = Integer.parseInt(place_floor.getText().toString());
+                DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+                place.setPlace_name(place_n);
+                place.setNumber_of_floor(floor);
+                databaseManager.updatePlace(place);
+
+                databaseManager.close();
+
+                alertDialog.dismiss();
+            }
+
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DELETE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialog.dismiss();
+                openDialogDelete(place);
+            }
+        });
 
         alertDialog.setView(view);
         alertDialog.show();
     }
 
+    public void openDialogDelete(final Place place){
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = getLayoutInflater().inflate(R.layout.alert_dialog_base,null);
+        alertDialog.setTitle("Delete this place");
 
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "CONFIRM", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
+                databaseManager.deletePlace(place);
+                ArrayList<Room> all_rooms_for_this_place = databaseManager.readRoom(place);
+                for(Room room: all_rooms_for_this_place){
+                    ArrayList<Scan_information> scans_for_this_room = databaseManager.readScan(room.getRoom_name());
+                    for(Scan_information si: scans_for_this_room){
+                        databaseManager.deleteScan(si);
+                    }
+                    databaseManager.deleteRoom(room);
+                }
+                ArrayList<GlobalScan> all_global_scans_for_this_place = databaseManager.readGlobal(place);
+                for(GlobalScan gl: all_global_scans_for_this_place){
+                    databaseManager.deleteGlobalScan(gl);
+                }
+                databaseManager.deletePlace(place);
+                databaseManager.close();
+                makeText(getBaseContext(),"Place " + place.getPlace_name() +" deleted", Toast.LENGTH_LONG).show();
+                alertDialog.dismiss();
+            }
+
+        });
+
+        alertDialog.setView(view);
+        alertDialog.show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
