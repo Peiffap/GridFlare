@@ -43,7 +43,6 @@ public class HistoricActivity extends AppCompatActivity{
         thePlace = intent.getParcelableExtra("thePlace");
 
         DatabaseManager databaseManager = new DatabaseManager(this);
-        ArrayList<Room> rooms = databaseManager.readRoom();
 
         RecyclerView recyclerView = findViewById(R.id.listView);
         recyclerView.addOnItemTouchListener(
@@ -75,7 +74,7 @@ public class HistoricActivity extends AppCompatActivity{
 
     public void computeMean(){
         DatabaseManager databaseManager = new DatabaseManager(this);
-        ArrayList<Room> rooms = databaseManager.readRoomFromPlace(thePlace.getPlace_name());
+        ArrayList<Room> rooms = databaseManager.readRoom(thePlace);
         historicByRoom = new ArrayList<>();
 
         for(int i = 0; i < rooms.size(); i++){
