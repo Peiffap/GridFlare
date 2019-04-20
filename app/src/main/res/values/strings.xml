@@ -28,6 +28,7 @@
     <string name="strength">Strength</string>
     <string name="ping_2">Ping</string>
     <string name="lost">Proportion of lost packets</string>
+    <string name="lost2">Lost packets</string>
     <string name="time">Time for up</string>
     <string name="number_of_tests">number of tests</string>
     <string name="number_scan">Number of scans for this room:</string>
@@ -42,4 +43,5 @@
         <item>bedroom 1</item>
         <item>bedroom 2</item>
     </string-array>
+    <string name="report">Get full report of the scan</string>
 </resources>

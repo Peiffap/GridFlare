@@ -62,7 +62,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
     }
 
     //region insert
-    public void insertScan( Scan_information info) {
+    public void insertScan(Scan_information info) {
         try {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
             dao.create(info);
@@ -197,6 +197,45 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
         } catch( Exception exception ) {
             Log.e( "DATABASE", "Can't read data into Database", exception );
+            return null;
+        }
+    }
+
+    public Scan_information readLastScan(int roomID){
+        try {
+            Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+
+            QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            roomQueryBuilder.where().eq("idRoom",roomID);
+
+            List<Room> r = roomQueryBuilder.query();
+            Log.e("DEBUG", "Size Rooms = " + r.size());
+
+            List<Scan_information> s = scan_informationQueryBuilder.query();
+            Log.e("DEBUG", "Size Scans = " + s.size());
+
+            List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
+            Scan_information max = test.get(0);
+            for(Scan_information scan: test){
+                if(scan.getId_Scan_information() > max.getId_Scan_information())
+                    max = scan;
+            }
+            return max;
+
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't read data into Database", exception );
+            return null;
+        }
+    }
+
+    public Room readRoom(int roomID){
+        try {
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+            return (dao_room.queryBuilder().where().eq("idRoom",roomID).query()).get(0);
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
             return null;
         }
     }
@@ -369,7 +408,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
     }
     //endregion
 
-    public ArrayList<GlobalScan> readGlobal(Place place){
+        public ArrayList<GlobalScan> readGlobal(Place place){
         try {
             Dao<GlobalScan, Integer> dao_gs = getDao(GlobalScan.class);
             Dao<Place, Integer> dao_place = getDao(Place.class);
@@ -387,7 +426,6 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
     }
 
     public void deleteRoom(Room room){
-        System.out.println("------------------------------DELETE");
         try{
             Dao<Room, Integer> dao_room = getDao(Room.class);
 

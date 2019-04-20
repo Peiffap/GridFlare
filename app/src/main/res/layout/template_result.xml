@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout android:id="@+id/d_results_template"
+    android:layout_width="match_parent"
+    android:layout_height="420dp"
+    android:layout_marginTop="5dp"
+    android:rowCount="4"
+    android:columnCount="2"
+    android:background="@drawable/rounded_corner_medium"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TextView
+        style="@style/TextStyle4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:text="Strength"/>
+
+    <TextView
+        style="@style/TextStyle4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="90dp"
+        android:text="Ping"/>
+
+    <TextView
+        android:id="@+id/d_strength_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="4sp"
+        android:layout_marginLeft="20dp"
+        android:text="34 %"/>
+
+    <TextView
+        android:id="@+id/d_ping_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="4sp"
+        android:layout_marginLeft="90dp"
+        android:text="12.94 ms"/>
+
+    <TextView
+        style="@style/TextStyle4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:text="Lost Packets"/>
+
+    <TextView
+        style="@style/TextStyle4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="90dp"
+        android:text="Time for up"/>
+
+    <TextView
+        android:id="@+id/d_lost_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="4sp"
+        android:layout_marginLeft="20dp"
+        android:text="0.0 %"/>
+
+    <TextView
+        android:id="@+id/d_dl_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="4sp"
+        android:layout_marginLeft="90dp"
+        android:text="31.05ms"/>
+</GridLayout>

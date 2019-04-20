@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#000000"
+    android:id="@+id/d_menu_container">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/d_places_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_above="@id/navigation_view_places">
+
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!-- New Room -->
+    <RelativeLayout
+        android:id="@+id/d_popup_new_place"
+        android:layout_width="300dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_corner_light">
+
+        <EditText
+            android:id="@+id/d_new_place_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/cold_grey"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="23dp"
+            android:hint="Place"/>
+
+        <EditText
+            android:id="@+id/d_new_place_floors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/d_new_place_name"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/cold_grey"
+            android:layout_marginLeft="23dp"
+            android:hint="Number of floors"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/validate"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:scaleX="2.1"
+            android:scaleY="2.1"
+            android:layout_margin="25dp"
+            android:background="#00FFFFFF"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cancel"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:scaleX="2.1"
+            android:scaleY="2.1"
+            android:layout_margin="25dp"
+            android:background="#00FFFFFF"/>
+
+    </RelativeLayout>
+
+    <!-- Email -->
+    <RelativeLayout
+        android:id="@+id/d_popup_email"
+        android:layout_width="300dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_corner_light">
+
+        <TextView
+            android:id="@+id/r_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_margin="20dp"/>
+
+        <EditText
+            android:id="@+id/d_email_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/cold_grey"
+            android:layout_below="@+id/r_12"
+            android:layout_marginLeft="20dp"
+            android:hint="Email address"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="15dp"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:onClick="closeEmail"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="15dp"
+            android:text="Send"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:onClick="confirmEmail"/>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/navigation_view_places"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemTextColor="@drawable/nav_item_color"
+        app:itemIconTint="@drawable/nav_item_color"
+        app:menu="@menu/nav_menu"/>
+
+</RelativeLayout>

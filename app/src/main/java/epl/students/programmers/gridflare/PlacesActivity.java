@@ -43,9 +43,6 @@ public class PlacesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place);
         setTitle("Places");
-        getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
-
 
         displayData();
     }
@@ -75,6 +72,10 @@ public class PlacesActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         databaseManager.close();
+    }
+
+    public void newPlace(View v){
+        openDialog();
     }
 
     private void openDialog(){

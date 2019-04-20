@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/d_new_room_template"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/rounded_corner_medium"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:id="@+id/d_new_room_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        android:hint="Room name"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@color/cold_grey"/>
+
+    <EditText
+        android:id="@+id/d_new_room_floor"
+        style="@style/TextStyle3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/r_7"
+        android:layout_marginRight="37dp"
+        android:hint="0"
+        android:textColorHint="@color/cold_grey"
+        android:textColor="#FFFFFF"
+        android:inputType="number"/>
+
+    <ImageButton
+        android:id="@+id/r_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/validate"
+        android:background="#00FFFFFF"
+        android:onClick="validateNewRoom"/>
+
+    <ImageButton
+        android:id="@+id/r_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:layout_toLeftOf="@+id/r_6"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/cancel"
+        android:background="#00FFFFFF"
+        android:onClick="cancelNewRoom"/>
+
+</RelativeLayout>

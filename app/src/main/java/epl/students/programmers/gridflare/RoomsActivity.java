@@ -36,9 +36,6 @@ public class RoomsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooms);
-        setTitle("Rooms");
-        getSupportActionBar().setDisplayShowHomeEnabled(true);//Display the button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Make it clickable
 
         Intent i = getIntent();
         myPlace =  (Place) i.getParcelableExtra("thePlace");
@@ -70,6 +67,10 @@ public class RoomsActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         databaseManager.close();
+    }
+
+    public void newRoom(View v){
+        openDialog();
     }
 
     private void openDialog(){
