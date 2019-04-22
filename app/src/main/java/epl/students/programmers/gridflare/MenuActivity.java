@@ -1,5 +1,6 @@
 package epl.students.programmers.gridflare;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.EmailBot;
@@ -86,6 +88,7 @@ public class MenuActivity extends AppCompatActivity {
         rv.setAdapter(menuAdapter);
     }
 
+    @SuppressLint("SetTextI18n")
     public void displayRoomData(View v){
         int roomID = (int)((View)v.getParent()).getTag();//Verifier qu'il arrive bien
         if(currentDisplayed == roomID) {
@@ -96,7 +99,7 @@ public class MenuActivity extends AppCompatActivity {
         } else if(currentDisplayed != -1){
             removeDisplayedData(currentDisplayedView);
         }
-        Scan_information scan = dm.readLastScan(roomID);//Veriifer aussi qu'il y ai quelque chose a display
+        Scan_information scan = dm.readLastScan(roomID);//Verifier aussi qu'il y ait quelque chose a display
 
         if(scan == null){
             Toast.makeText(getBaseContext(),"Scan this room before doing this",Toast.LENGTH_LONG).show();
@@ -130,7 +133,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void validateNewRoom(View v){
-        View popup = (View)v.getParent();//Voir si pas mieux de cast plus
+        View popup = (View) v.getParent();//Voir si pas mieux de cast plus
         String name; int floor;
         try {
             name = ((TextView) popup.findViewById(R.id.d_new_room_name)).getText().toString();
@@ -156,7 +159,7 @@ public class MenuActivity extends AppCompatActivity {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         View popup = (View)v.getParent();
         ((LinearLayout)popup.getParent()).removeView(popup);
@@ -180,7 +183,7 @@ public class MenuActivity extends AppCompatActivity {
     public void confirmEmail(View v){
         final EmailBot bot = new EmailBot();
         final String email = ((TextView)findViewById(R.id.d_email_address)).getText().toString();
-        if(email != "" && placeName != "")//Peut etre mettre un popup sinon
+        if (!Objects.equals(email, "") && !Objects.equals(placeName, ""))//Peut etre mettre un popup sinon
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -194,7 +197,7 @@ public class MenuActivity extends AppCompatActivity {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         popupEmail = findViewById(R.id.d_popup_email);
         ((ViewGroup) popupEmail.getParent()).removeView(popupEmail);
@@ -206,7 +209,7 @@ public class MenuActivity extends AppCompatActivity {
 
     public void validateNewPlace(View v){
         final String placeName = ((TextView)findViewById(R.id.d_new_place_name)).getText().toString();
-        if(placeName != ""){
+        if (!Objects.equals(placeName, "")){
             Place p = new Place(placeName, 1);
             dm.insertPlace(p);
             menuAdapter.notifyDataSetChanged();
@@ -221,7 +224,7 @@ public class MenuActivity extends AppCompatActivity {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         ((ViewGroup) popupPlace.getParent()).removeView(popupPlace);
     }
