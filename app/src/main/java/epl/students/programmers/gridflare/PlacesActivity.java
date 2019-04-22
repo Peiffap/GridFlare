@@ -90,7 +90,7 @@ public class PlacesActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),place_name.getText().toString() + "::" + number_of_floors.getText().toString(),Toast.LENGTH_LONG).show();
+                makeText(getBaseContext(),"No place/building created" ,Toast.LENGTH_LONG).show();
             }
         });
 
@@ -101,7 +101,7 @@ public class PlacesActivity extends AppCompatActivity {
                 try{
                     floor = Integer.parseInt(number_of_floors.getText().toString());
                 } catch (Exception e){
-                    Toast.makeText(getBaseContext(), "Please enter the number of floor", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Please enter the number of floors", Toast.LENGTH_LONG).show();
                     return;
                 }
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
@@ -125,7 +125,7 @@ public class PlacesActivity extends AppCompatActivity {
     public void openDialogUpgrade(final Place place){
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         View view = getLayoutInflater().inflate(R.layout.edittext_dialog,null);
-        alertDialog.setTitle("Modify this room");
+        alertDialog.setTitle("Modify this place");
 
         final EditText place_name = view.findViewById(R.id.add_room_place_name);
         place_name.setText(place.getPlace_name());
@@ -134,7 +134,7 @@ public class PlacesActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),place_name.getText().toString() + "::" + place_floor.getText().toString(),Toast.LENGTH_LONG).show();
+                makeText(getBaseContext(),"Cancelled",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -148,7 +148,7 @@ public class PlacesActivity extends AppCompatActivity {
                 databaseManager.updatePlace(place);
 
                 databaseManager.close();
-
+                makeText(getBaseContext(),"Room updated: " + place_n + " with " + floor + " floors",Toast.LENGTH_LONG).show();
                 alertDialog.dismiss();
             }
 

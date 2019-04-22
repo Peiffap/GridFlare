@@ -85,7 +85,7 @@ public class RoomsActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),room_name.getText().toString() + "::" + room_floor.getText().toString(),Toast.LENGTH_LONG).show();
+                makeText(getBaseContext(),"No room created",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -96,7 +96,7 @@ public class RoomsActivity extends AppCompatActivity {
                 try{
                     floor = Integer.parseInt(room_floor.getText().toString());
                 } catch (Exception e){
-                    Toast.makeText(getBaseContext(), "Please enter the  floor number", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Please enter the floor number", Toast.LENGTH_LONG).show();
                     return;
                 }
                 DatabaseManager databaseManager = new DatabaseManager(getBaseContext());
@@ -130,7 +130,7 @@ public class RoomsActivity extends AppCompatActivity {
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),room_name.getText().toString() + "::" + room_floor.getText().toString(),Toast.LENGTH_LONG).show();
+                makeText(getBaseContext(),"Cancelled",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -144,6 +144,7 @@ public class RoomsActivity extends AppCompatActivity {
                 databaseManager.updateRoom(room);
 
                 databaseManager.close();
+                makeText(getBaseContext(),"Room updated: " + room.getRoom_name() + " on floor " + room.getFloor(),Toast.LENGTH_LONG).show();
             }
 
         });
