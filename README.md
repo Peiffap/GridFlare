@@ -1,3 +1,3 @@
-[![Build Status](https://travis-ci.org/Peiffap/GridFlare.png?branch=master)](https://travis-ci.org/Peiffap/GridFlare)
+[![Build Status](https://travis-ci.com/Peiffap/GridFlare.svg?branch=master)](https://travis-ci.com/Peiffap/GridFlare)
 
 The official GitHub repo for the GridFlare application!
