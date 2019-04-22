@@ -17,7 +17,7 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <!-- New Room -->
+    <!-- New Place -->
     <RelativeLayout
         android:id="@+id/d_popup_new_place"
         android:layout_width="300dp"
@@ -56,7 +56,8 @@
             android:scaleX="2.1"
             android:scaleY="2.1"
             android:layout_margin="25dp"
-            android:background="#00FFFFFF"/>
+            android:background="#00FFFFFF"
+            android:onClick="validateNewPlace"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -67,7 +68,8 @@
             android:scaleX="2.1"
             android:scaleY="2.1"
             android:layout_margin="25dp"
-            android:background="#00FFFFFF"/>
+            android:background="#00FFFFFF"
+            android:onClick="cancelNewPlace"/>
 
     </RelativeLayout>
 
@@ -122,6 +124,14 @@
             android:onClick="confirmEmail"/>
 
     </RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add"
+        android:backgroundTint="@color/bright_blue"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/navigation_view_places"
+        android:onClick="newPlacePopup"/>
 
     <android.support.design.widget.BottomNavigationView
         android:layout_alignParentBottom="true"

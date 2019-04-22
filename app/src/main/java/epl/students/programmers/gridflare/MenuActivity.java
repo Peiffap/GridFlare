@@ -1,9 +1,11 @@
 package epl.students.programmers.gridflare;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +43,8 @@ public class MenuActivity extends AppCompatActivity {
 
     private int currentDisplayed;
     private View currentDisplayedView;
+
+    MenuPlacesAdapter menuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +81,9 @@ public class MenuActivity extends AppCompatActivity {
         closeEmail(null);
 
         rv = findViewById(R.id.d_places_scroll);
-        MenuPlacesAdapter adapter = new MenuPlacesAdapter(dm.readPlace());
+        menuAdapter = new MenuPlacesAdapter(dm.readPlace());
         rv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL,false));
-        rv.setAdapter(adapter);
+        rv.setAdapter(menuAdapter);
     }
 
     public void displayRoomData(View v){
@@ -110,10 +115,12 @@ public class MenuActivity extends AppCompatActivity {
         ((TextView)result_template.findViewById(R.id.d_lost_result)).setText(scan.getProportionOfLost() + " %");
 
         ((LinearLayout)v.getParent()).addView(result_template);
+        v.setBackground(ContextCompat.getDrawable(getBaseContext(), R.drawable.rounded_corner_blue_border));
     }
 
     public void removeDisplayedData(View v){
         ((LinearLayout)v.getParent()).removeViewAt(1);
+        v.setBackground(ContextCompat.getDrawable(getBaseContext(), R.drawable.rounded_corner_medium));
     }
 
     public void newRoomPopup(View v){
@@ -140,18 +147,26 @@ public class MenuActivity extends AppCompatActivity {
         ArrayList<Place> p = dm.readPlace(place_name);//Encore une fois je pars du principe que pas de doublons
         Room r = new Room(name, floor, p.get(0));
         dm.insertRoom(r);
+        menuAdapter.notifyDataSetChanged();
         Toast.makeText(getBaseContext(),"New room created",Toast.LENGTH_LONG).show();
         cancelNewRoom(v);
     }
 
     public void cancelNewRoom(View v){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         View popup = (View)v.getParent();
         ((LinearLayout)popup.getParent()).removeView(popup);
     }
 
     public void deleteRoom(View v){
         int roomID = (int)((View)v.getParent().getParent()).getTag();
-        dm.deleteRoom(dm.readRoom(roomID));
+        Room r = dm.readRoom(roomID);
+        dm.deleteRoom(r);
+        menuAdapter.notifyDataSetChanged();
         Toast.makeText(getBaseContext(),"Room deleted",Toast.LENGTH_LONG).show();
     }
 
@@ -165,7 +180,7 @@ public class MenuActivity extends AppCompatActivity {
     public void confirmEmail(View v){
         final EmailBot bot = new EmailBot();
         final String email = ((TextView)findViewById(R.id.d_email_address)).getText().toString();
-        if(email != "" && placeName != "")
+        if(email != "" && placeName != "")//Peut etre mettre un popup sinon
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -176,7 +191,38 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void closeEmail(View v){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         popupEmail = findViewById(R.id.d_popup_email);
         ((ViewGroup) popupEmail.getParent()).removeView(popupEmail);
+    }
+
+    public void newPlacePopup(View v){
+        ((RelativeLayout)findViewById(R.id.d_menu_container)).addView(popupPlace);
+    }
+
+    public void validateNewPlace(View v){
+        final String placeName = ((TextView)findViewById(R.id.d_new_place_name)).getText().toString();
+        if(placeName != ""){
+            Place p = new Place(placeName, 1);
+            dm.insertPlace(p);
+            menuAdapter.notifyDataSetChanged();
+            Toast.makeText(getBaseContext(),"New place created",Toast.LENGTH_LONG).show();
+            cancelNewPlace(v);
+        } else {
+            Toast.makeText(getBaseContext(),"Please enter a place name",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void cancelNewPlace(View v){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        ((ViewGroup) popupPlace.getParent()).removeView(popupPlace);
     }
 }

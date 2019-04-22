@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.R;
@@ -27,6 +29,7 @@ public class MenuPlacesAdapter extends RecyclerView.Adapter<MenuPlacesAdapter.Lo
         View place_template;
         TextView place_name;
         RecyclerView rv;
+        //Map<Place, MenuRoomsAdapter> map = new HashMap<>();
 
         DatabaseManager dm;
 
@@ -47,6 +50,7 @@ public class MenuPlacesAdapter extends RecyclerView.Adapter<MenuPlacesAdapter.Lo
             place_name.setText(place.getPlace_name());
 
             MenuRoomsAdapter adapter = new MenuRoomsAdapter(dm.readRoom(place));
+            //map.put(place, adapter);
             rv.setLayoutManager(new LinearLayoutManager(ctx, LinearLayout.VERTICAL,false));
             rv.setAdapter(adapter);
         }
@@ -74,6 +78,17 @@ public class MenuPlacesAdapter extends RecyclerView.Adapter<MenuPlacesAdapter.Lo
     @Override
     public int getItemCount() {
         return places.size();
+    }
 
+    public void newPlaceAdded(){
+        this.notifyItemInserted(places.size() - 1);
+    }
+
+    public void roomUpdate(Place p){
+        this.notifyItemChanged(places.indexOf(p));
+    }
+
+    public void placeRemoved(int p){
+        this.notifyItemRemoved(p);
     }
 }

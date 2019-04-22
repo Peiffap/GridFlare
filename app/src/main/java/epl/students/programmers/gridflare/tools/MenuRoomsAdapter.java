@@ -65,19 +65,4 @@ public class MenuRoomsAdapter extends RecyclerView.Adapter<MenuRoomsAdapter.Loca
     public int getItemCount() {
         return rooms.size();
     }
-/*
-    public void displayScanInformation(int roomID){
-        for(int i = 0; i < rooms.size(); i++){
-            if(rooms.get(i).getRoomID() == roomID){
-                rooms.add(i+1, null);
-                this.notifyItemChanged(i+1);
-                return;
-            }
-        }
-        Log.w("Room Adapter", "No room with this ID found");
-    }
-
-    public void hideScanInformation(){
-        rooms.remove(null);
-    }*/
 }

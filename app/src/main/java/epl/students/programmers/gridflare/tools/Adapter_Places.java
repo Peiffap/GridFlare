@@ -54,4 +54,5 @@ public class Adapter_Places extends RecyclerView.Adapter<Adapter_Places.MyViewHo
     public int getItemCount() {
         return historic.size();
     }
+
 }
