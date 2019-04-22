@@ -44,4 +44,5 @@
         <item>bedroom 2</item>
     </string-array>
     <string name="report">Get full report of the scan</string>
+    <string name="nothing">"?"</string>
 </resources>

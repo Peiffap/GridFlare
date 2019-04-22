@@ -19,11 +19,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 import epl.students.programmers.gridflare.tools.WifiScanner;
 
-public class NewScanActivity extends AppCompatActivity {
+public class GlobalScanActivity extends AppCompatActivity {
 
     BottomNavigationView navigationView;
 
@@ -36,37 +37,26 @@ public class NewScanActivity extends AppCompatActivity {
     TextView wifiName;
 
     ImageButton refresh;
-    ImageButton save;//Encore faire son listener
-                    //Aussi encore faire le text qui s'auto-complete et ducoup la partie save
-                    //Et mettre le nom du wifi
-                    //Et pq pas remettre l'animation en bas ce serait cool
+    ImageButton save;
+    View nextButton;
 
     WifiScanner wifi;
+
+    Place p;
+    ArrayList<Room> rooms;
+    int currentRoom;
+
+    DatabaseManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.d_new_scan);
         navigationView = findViewById(R.id.navigation_view_new_scan);
-        navigationView.setSelectedItemId(R.id.scan_menu_btn);
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.live_menu_btn:
-                        Intent intent = new Intent(getBaseContext(), LiveScanningActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
-                        break;
-                    case R.id.main_menu_btn:
-                        Intent intent2 = new Intent(getBaseContext(), MenuActivity.class);
-                        startActivity(intent2);
-                        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
-                        break;
-                }
-                return true;
-            }
-        });
+        navigationView.setEnabled(false);//A voir si ca marche
+
+        dm = new DatabaseManager(getBaseContext());
+
         wifi = new WifiScanner(getApplicationContext());
         ping = findViewById(R.id.d_ping_new_scan);
         strength = findViewById(R.id.d_strength_new_scan);
@@ -77,12 +67,18 @@ public class NewScanActivity extends AppCompatActivity {
         wifiName = findViewById(R.id.d_wifi_name_new_scan);
         wifiName.setText(wifi.getWifiName());
 
-        View nextBtn = findViewById(R.id.d_next_new_scan);
-        ((ViewGroup) nextBtn.getParent()).removeView(nextBtn);
-
         autoComplete = findViewById(R.id.d_text_edit_new_scan);
-        setupAutoCompleteTextView();
 
+        String placeName = getIntent().getStringExtra("place");
+        p = dm.readPlace(placeName).get(0);
+        rooms = dm.readRoom(p);
+        save.setEnabled(true);
+
+        currentRoom = 0;
+        autoComplete.setEnabled(false);
+
+        nextButton = findViewById(R.id.d_next_new_scan);
+        setCurrentRoom();
         //launch_test();
     }
 
@@ -111,23 +107,12 @@ public class NewScanActivity extends AppCompatActivity {
 
                         refresh.setEnabled(true);
                         save.setEnabled(true);
+                        nextButton.setEnabled(true);
+                        nextButton.setVisibility(View.VISIBLE);
                     }
                 });
             }
         }).start();
-    }
-
-    private void setupAutoCompleteTextView(){
-        DatabaseManager dm = new DatabaseManager(getBaseContext());
-        ArrayList<Room> rooms = dm.readRoom();
-        String[] names = new String[rooms.size()];
-        for(int i = 0; i < rooms.size(); i++){
-            names[i] = rooms.get(i).getRoom_name();
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, names);
-        autoComplete.setThreshold(1);
-        autoComplete.setAdapter(adapter);
-        dm.close();
     }
 
     public void openDialog(){
@@ -151,23 +136,36 @@ public class NewScanActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public void saveData(View v){
-        //Asserts
-        DatabaseManager dm = new DatabaseManager(getBaseContext());
-        ArrayList<Room> rooms = dm.readRoom(autoComplete.getText().toString());
-        if(rooms.size() == 0)
-            Toast.makeText(getBaseContext(),"This room does not exists",Toast.LENGTH_LONG).show();
-        else {
-            Room r = rooms.get(0);//Prendre le cas si y en a plusieurs aussi peut etre
-            Scan_information info = new Scan_information(r, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
-            dm.insertScan(info);
+    public void saveData(View v) {
+        Room r = rooms.get(currentRoom);//Prendre le cas si y en a plusieurs aussi peut etre
+        Scan_information info = new Scan_information(r, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
+        dm.insertScan(info);
+        Toast.makeText(getBaseContext(), "Scan saved : " + r.getRoom_name(), Toast.LENGTH_LONG).show();
+    }
+
+    public void nextRoom(View v){
+        saveData(v);
+        currentRoom++;
+        if(currentRoom == rooms.size()){//Finish scan
             dm.close();
-            Toast.makeText(getBaseContext(),"Scan saved",Toast.LENGTH_LONG).show();
+            Intent it = new Intent(getBaseContext(), MenuActivity.class);
+            Toast.makeText(getBaseContext(), "Global scan finished", Toast.LENGTH_LONG).show();
+            startActivity(it);
+        } else {
+            setCurrentRoom();
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        //On evite justement
+    private void setCurrentRoom(){
+        ping.setText("?");
+        strength.setText("?");
+        lost.setText("?");
+        dl.setText("?");
+
+        autoComplete.setText(rooms.get(currentRoom).getRoom_name());
+        save.setEnabled(false);
+        save.setVisibility(View.GONE);
+        nextButton.setEnabled(false);
+        nextButton.setVisibility(View.GONE);
     }
 }

@@ -58,7 +58,7 @@
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
                 android:layout_marginLeft="20dp"
-                android:text="34 %"/>
+                android:text="@string/nothing"/>
 
             <TextView
                 android:id="@+id/d_ping_new_scan"
@@ -68,7 +68,7 @@
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
                 android:layout_marginLeft="90dp"
-                android:text="12.94 ms"/>
+                android:text="@string/nothing"/>
 
             <TextView
                 style="@style/TextStyle4"
@@ -94,7 +94,7 @@
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
                 android:layout_marginLeft="20dp"
-                android:text="0.0 %"/>
+                android:text="@string/nothing"/>
 
             <TextView
                 android:id="@+id/d_dl_new_scan"
@@ -104,7 +104,7 @@
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
                 android:layout_marginLeft="90dp"
-                android:text="31.05ms"/>
+                android:text="@string/nothing"/>
         </GridLayout>
 
         <RelativeLayout
@@ -125,7 +125,8 @@
                 android:textColorHint="@color/warm_grey"
                 android:textColor="#FFFFFF"
                 android:layout_centerVertical="true"
-                android:textSize="24sp"/>
+                android:textSize="24sp"
+                android:inputType="text"/>
 
             <ImageButton
                 android:id="@+id/d_validate_new_scan"
@@ -156,14 +157,15 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/d_next_new_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/r_5"
             android:layout_marginTop="60dp"
             android:background="@drawable/rounded_corner_medium"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:onClick="nextRoom">
             <TextView
-                android:id="@+id/d_next_new_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"

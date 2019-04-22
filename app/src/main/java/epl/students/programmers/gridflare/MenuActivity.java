@@ -225,4 +225,11 @@ public class MenuActivity extends AppCompatActivity {
         }
         ((ViewGroup) popupPlace.getParent()).removeView(popupPlace);
     }
+
+    public void startGlobalScan(View v){
+        String placeName = ((TextView)v).getText().toString();
+        Intent it = new Intent(getBaseContext(), GlobalScanActivity.class);
+        it.putExtra("place", placeName);
+        startActivity(it);
+    }
 }
