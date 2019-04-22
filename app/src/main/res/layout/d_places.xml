@@ -128,7 +128,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/add"
-        android:backgroundTint="@color/bright_blue"
+        app:backgroundTint="@color/bright_blue"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/navigation_view_places"
         android:onClick="newPlacePopup"/>
