@@ -173,11 +173,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     }
 
     public void cancelNewRoom(View v){
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+        closeKeyboard();
         View popup = (View)v.getParent();
         ((LinearLayout)popup.getParent()).removeView(popup);
     }
@@ -211,11 +207,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     }
 
     public void closeEmail(View v){
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+        closeKeyboard();
         ((ViewGroup) popupEmail.getParent()).removeView(popupEmail);
     }
 
@@ -237,11 +229,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     }
 
     public void cancelNewPlace(View v){
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+        closeKeyboard();
         ((ViewGroup) popupPlace.getParent()).removeView(popupPlace);
     }
 
@@ -250,5 +238,13 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         Intent it = new Intent(getActivity(), GlobalScanActivity.class);
         it.putExtra("place", placeName);
         startActivity(it);
+    }
+
+    private void closeKeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }
