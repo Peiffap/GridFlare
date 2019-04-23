@@ -23,7 +23,7 @@ public class Scan_information implements Parcelable {
     private float proportionOfLost;
     @DatabaseField(canBeNull=false)
     private float dl;
-    @DatabaseField(canBeNull=false, foreign = true, foreignColumnName = "idData", foreignAutoCreate = true)
+    @DatabaseField(canBeNull=true, foreign = true, foreignColumnName = "idData", foreignAutoCreate = true)
     private Data data;
     @DatabaseField(canBeNull = true, foreign = true, foreignColumnName = "idGlobalScan", foreignAutoCreate = true)
     private GlobalScan globalScan;
@@ -131,6 +131,9 @@ public class Scan_information implements Parcelable {
 
     @Override
     public String toString(){
-        return getRoom().toString() + "::::" + globalScan.toString();
+        if(globalScan != null)
+            return getRoom().toString() + "::::" + globalScan.toString();
+        else
+            return getRoom().toString();
     }
 }

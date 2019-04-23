@@ -21,13 +21,11 @@ public class Adapter_Rooms extends RecyclerView.Adapter<Adapter_Rooms.MyViewHold
         MyViewHolder(View itemView) {
             super(itemView);
             lv_room = itemView.findViewById(R.id.lv_room_rooms_item);
-
         }
 
         void display(Room current_scan){
             assert current_scan != null;
             lv_room.setText(""+current_scan.toString());
-
         }
     }
 

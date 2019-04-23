@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:id="@+id/d_places_template"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="33dp"
+    android:layout_marginRight="33dp"
+    android:layout_marginBottom="15dp"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#000000">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/d_place_name"
+            style="@style/TextStyle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="House"
+            android:textSize="22sp"
+            android:layout_centerVertical="true"
+            android:onClick="onClickSwitch"/>
+
+        <ImageButton
+            android:id="@+id/share_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/email"
+            android:background="#00FFFFFF"
+            android:scaleX="1.4"
+            android:scaleY="1.4"
+            android:layout_alignParentRight="true"
+            android:onClick="onClickSwitch"/>
+
+        <ImageButton
+            android:id="@+id/delete_place_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/delete"
+            android:background="#00FFFFFF"
+            android:scaleX="1.4"
+            android:scaleY="1.4"
+            android:layout_toLeftOf="@+id/share_btn"
+            android:layout_marginRight="15dp"
+            android:onClick="onClickSwitch"/>
+        <ImageButton
+            android:id="@+id/new_room_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/add"
+            android:background="#00FFFFFF"
+            android:scaleX="1.4"
+            android:scaleY="1.4"
+            android:layout_toLeftOf="@+id/delete_place_btn"
+            android:layout_marginRight="15dp"
+            android:onClick="onClickSwitch"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/d_place_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+    <!-- Rooms-->
+
+</LinearLayout>

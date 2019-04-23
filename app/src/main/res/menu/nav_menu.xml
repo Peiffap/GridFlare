@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Live Scan"
+        android:icon="@drawable/icon_place"
+        android:id="@+id/live_menu_btn"/>
+    <item android:title="Places"
+        android:icon="@drawable/icon_menu"
+        android:id="@+id/main_menu_btn"/>
+    <item android:title="New Scan"
+        android:icon="@drawable/icon_new"
+        android:id="@+id/scan_menu_btn"/>
+</menu>

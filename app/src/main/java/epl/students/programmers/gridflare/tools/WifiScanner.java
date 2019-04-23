@@ -57,6 +57,11 @@ public class WifiScanner {
         return dl;
     }
 
+    public String getWifiName(){
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        return wifiInfo.getSSID();
+    }
+
     public void update(){
         pingRequest("8.8.8.8", 5);//We could ping on google but the DNS is more stable
         dl = uploadTime("http://ptsv2.com", 10000);//Send 10.000 on a server and test the speed 0.01 Mb

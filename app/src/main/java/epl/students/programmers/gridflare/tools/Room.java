@@ -58,6 +58,10 @@ public class Room implements Parcelable {
         return floor;
     }
 
+    public int getRoomID(){
+        return idRoom;
+    }
+
     public void setRoom_name(String room_name) {
         this.room_name = room_name;
     }
