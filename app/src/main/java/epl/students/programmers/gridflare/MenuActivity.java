@@ -37,7 +37,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     View popupPlace;
     View popupEmail;
     RecyclerView rv;
-    RelativeLayout container;
+    RelativeLayout container_view;
     TextView emailAddress;
     TextView newPlaceName;
 
@@ -59,7 +59,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         dm = new DatabaseManager(getActivity());
         currentDisplayed = -1;
 
-        container = v.findViewById(R.id.d_menu_container);
+        container_view = v.findViewById(R.id.d_menu_container);
         emailAddress = v.findViewById(R.id.d_email_address);
         newPlaceName = v.findViewById(R.id.d_new_place_name);
 
@@ -194,7 +194,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
 
     public void shareButton(View v){
         placeName = ((TextView)((View)v.getParent()).findViewById(R.id.d_place_name)).getText().toString();
-        container.addView(popupEmail);
+        container_view.addView(popupEmail);
     }
 
     public void confirmEmail(View v){
@@ -220,7 +220,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     }
 
     public void newPlacePopup(View v){
-        container.addView(popupPlace);
+        container_view.addView(popupPlace);
     }
 
     public void validateNewPlace(View v){
