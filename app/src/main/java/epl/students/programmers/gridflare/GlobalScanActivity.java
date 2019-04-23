@@ -52,8 +52,8 @@ public class GlobalScanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.d_new_scan);
-        navigationView = findViewById(R.id.navigation_view_new_scan);
-        navigationView.setEnabled(false);//A voir si ca marche
+        //navigationView = findViewById(R.id.navigation_view_new_scan);
+        //navigationView.setEnabled(false);//A voir si ca marche
 
         dm = new DatabaseManager(getBaseContext());
 

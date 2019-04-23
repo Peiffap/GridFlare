@@ -42,12 +42,11 @@
         <activity android:name=".RoomSumUpActivity" />
         <activity android:name=".PlacesActivity"/>
         <activity android:name=".GlobalTestRoomsActivity"/>
-        <activity android:name=".LiveScanningActivity"/>
         <activity android:name=".HistoricGlobalScanActivity" />
         <activity android:name=".ScanningGlobalActivity" />
         <activity android:name=".MenuActivity"/>
-        <activity android:name=".NewScanActivity"/>
         <activity android:name=".GlobalScanActivity"/>
+        <activity android:name=".HomeActivity"/>
     </application>
 
 </manifest>
