@@ -26,7 +26,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "GridFlare.db";
 
-    private static final int DATABASE_VERSION = 24;
+    private static final int DATABASE_VERSION = 30;
 
     public DatabaseManager( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
