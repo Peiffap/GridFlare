@@ -26,7 +26,7 @@ import epl.students.programmers.gridflare.ORM.DatabaseManager;
 
 public class EmailBot extends javax.mail.Authenticator {
     private String host = "smtp.gmail.com";
-    private String username = "gridflare.app@gmail.com";//Je sais pas si le @ est utile
+    private String username = "gridflare.app@gmail.com";
     private String pwd = "grd2018-2019flr";
 
     private Session currentSession;
