@@ -22,10 +22,10 @@
             tools:text="House"
             android:textSize="22sp"
             android:layout_centerVertical="true"
-            android:onClick="startGlobalScan"/>
+            android:onClick="onClickSwitch"/>
 
         <ImageButton
-            android:id="@+id/r_10"
+            android:id="@+id/share_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -34,10 +34,10 @@
             android:scaleX="1.4"
             android:scaleY="1.4"
             android:layout_alignParentRight="true"
-            android:onClick="shareButton"/>
+            android:onClick="onClickSwitch"/>
 
         <ImageButton
-            android:id="@+id/r_11"
+            android:id="@+id/delete_place_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -45,9 +45,11 @@
             android:background="#00FFFFFF"
             android:scaleX="1.4"
             android:scaleY="1.4"
-            android:layout_toLeftOf="@+id/r_10"
-            android:layout_marginRight="15dp"/>
+            android:layout_toLeftOf="@+id/share_btn"
+            android:layout_marginRight="15dp"
+            android:onClick="onClickSwitch"/>
         <ImageButton
+            android:id="@+id/new_room_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -55,9 +57,9 @@
             android:background="#00FFFFFF"
             android:scaleX="1.4"
             android:scaleY="1.4"
-            android:layout_toLeftOf="@+id/r_11"
+            android:layout_toLeftOf="@+id/delete_place_btn"
             android:layout_marginRight="15dp"
-            android:onClick="newRoomPopup"/>
+            android:onClick="onClickSwitch"/>
 
     </RelativeLayout>
 

@@ -8,6 +8,7 @@ import android.widget.Toast;
 import java.security.AccessController;
 import java.security.Provider;
 import java.security.Security;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
@@ -26,8 +27,9 @@ import epl.students.programmers.gridflare.ORM.DatabaseManager;
 
 public class EmailBot extends javax.mail.Authenticator {
     private String host = "smtp.gmail.com";
-    private String username = "gridflare.app@gmail.com";//Je sais pas si le @ est utile
+    private String username = "gridflare.app@gmail.com";
     private String pwd = "grd2018-2019flr";
+    DecimalFormat df = new DecimalFormat("0.00##");
 
     private Session currentSession;
 
@@ -87,10 +89,10 @@ public class EmailBot extends javax.mail.Authenticator {
             if(s != null) {
                 message += String.format(Locale.getDefault(), "<li>%s\n" +
                         "<ol>\n" +
-                        "<li>Strength : %d</li>\n" +
-                        "<li>Ping : %f</li>\n" +
-                        "<li>Proportion of lost : %f</li>\n" +
-                        "<li>Upload rate : %f Mb/s</li>\n" +
+                        "<li>Strength : %d %%</li>\n" +
+                        "<li>Ping : %.2f ms</li>\n" +
+                        "<li>Proportion of lost : %.2f %%</li>\n" +
+                        "<li>Upload rate : %.2f Mb/s</li>\n" +
                         "</ol>\n" +
                         "</li>", room.getRoom_name(), s.getStrength(), s.getPing(), s.getProportionOfLost(), 10 / s.getDl());
             } else {

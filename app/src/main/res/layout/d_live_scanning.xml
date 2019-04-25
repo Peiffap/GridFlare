@@ -9,7 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/navigation_view_live_scanning"
         android:gravity="center">
 
         <TextView
@@ -22,14 +21,5 @@
             tools:text="15%"/>
 
     </LinearLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:layout_alignParentBottom="true"
-        android:id="@+id/navigation_view_live_scanning"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemTextColor="@drawable/nav_item_color"
-        app:itemIconTint="@drawable/nav_item_color"
-        app:menu="@menu/nav_menu"/>
 
 </RelativeLayout>

@@ -9,8 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/navigation_view_new_scan">
+        android:layout_height="match_parent">
 
 
         <TextView
@@ -126,7 +125,8 @@
                 android:textColor="#FFFFFF"
                 android:layout_centerVertical="true"
                 android:textSize="24sp"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
 
             <ImageButton
                 android:id="@+id/d_validate_new_scan"
@@ -175,17 +175,19 @@
                 android:text="Next room>"/>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/d_work_in_progress"
+            android:layout_width="wrap_content"
+            android:textColor="@color/bright_blue"
+            android:layout_height="wrap_content"
+            android:text="Work in progress..."
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/r_5"
+            android:textSize="20sp"
+            android:layout_marginTop="30dp"/>
+
 
 
     </RelativeLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:layout_alignParentBottom="true"
-        android:id="@+id/navigation_view_new_scan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemTextColor="@drawable/nav_item_color"
-        app:itemIconTint="@drawable/nav_item_color"
-        app:menu="@menu/nav_menu"/>
 
 </RelativeLayout>
