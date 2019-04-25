@@ -15,8 +15,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{subcaption}
-\usepackage{listings}
-\lstset{language=java}
+\usepackage{minted}
 \graphicspath{{img/}}
 \usepackage{svg}
 \usepackage{booktabs}
@@ -211,6 +210,49 @@ GridFlare est une application Android permettant de mesurer la puissance d'un si
 \end{itemize}
 
 \subsection{Quatrième sprint}
+\subsubsection{User stories planifiées}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{14cm}m{2cm}}
+		\toprule
+		\textsc{User story} & \textsc{Estimation}\\
+		\midrule
+		En tant qu'utilisateur, je souhaite pouvoir distinguer et inférer clairement le but des différents menus de l'application grâce à une interface intuitive. & \est{25}\\
+		\midrule
+		En tant qu'utilisateur, je souhaite pouvoir effacer automatiquement les scans pour une pièce/un lieu donné(e) lorsque j'efface cette pièce/ce lieu. & \est{2}\\
+		\midrule
+		En tant qu'utilisateur, je souhaite pouvoir modifier un lieu ou une pièce après l'avoir créé(e), en mettant à jour les scans existants. & \est{5}\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsubsection{User stories effectuées}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{14cm}m{2cm}}
+		\toprule
+		\textsc{User story} & \textsc{Estimation}\\
+		\midrule
+		En tant qu'utilisateur, je souhaite pouvoir distinguer et inférer clairement le but des différents menus de l'application grâce à une interface intuitive. & \est{30}\\
+		\midrule
+		En tant qu'utilisateur, je souhaite pouvoir effacer automatiquement les scans pour une pièce/un lieu donné(e) lorsque j'efface cette pièce/ce lieu. & \est{5}\\
+		\midrule
+		En tant qu'utilisateur, je souhaite pouvoir modifier un lieu ou une pièce après l'avoir créé(e), en mettant à jour les scans existants. & \est{4}\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+\subsubsection{Améliorations pour le prochain sprint}
+\begin{itemize}
+	\item Continuer de déplacer les fonctionnalités présentes dans l'ancien UI vers la nouvelle interface.
+	\item Améliorer le bot email.
+	\item Détecter et enlever les bugs restants dans l'application (clavier qui ne disparaît pas, \ldots).
+	\item Rendre l'utilisation plus fluide et claire.
+	\item Passer aux \mintinline{java}{ViewPager}s pour améliorer la vitesse de transition des \mintinline{java}{Fragment}s.
+	\item Stocker et utiliser la date des scans.
+	\item Permettre la création de pièces dans les scans ponctuels.
+\end{itemize}
 \subsection{Cinquième sprint}
 \section{Manuel d'utilisation}
 \section{Conclusion}
