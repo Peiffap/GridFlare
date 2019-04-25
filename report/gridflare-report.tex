@@ -1,0 +1,91 @@
+\documentclass{elsarticle}
+\usepackage[a4paper,left=2.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
+\usepackage{natbib}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage[english]{babel}
+\usepackage{bm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{subcaption}
+\usepackage{listings}
+\lstset{language=java}
+\graphicspath{{img/}}
+\usepackage{svg}
+
+\makeatletter
+\def\ps@pprintTitle{%
+	\let\@oddhead\@empty
+	\let\@evenhead\@empty
+	\def\@oddfoot{\centerline{\thepage}}%
+	\let\@evenfoot\@oddfoot}
+\makeatother
+
+\makeatletter
+\def\blfootnote{\gdef\@thefnmark{}\@footnotetext}
+\makeatother
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+		T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{siunitx}
+
+\newcommand{\abs}{\ensuremath{\textnormal{\inlinedafny|abs|}}}
+
+\newcommand{\ok}{\ensuremath{\textnormal{\inlinedafny|ok|}}}
+
+\DeclareMathOperator{\size}{size}
+\DeclareMathOperator{\height}{height}
+\DeclareMathOperator{\type}{type}
+
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\theta}{\vartheta}
+\renewcommand{\kappa}{\varkappa}
+\renewcommand{\rho}{\varrho}
+\renewcommand{\phi}{\varphi}
+
+\begin{document}
+\title{GridFlare --- Optimize Your Signal}
+\date{6 mai 2019}
+
+\address[add1]{École Polytechnique, Université catholique de Louvain, Place de l'Université 1, 1348 Ottignies-Louvain-la-Neuve, Belgique}
+
+\author[add1]{Jimmy \textsc{Fraiture}}
+\ead{jimmy.fraiture@student.uclouvain.be}
+
+\author[add1]{Edgar \textsc{Gevorgyan}}
+\ead{edgar.gevorgyan@student.uclouvain.be}
+
+\author[add1]{Louis \textsc{Navarre}}
+\ead{navarre.louis@student.uclouvain.be}
+
+\author[add1]{Gilles \textsc{Peiffer}}
+\ead{gilles.peiffer@student.uclouvain.be}
+
+\begin{abstract}
+GridFlare est une application Android permettant de mesurer la puissance d'un signal WiFi, la latence ou encore les pertes de paquets sur le réseau dans une pièce ou un bâtiment en temps réel ainsi que de sauvegarder les résultats de ces mesures de manière intuitive.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+\section{Rapports de sprint}
+\subsection{Premier sprint}
+\subsection{Deuxième sprint}
+\subsection{Troisième sprint}
+\subsection{Quatrième sprint}
+\subsection{Cinquième sprint}
+\section{Manuel d'utilisation}
+\section{Conclusion}
+
+\section*{Références}
+
+\bibliography{gridflare-ref}
+\bibliographystyle{elsarticle-harv}\biboptions{authoryear}
+
+\end{document}
+\endinput
