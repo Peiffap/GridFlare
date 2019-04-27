@@ -36,6 +36,8 @@ public class GlobalScanActivity extends AppCompatActivity {
     TextView dl;
     TextView wifiName;
 
+    TextView workInProgress;
+
     ImageButton refresh;
     ImageButton save;
     View nextButton;
@@ -66,6 +68,8 @@ public class GlobalScanActivity extends AppCompatActivity {
         save = findViewById(R.id.d_validate_new_scan);
         wifiName = findViewById(R.id.d_wifi_name_new_scan);
         wifiName.setText(wifi.getWifiName());
+        workInProgress = findViewById(R.id.d_work_in_progress);
+        workInProgress.setVisibility(View.GONE);
 
         autoComplete = findViewById(R.id.d_text_edit_new_scan);
 
@@ -79,10 +83,11 @@ public class GlobalScanActivity extends AppCompatActivity {
 
         nextButton = findViewById(R.id.d_next_new_scan);
         setCurrentRoom();
-        //launch_test();
+        launch_test(null);
     }
 
     public void launch_test(View v){
+        workInProgress.setVisibility(View.VISIBLE);
         Toast.makeText(getBaseContext(), "Test in progress. Stay where you are! ", Toast.LENGTH_LONG).show();
 
         if(!wifi.isWifiEnabled())//Check one more time
@@ -108,6 +113,7 @@ public class GlobalScanActivity extends AppCompatActivity {
                         refresh.setEnabled(true);
                         save.setEnabled(true);
                         nextButton.setEnabled(true);
+                        workInProgress.setVisibility(View.GONE);
                         nextButton.setVisibility(View.VISIBLE);
                     }
                 });
@@ -153,6 +159,7 @@ public class GlobalScanActivity extends AppCompatActivity {
             startActivity(it);
         } else {
             setCurrentRoom();
+            launch_test(null);
         }
     }
 

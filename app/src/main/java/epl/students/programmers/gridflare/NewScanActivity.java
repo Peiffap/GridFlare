@@ -1,6 +1,7 @@
 package epl.students.programmers.gridflare;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.tools.Room;
@@ -36,6 +39,8 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     TextView lost;
     TextView dl;
     TextView wifiName;
+
+    TextView workInProgress;
 
     ImageButton refresh;
     ImageButton save;//Encore faire son listener
@@ -63,17 +68,22 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         save.setOnClickListener(this);
         wifiName = v.findViewById(R.id.d_wifi_name_new_scan);
         wifiName.setText(wifi.getWifiName());
+        workInProgress = v.findViewById(R.id.d_work_in_progress);
+        workInProgress.setVisibility(View.GONE);
 
         View nextBtn = v.findViewById(R.id.d_next_new_scan);
         ((ViewGroup) nextBtn.getParent()).removeView(nextBtn);
 
         autoComplete = v.findViewById(R.id.d_text_edit_new_scan);
         setupAutoCompleteTextView();
+        launch_test(null);
         return v;
     }
 
     public void launch_test(View v){
+        closeKeyboard();
         Toast.makeText(getActivity(), "Test in progress. Stay where you are! ", Toast.LENGTH_LONG).show();
+        workInProgress.setVisibility(View.VISIBLE);
 
         if(!wifi.isWifiEnabled())//Check one more time
             openDialog();
@@ -97,6 +107,7 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
 
                         refresh.setEnabled(true);
                         save.setEnabled(true);
+                        workInProgress.setVisibility(View.GONE);
                     }
                 });
             }
@@ -150,6 +161,7 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
 
     public void saveData(View v){
         //Asserts
+        closeKeyboard();
         DatabaseManager dm = new DatabaseManager(getActivity());
         ArrayList<Room> rooms = dm.readRoom(autoComplete.getText().toString());
         if(rooms.size() == 0)
@@ -160,6 +172,14 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
             dm.insertScan(info);
             dm.close();
             Toast.makeText(getActivity(),"Scan saved",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void closeKeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
