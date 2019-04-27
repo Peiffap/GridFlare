@@ -81,7 +81,8 @@ public class HomeActivity extends AppCompatActivity {
                 page.shareButton(v);
                 break;
             case R.id.delete_place_btn:
-                //TODO
+                page = (MenuActivity)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + vp.getCurrentItem());
+                page.deletePlace(v);
                 break;
             case R.id.new_room_btn:
                 page = (MenuActivity)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + vp.getCurrentItem());

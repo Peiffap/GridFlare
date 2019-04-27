@@ -220,6 +220,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         if (!Objects.equals(placeName, "")){
             Place p = new Place(placeName, 1);
             dm.insertPlace(p);
+            menuAdapter.updateList(dm.readPlace());
             menuAdapter.notifyDataSetChanged();
             Toast.makeText(getActivity(),"New place created",Toast.LENGTH_LONG).show();
             cancelNewPlace(v);
@@ -231,6 +232,14 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     public void cancelNewPlace(View v){
         closeKeyboard();
         ((ViewGroup) popupPlace.getParent()).removeView(popupPlace);
+    }
+
+    public void deletePlace(View v){
+        placeName = ((TextView)((View)v.getParent()).findViewById(R.id.d_place_name)).getText().toString();
+        dm.deletePlace(dm.readPlace(placeName).get(0));
+        menuAdapter.updateList(dm.readPlace());
+        menuAdapter.notifyDataSetChanged();
+        Toast.makeText(getActivity(),"Place deleted",Toast.LENGTH_LONG).show();
     }
 
     public void startGlobalScan(View v){
