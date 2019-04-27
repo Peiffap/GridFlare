@@ -103,18 +103,21 @@ public class GlobalScanActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (wifi.getPing() == (float)-1 || wifi.getProportionOfLost() == (float)-1 || wifi.getStrength() == (float)-1){
+                            workInProgress.setText("The connection failed. Try later");
                             Toast.makeText(getBaseContext(), "Error. Check your connection, and try later.", Toast.LENGTH_LONG).show();
                         }
-                        ping.setText(wifi.getPing() +" ms");
-                        lost.setText(wifi.getProportionOfLost()+" %");
-                        strength.setText(wifi.getStrength()+" %");
-                        dl.setText(wifi.getDl()+"");
+                        else {
+                            ping.setText(wifi.getPing() + " ms");
+                            lost.setText(wifi.getProportionOfLost() + " %");
+                            strength.setText(wifi.getStrength() + " %");
+                            dl.setText(wifi.getDl() + "");
 
-                        refresh.setEnabled(true);
-                        save.setEnabled(true);
-                        nextButton.setEnabled(true);
-                        workInProgress.setVisibility(View.GONE);
-                        nextButton.setVisibility(View.VISIBLE);
+                            refresh.setEnabled(true);
+                            save.setEnabled(true);
+                            nextButton.setEnabled(true);
+                            workInProgress.setVisibility(View.GONE);
+                            nextButton.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
             }
@@ -154,9 +157,8 @@ public class GlobalScanActivity extends AppCompatActivity {
         currentRoom++;
         if(currentRoom == rooms.size()){//Finish scan
             dm.close();
-            Intent it = new Intent(getBaseContext(), MenuActivity.class);
             Toast.makeText(getBaseContext(), "Global scan finished", Toast.LENGTH_LONG).show();
-            startActivity(it);
+            this.finish();
         } else {
             setCurrentRoom();
             launch_test(null);
