@@ -16,19 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".RoomsActivity"></activity>
-        <activity android:name=".HistoricActivity" />
         <activity android:name=".MainActivity"/>
-        <activity android:name=".ScanningActivity"/>
-        <activity
-            android:name=".InformationsActivity"
-            android:label="Informations" />
-        <activity android:name=".HeatmapActivity" />
-        <activity android:name=".RoomSumUpActivity" />
-        <activity android:name=".PlacesActivity"/>
-        <activity android:name=".GlobalTestRoomsActivity"/>
-        <activity android:name=".HistoricGlobalScanActivity" />
-        <activity android:name=".ScanningGlobalActivity" />
         <activity android:name=".GlobalScanActivity"/>
         <activity android:name=".HomeActivity"
             android:label="GridFlare">

@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go_to_places(View v){
-        Intent it = new Intent(this, PlacesActivity.class);
-        startActivity(it);
+        //Intent it = new Intent(this, PlacesActivity.class);
+        //startActivity(it);
     }
 
     public void openDialog(){
