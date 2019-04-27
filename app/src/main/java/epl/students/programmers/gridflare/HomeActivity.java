@@ -61,6 +61,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void configureVP(){
         vp = findViewById(R.id.view_pager);
+        vp.setOffscreenPageLimit(3);
         vp.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
