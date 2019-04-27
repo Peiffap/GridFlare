@@ -235,9 +235,16 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
 
     public void startGlobalScan(View v){
         String placeName = ((TextView)v).getText().toString();
-        Intent it = new Intent(getActivity(), GlobalScanActivity.class);
-        it.putExtra("place", placeName);
-        startActivity(it);
+        Place p = dm.readPlace(placeName).get(0);
+        ArrayList<Room> rooms = dm.readRoom(p);
+        if(rooms.size() == 0){
+            Toast.makeText(getActivity(), "You must add rooms before starting a test", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Intent it = new Intent(getActivity(), GlobalScanActivity.class);
+            it.putExtra("place", placeName);
+            startActivity(it);
+        }
     }
 
     private void closeKeyboard(){
