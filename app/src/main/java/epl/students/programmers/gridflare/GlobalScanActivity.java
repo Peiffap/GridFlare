@@ -154,9 +154,8 @@ public class GlobalScanActivity extends AppCompatActivity {
         currentRoom++;
         if(currentRoom == rooms.size()){//Finish scan
             dm.close();
-            Intent it = new Intent(getBaseContext(), MenuActivity.class);
             Toast.makeText(getBaseContext(), "Global scan finished", Toast.LENGTH_LONG).show();
-            startActivity(it);
+            this.finish();
         } else {
             setCurrentRoom();
             launch_test(null);
