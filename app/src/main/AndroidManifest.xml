@@ -19,7 +19,7 @@
         <activity android:name=".RoomsActivity"></activity>
         <activity android:name=".HistoricActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeActivity"
             android:label="GridFlare">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +46,6 @@
         <activity android:name=".ScanningGlobalActivity" />
         <activity android:name=".MenuActivity"/>
         <activity android:name=".GlobalScanActivity"/>
-        <activity android:name=".HomeActivity"/>
     </application>
 
 </manifest>
