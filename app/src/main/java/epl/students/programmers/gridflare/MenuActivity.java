@@ -219,12 +219,19 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     public void validateNewPlace(View v){
         final String placeName = newPlaceName.getText().toString();
         if (!Objects.equals(placeName, "")){
-            Place p = new Place(placeName, 1);
-            dm.insertPlace(p);
-            menuAdapter.updateList(dm.readPlace());
-            menuAdapter.notifyDataSetChanged();
-            Toast.makeText(getActivity(),"New place created.",Toast.LENGTH_LONG).show();
-            cancelNewPlace(v);
+            ArrayList<Place> samePlaces = dm.readPlace(placeName);
+            if(samePlaces.size() == 0) { // No duplicate
+                Place p = new Place(placeName, 1);
+                dm.insertPlace(p);
+                menuAdapter.updateList(dm.readPlace());
+                menuAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "New place created.", Toast.LENGTH_LONG).show();
+                cancelNewPlace(v);
+            }
+            else { // Duplicate
+                Toast.makeText(getActivity(), "This place already exists", Toast.LENGTH_LONG).show();
+                cancelNewPlace(v);
+            }
         } else {
             Toast.makeText(getActivity(),"Please enter a place name.",Toast.LENGTH_LONG).show();
         }
