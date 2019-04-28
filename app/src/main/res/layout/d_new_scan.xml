@@ -172,7 +172,7 @@
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
                 android:layout_margin="12dp"
-                android:text="Next room>"/>
+                android:text="Next room"/>
         </LinearLayout>
 
         <TextView
