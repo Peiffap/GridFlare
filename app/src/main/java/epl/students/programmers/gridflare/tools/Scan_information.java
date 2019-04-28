@@ -54,7 +54,7 @@ public class Scan_information implements Parcelable {
         this.globalScan = scan;
     }
 
-    protected Scan_information(Parcel in) {
+    private Scan_information(Parcel in) {
         id_Scan_information = in.readInt();
         room_idRoom = in.readParcelable(Room.class.getClassLoader());
         strength = in.readInt();

@@ -31,8 +31,8 @@ public class WifiScanner {
         proportionOfLost = 0f;
     }
 
-    public boolean isWifiEnabled(){
-        return wifiManager.isWifiEnabled();
+    public boolean isWifiDisabled(){
+        return !wifiManager.isWifiEnabled();
     }
 
     public void enableWifi(){
@@ -40,7 +40,7 @@ public class WifiScanner {
     }
 
     public float getPing() {
-        return averagePing;
+        return (int) averagePing;
     }
 
     public int getStrength() {//La ou je suis j'ai une bonne connection donc a tester voir ce que ca donne
@@ -64,7 +64,7 @@ public class WifiScanner {
 
     public void update(){
         pingRequest("8.8.8.8", 5);//We could ping on google but the DNS is more stable
-        dl = uploadTime("http://ptsv2.com", 10000);//Send 10.000 on a server and test the speed 0.01 Mb
+        dl = uploadTime("http://ptsv2.com", 1_000_000);//Send 1_000_000 on a server and test the speed 0.01 Mb
     }
 
     private void pingRequest(String url, int n){
@@ -122,7 +122,7 @@ public class WifiScanner {
 
     private long uploadTime(String urlname, int nbrOfBytes){
         HttpURLConnection co = null;
-        long end = 0; long start = 1;
+        double end = 0.0; double start = 1.0;
         try {
             URL url = new URL(urlname);
             //Client setup
@@ -155,16 +155,15 @@ public class WifiScanner {
             if(co != null)
                 co.disconnect();
         }
-        return end - start;
+        double nbrMbits = 8 * nbrOfBytes / 1_000_000;
+        return (long) (1000.0 * nbrMbits / (end - start));
     }
 
-    //region Live Scanning
-    private int rssi;
     private int v;
 
     public int update_live_scan(){
         WifiInfo wi = wifiManager.getConnectionInfo();
-        rssi = wi.getRssi();
+        int rssi = wi.getRssi();
         v = rssi + 94;//RSSI ~ [-94, -60] => v = [0, 34];
         if(v > 34)//Set the margins
             v = 34;

@@ -9,11 +9,11 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "T_Room")
 public class Room implements Parcelable {
     @DatabaseField(generatedId = true, unique = true)
-    int idRoom;
+    private int idRoom;
     @DatabaseField(canBeNull = false)
     String room_name;
     @DatabaseField
-    int floor;
+    private int floor;
     @DatabaseField(canBeNull=false, foreign = true, foreignColumnName = "idPlace", foreignAutoCreate = true)
     private Place place_idPlace;
 
