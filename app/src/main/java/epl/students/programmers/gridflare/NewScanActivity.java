@@ -5,13 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -56,9 +53,9 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.d_new_scan, container, false);
-        wifi = new WifiScanner(getActivity());
+        wifi = new WifiScanner(Objects.requireNonNull(getActivity()));
         ping = v.findViewById(R.id.d_ping_new_scan);
         strength = v.findViewById(R.id.d_strength_new_scan);
         lost = v.findViewById(R.id.d_lost_new_scan);
@@ -85,10 +82,10 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     public void launch_test(View v){
         closeKeyboard();
         Toast.makeText(getActivity(), "Test in progress. Stay where you are!", Toast.LENGTH_LONG).show();
-        workInProgress.setText("Work in progress...");
+        workInProgress.setText("Scan in progress...");
         workInProgress.setVisibility(View.VISIBLE);
 
-        if(!wifi.isWifiEnabled()) {//Check one more time
+        if(wifi.isWifiDisabled()) {//Check one more time
             openDialog();
             wifiName.setText(wifi.getWifiName());
         }
@@ -121,7 +118,7 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
                             ping.setText(Integer.toString((int) wifi.getPing()) + " ms");
                             lost.setText(wifi.getProportionOfLost() + " %");
                             strength.setText(wifi.getStrength() + " %");
-                            dl.setText(wifi.getDl() + " ms");
+                            dl.setText(wifi.getDl() + " Mbps");
 
                             refresh.setEnabled(true);
                             save.setEnabled(true);
@@ -187,7 +184,7 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
             Toast.makeText(getActivity(),"This room does not exist.",Toast.LENGTH_LONG).show();
         else {
             Room r = rooms.get(0);//Prendre le cas si y en a plusieurs aussi peut etre
-            Scan_information info = new Scan_information(r, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
+            Scan_information info = new Scan_information(r, wifi.getStrength(), (int) wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
             dm.insertScan(info);
             dm.close();
             Toast.makeText(getActivity(),"Scan saved.",Toast.LENGTH_LONG).show();

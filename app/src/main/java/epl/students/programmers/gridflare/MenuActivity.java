@@ -53,7 +53,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.d_places, container, false);
 
         dm = new DatabaseManager(getActivity());
@@ -132,7 +132,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
 
         ((TextView)result_template.findViewById(R.id.d_ping_result)).setText(scan.getPing() + " ms");
         ((TextView)result_template.findViewById(R.id.d_strength_result)).setText(scan.getStrength() + " %");
-        ((TextView)result_template.findViewById(R.id.d_dl_result)).setText(scan.getDl() + " ms");
+        ((TextView)result_template.findViewById(R.id.d_dl_result)).setText(scan.getDl() + " Mbps");
         ((TextView)result_template.findViewById(R.id.d_lost_result)).setText(scan.getProportionOfLost() + " %");
 
         ((LinearLayout)v.getParent()).addView(result_template);
@@ -153,10 +153,13 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     public void validateNewRoom(View v){
         View popup = (View) v.getParent();//Voir si pas mieux de cast plus
         String name; int floor;
+        String place_name = ((TextView)((LinearLayout)popup.getParent()).findViewById(R.id.d_place_name)).getText().toString();
+        ArrayList<Place> p = dm.readPlace(place_name);//Encore une fois je pars du principe que pas de doublons
+        Place pl = p.get(0);
         try {
             name = ((TextView) popup.findViewById(R.id.d_new_room_name)).getText().toString();
             floor = Integer.parseInt(((TextView) popup.findViewById(R.id.d_new_room_floor)).getText().toString());//Verifier que l'étage correspond
-            if(Objects.equals(name, "")){
+            if(Objects.equals(name, "") || floor > pl.getNumber_of_floor()){
                 throw new Exception();
             }
         } catch (Exception e){
@@ -164,9 +167,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
             cancelNewRoom(v);
             return;
         }
-        String place_name = ((TextView)((LinearLayout)popup.getParent()).findViewById(R.id.d_place_name)).getText().toString();
-        ArrayList<Place> p = dm.readPlace(place_name);//Encore une fois je pars du principe que pas de doublons
-        Room r = new Room(name, floor, p.get(0));
+        Room r = new Room(name, floor, pl);
         dm.insertRoom(r);
         menuAdapter.notifyDataSetChanged();
         Toast.makeText(getActivity(),"New room created.",Toast.LENGTH_LONG).show();
