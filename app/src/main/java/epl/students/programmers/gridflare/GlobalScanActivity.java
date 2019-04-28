@@ -3,15 +3,10 @@ package epl.students.programmers.gridflare;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -89,11 +84,11 @@ public class GlobalScanActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public void launch_test(View v){
-        workInProgress.setText("Work in progress...");
+        workInProgress.setText("Scan in progress...");
         workInProgress.setVisibility(View.VISIBLE);
         Toast.makeText(getBaseContext(), "Test in progress. Stay where you are!", Toast.LENGTH_LONG).show();
 
-        if(!wifi.isWifiEnabled()) {//Check one more time
+        if(wifi.isWifiDisabled()) {//Check one more time
             openDialog();
             wifiName.setText(wifi.getWifiName());
         }
@@ -123,10 +118,10 @@ public class GlobalScanActivity extends AppCompatActivity {
                             Toast.makeText(getBaseContext(), "Error. Check your connection, and try again later.", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            ping.setText(wifi.getPing() + " ms");
+                            ping.setText(Integer.toString((int) wifi.getPing()) + " ms");
                             lost.setText(wifi.getProportionOfLost() + " %");
                             strength.setText(wifi.getStrength() + " %");
-                            dl.setText(wifi.getDl() + " ms");
+                            dl.setText(wifi.getDl() + " Mbps");
 
                             refresh.setEnabled(true);
                             save.setEnabled(true);

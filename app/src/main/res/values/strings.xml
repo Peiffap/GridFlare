@@ -28,8 +28,8 @@
     <string name="strength">Strength</string>
     <string name="ping_2">Ping</string>
     <string name="lost">Proportion of lost packets</string>
-    <string name="lost2">Lost packets</string>
-    <string name="time">Upload time</string>
+    <string name="lost2">Packet loss</string>
+    <string name="time">Upload</string>
     <string name="number_of_tests">Number of tests</string>
     <string name="number_scan">Number of scans for this room</string>
     <string name="create_new_place_rooms">Create new place/room</string>

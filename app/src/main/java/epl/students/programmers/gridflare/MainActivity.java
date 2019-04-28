@@ -8,12 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.GridLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import epl.students.programmers.gridflare.ORM.DatabaseManager;
-import epl.students.programmers.gridflare.tools.EmailBot;
-import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.WifiScanner;
 
 import static android.widget.Toast.makeText;
@@ -30,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Launch a test.");
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         wifi = new WifiScanner(getApplicationContext());
-        if(!wifi.isWifiEnabled())
+        if(wifi.isWifiDisabled())
             openDialog();
 
         setSingleEvent(gridLayout);

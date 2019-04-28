@@ -15,7 +15,7 @@
         <TextView
             style="@style/TextStyle2"
             android:layout_marginTop="46dp"
-            android:layout_marginLeft="33dp"
+            android:layout_marginStart="33dp"
             android:id="@+id/d_wifi_name_new_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="31dp"
-                android:layout_marginStart="90dp"
+                android:layout_marginStart="60dp"
                 android:text="@string/ping_2"/>
 
             <TextView
@@ -66,7 +66,7 @@
                 android:textSize="28sp"
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
-                android:layout_marginStart="90dp"
+                android:layout_marginStart="60dp"
                 android:text="@string/nothing"/>
 
             <TextView
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="31dp"
-                android:layout_marginStart="90dp"
+                android:layout_marginStart="60dp"
                 android:text="@string/time"/>
 
             <TextView
@@ -102,7 +102,7 @@
                 android:textSize="28sp"
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
-                android:layout_marginStart="90dp"
+                android:layout_marginStart="60dp"
                 android:text="@string/nothing"/>
         </GridLayout>
 
@@ -172,7 +172,7 @@
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
                 android:layout_margin="12dp"
-                android:text="Next room>"/>
+                android:text="Next room"/>
         </LinearLayout>
 
         <TextView
@@ -180,7 +180,7 @@
             android:layout_width="wrap_content"
             android:textColor="@color/bright_blue"
             android:layout_height="wrap_content"
-            android:text="Work in progress..."
+            android:text="Scan in progress..."
             android:layout_centerHorizontal="true"
             android:layout_below="@id/r_5"
             android:textSize="20sp"
