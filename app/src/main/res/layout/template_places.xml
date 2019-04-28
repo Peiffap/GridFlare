@@ -33,7 +33,7 @@
             android:background="#00FFFFFF"
             android:scaleX="1.4"
             android:scaleY="1.4"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:onClick="onClickSwitch"/>
 
         <ImageButton
@@ -45,8 +45,8 @@
             android:background="#00FFFFFF"
             android:scaleX="1.4"
             android:scaleY="1.4"
-            android:layout_toLeftOf="@+id/share_btn"
-            android:layout_marginRight="15dp"
+            android:layout_toStartOf="@+id/share_btn"
+            android:layout_marginEnd="15dp"
             android:onClick="onClickSwitch"/>
         <ImageButton
             android:id="@+id/new_room_btn"
@@ -57,8 +57,8 @@
             android:background="#00FFFFFF"
             android:scaleX="1.4"
             android:scaleY="1.4"
-            android:layout_toLeftOf="@+id/delete_place_btn"
-            android:layout_marginRight="15dp"
+            android:layout_toStartOf="@+id/delete_place_btn"
+            android:layout_marginEnd="15dp"
             android:onClick="onClickSwitch"/>
 
     </RelativeLayout>

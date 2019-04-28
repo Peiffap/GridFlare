@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="31dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:text="@string/strength"/>
 
             <TextView
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="31dp"
-                android:layout_marginLeft="90dp"
+                android:layout_marginStart="90dp"
                 android:text="@string/ping_2"/>
 
             <TextView
@@ -56,7 +56,7 @@
                 android:textSize="28sp"
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:text="@string/nothing"/>
 
             <TextView
@@ -66,7 +66,7 @@
                 android:textSize="28sp"
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
-                android:layout_marginLeft="90dp"
+                android:layout_marginStart="90dp"
                 android:text="@string/nothing"/>
 
             <TextView
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="31dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:text="@string/lost2"/>
 
             <TextView
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="31dp"
-                android:layout_marginLeft="90dp"
+                android:layout_marginStart="90dp"
                 android:text="@string/time"/>
 
             <TextView
@@ -92,7 +92,7 @@
                 android:textSize="28sp"
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:text="@string/nothing"/>
 
             <TextView
@@ -102,7 +102,7 @@
                 android:textSize="28sp"
                 android:textColor="@color/white"
                 android:lineSpacingExtra="4sp"
-                android:layout_marginLeft="90dp"
+                android:layout_marginStart="90dp"
                 android:text="@string/nothing"/>
         </GridLayout>
 
@@ -117,7 +117,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/d_text_edit_new_scan"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Tap to edit"
@@ -132,8 +132,8 @@
                 android:id="@+id/d_validate_new_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/d_refresh_new_scan"
-                android:layout_marginRight="30dp"
+                android:layout_toStartOf="@+id/d_refresh_new_scan"
+                android:layout_marginEnd="30dp"
                 android:background="#00FFFFFF"
                 android:layout_centerVertical="true"
                 android:scaleX="1.6"
@@ -145,8 +145,8 @@
                 android:id="@+id/d_refresh_new_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
                 android:background="#00FFFFFF"
                 android:layout_centerVertical="true"
                 android:scaleX="1.6"

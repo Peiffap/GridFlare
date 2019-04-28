@@ -10,29 +10,29 @@
         \n
         \n
         <b>Wi-Fi strength:</b>\n
-        The Wi-Fi strength is the power of the received Wi-Fi wave from  your phone. This four-level (from 0 to 3) indicator is also represented on the top of your screen (the Wi-Fi indicator).
-        This parameter is important: the weaker the signal is, the more you could loose receiving/sending data.
+        The Wi-Fi strength is the power of the received Wi-Fi wave from your phone. This four-level (from 0 to 3) indicator is also represented on the top of your screen (the Wi-Fi indicator).
+        This parameter is important: the weaker the signal is, the more you could lose received/sent data.
         \n
         \n
         <b>Proportion of lost packets:</b>\n
         This parameter shows the percentage of data packets that have been lost during the tests. Even if this is not a precious
-        test, it can show the empirical probability of lost data packets during your utilisation of the network.
+        test, it can show the empirical probability of losing data packets during your use of the network.
     </string>
     <string name="link_ping"><a href="https://en.wikipedia.org/wiki/Ping_%28networking_utility%29">More information about Ping</a></string>
     <string name="working">Working</string>
     <string name="heatmap">HeatMap</string>
     <string name="scanner">Scanner</string>
     <string name="gridflare">GridFlare</string>
-    <string name="historic">historic</string>
+    <string name="historic">History</string>
     <string name="save_data">Save Data</string>
     <string name="strength">Strength</string>
     <string name="ping_2">Ping</string>
     <string name="lost">Proportion of lost packets</string>
     <string name="lost2">Lost packets</string>
-    <string name="time">Time for up</string>
-    <string name="number_of_tests">number of tests</string>
-    <string name="number_scan">Number of scans for this room:</string>
-    <string name="create_new_place_rooms">Create new place/rooms</string>
+    <string name="time">Upload time</string>
+    <string name="number_of_tests">Number of tests</string>
+    <string name="number_scan">Number of scans for this room</string>
+    <string name="create_new_place_rooms">Create new place/room</string>
     <string name="start_new_global_scan">Start new global scan</string>
     <string-array name="spinner_items">
         <item>Select a Room</item>
