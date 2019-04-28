@@ -22,7 +22,7 @@ public class GlobalScan implements Parcelable {
         this.place = place;
     }
 
-    protected GlobalScan(Parcel in) {
+    private GlobalScan(Parcel in) {
         idGlobalScan = in.readInt();
         place = in.readParcelable(Place.class.getClassLoader());
     }

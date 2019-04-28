@@ -7,11 +7,11 @@ import com.j256.ormlite.field.DatabaseField;
 
 public class Place implements Parcelable {
     @DatabaseField(canBeNull = false, generatedId = true)
-    int idPlace;
+    private int idPlace;
     @DatabaseField(canBeNull = false)
-    String place_name;
+    private String place_name;
     @DatabaseField
-    int number_of_floor;
+    private int number_of_floor;
 
     public Place(String place, int nof){
         this.place_name = place;

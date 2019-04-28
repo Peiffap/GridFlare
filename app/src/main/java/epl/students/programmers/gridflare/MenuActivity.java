@@ -106,6 +106,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         v.findViewById(R.id.cancel_new_place_btn).setOnClickListener(this);
     }
 
+    @SuppressLint("SetTextI18n")
     public void displayRoomData(View v){
         int roomID = (int)((View)v.getParent()).getTag();//Verifier qu'il arrive bien
         if(currentDisplayed == roomID) {
@@ -119,7 +120,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         Scan_information scan = dm.readLastScan(roomID);//Verifier aussi qu'il y ait quelque chose a display
 
         if(scan == null){
-            Toast.makeText(getActivity(),"Scan this room before doing this",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Scan this room before doing this.",Toast.LENGTH_LONG).show();
             currentDisplayed = -1;
             return;
         }
@@ -135,12 +136,12 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         ((TextView)result_template.findViewById(R.id.d_lost_result)).setText(scan.getProportionOfLost() + " %");
 
         ((LinearLayout)v.getParent()).addView(result_template);
-        v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.rounded_corner_blue_border));
+        v.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.rounded_corner_blue_border));
     }
 
     public void removeDisplayedData(View v){
         ((LinearLayout)v.getParent()).removeViewAt(1);
-        v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.rounded_corner_medium));
+        v.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.rounded_corner_medium));
     }
 
     public void newRoomPopup(View v){
@@ -155,11 +156,11 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         try {
             name = ((TextView) popup.findViewById(R.id.d_new_room_name)).getText().toString();
             floor = Integer.parseInt(((TextView) popup.findViewById(R.id.d_new_room_floor)).getText().toString());//Verifier que l'étage correspond
-            if(name == null || name == ""){
+            if(Objects.equals(name, "")){
                 throw new Exception();
             }
         } catch (Exception e){
-            Toast.makeText(getActivity(),"Enter valid information before",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Enter valid information first.",Toast.LENGTH_LONG).show();
             cancelNewRoom(v);
             return;
         }
@@ -168,7 +169,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         Room r = new Room(name, floor, p.get(0));
         dm.insertRoom(r);
         menuAdapter.notifyDataSetChanged();
-        Toast.makeText(getActivity(),"New room created",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),"New room created.",Toast.LENGTH_LONG).show();
         cancelNewRoom(v);
     }
 
@@ -183,7 +184,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         Room r = dm.readRoom(roomID);
         dm.deleteRoom(r);
         menuAdapter.notifyDataSetChanged();
-        Toast.makeText(getActivity(),"Room deleted",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),"Room deleted.",Toast.LENGTH_LONG).show();
     }
 
     String placeName;
@@ -222,10 +223,10 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
             dm.insertPlace(p);
             menuAdapter.updateList(dm.readPlace());
             menuAdapter.notifyDataSetChanged();
-            Toast.makeText(getActivity(),"New place created",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"New place created.",Toast.LENGTH_LONG).show();
             cancelNewPlace(v);
         } else {
-            Toast.makeText(getActivity(),"Please enter a place name",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please enter a place name.",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -239,7 +240,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         dm.deletePlace(dm.readPlace(placeName).get(0));
         menuAdapter.updateList(dm.readPlace());
         menuAdapter.notifyDataSetChanged();
-        Toast.makeText(getActivity(),"Place deleted",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),"Place deleted.",Toast.LENGTH_LONG).show();
     }
 
     public void startGlobalScan(View v){
@@ -247,7 +248,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         Place p = dm.readPlace(placeName).get(0);
         ArrayList<Room> rooms = dm.readRoom(p);
         if(rooms.size() == 0){
-            Toast.makeText(getActivity(), "You must add rooms before starting a test", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "You must add rooms before starting a test.", Toast.LENGTH_LONG).show();
         }
         else {
             Intent it = new Intent(getActivity(), GlobalScanActivity.class);
@@ -257,7 +258,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     }
 
     private void closeKeyboard(){
-        View view = getActivity().getCurrentFocus();
+        View view = Objects.requireNonNull(getActivity()).getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);

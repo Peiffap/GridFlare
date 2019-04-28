@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Launch a test");
+        setTitle("Launch a test.");
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         wifi = new WifiScanner(getApplicationContext());
         if(!wifi.isWifiEnabled())
@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Wi-Fi disabled");
-        alertDialog.setMessage("Do you want turn on your Wi-Fi ?");
+        alertDialog.setTitle("Wi-Fi disabled.");
+        alertDialog.setMessage("Do you want turn on your Wi-Fi?");
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),"Sorry this app cannot work without Wifi",Toast.LENGTH_LONG).show();
+                makeText(getBaseContext(),"Sorry, this app cannot work without Wi-Fi.",Toast.LENGTH_LONG).show();
             }
         });
 

@@ -1,5 +1,6 @@
 package epl.students.programmers.gridflare;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -86,10 +87,11 @@ public class GlobalScanActivity extends AppCompatActivity {
         launch_test(null);
     }
 
+    @SuppressLint("SetTextI18n")
     public void launch_test(View v){
         workInProgress.setText("Work in progress...");
         workInProgress.setVisibility(View.VISIBLE);
-        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are! ", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are!", Toast.LENGTH_LONG).show();
 
         if(!wifi.isWifiEnabled()) {//Check one more time
             openDialog();
@@ -116,9 +118,9 @@ public class GlobalScanActivity extends AppCompatActivity {
                             refresh.setEnabled(true);
                             save.setEnabled(true);
                             nextButton.setEnabled(true);
-                            workInProgress.setText("The connection failed. Try later");
+                            workInProgress.setText("The connection failed. Try again later.");
 
-                            Toast.makeText(getBaseContext(), "Error. Check your connection, and try later.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "Error. Check your connection, and try again later.", Toast.LENGTH_LONG).show();
                         }
                         else {
                             ping.setText(wifi.getPing() + " ms");
@@ -140,12 +142,12 @@ public class GlobalScanActivity extends AppCompatActivity {
 
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Wi-Fi disabled");
+        alertDialog.setTitle("Wi-Fi disabled.");
         alertDialog.setMessage("Do you want turn on your Wi-Fi?");
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wi-Fi",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Sorry, this app cannot work without Wi-Fi.",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -163,7 +165,7 @@ public class GlobalScanActivity extends AppCompatActivity {
         Room r = rooms.get(currentRoom);//Prendre le cas si y en a plusieurs aussi peut etre
         Scan_information info = new Scan_information(r, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
         dm.insertScan(info);
-        Toast.makeText(getBaseContext(), "Scan saved : " + r.getRoom_name(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Scan saved: " + r.getRoom_name() + ".", Toast.LENGTH_LONG).show();
     }
 
     public void nextRoom(View v){
@@ -171,7 +173,7 @@ public class GlobalScanActivity extends AppCompatActivity {
         currentRoom++;
         if(currentRoom == rooms.size()){//Finish scan
             dm.close();
-            Toast.makeText(getBaseContext(), "Global scan finished", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Global scan finished.", Toast.LENGTH_LONG).show();
             this.finish();
         } else {
             setCurrentRoom();

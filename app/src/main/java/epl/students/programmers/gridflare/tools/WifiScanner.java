@@ -25,7 +25,7 @@ public class WifiScanner {
     private WifiManager wifiManager;
 
     public WifiScanner(Context context){
-        wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         averagePing = 0;
         strength = 0;
         proportionOfLost = 0f;
@@ -148,9 +148,9 @@ public class WifiScanner {
             co.disconnect();
 
         } catch (MalformedURLException eu){
-            Log.w("Upload file", "Bad url : " + eu.getMessage());
+            Log.w("Upload file", "Bad url: " + eu.getMessage());
         } catch (IOException ioe){
-            Log.w("Upload file", "IOException with the connection : " + ioe.getMessage());
+            Log.w("Upload file", "IOException with the connection: " + ioe.getMessage());
         } finally {
             if(co != null)
                 co.disconnect();
