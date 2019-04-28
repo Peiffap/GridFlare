@@ -83,10 +83,13 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     public void launch_test(View v){
         closeKeyboard();
         Toast.makeText(getActivity(), "Test in progress. Stay where you are! ", Toast.LENGTH_LONG).show();
+        workInProgress.setText("Work in progress...");
         workInProgress.setVisibility(View.VISIBLE);
 
-        if(!wifi.isWifiEnabled())//Check one more time
+        if(!wifi.isWifiEnabled()) {//Check one more time
             openDialog();
+            wifiName.setText(wifi.getWifiName());
+        }
 
         refresh.setEnabled(false);
         save.setEnabled(false);
@@ -97,17 +100,30 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
                 ping.post(new Runnable() {
                     @Override
                     public void run() {
+                        wifiName.setText(wifi.getWifiName());
                         if (wifi.getPing() == (float)-1 || wifi.getProportionOfLost() == (float)-1 || wifi.getStrength() == (float)-1){
+
+                            ping.setText("_");
+                            lost.setText("_");
+                            strength.setText(wifi.getStrength() + " %");
+                            dl.setText("_");
+
+                            refresh.setEnabled(true);
+                            save.setEnabled(true);
+                            workInProgress.setText("The connection failed. Try later");
+
                             Toast.makeText(getActivity(), "Error. Check your connection, and try later.", Toast.LENGTH_LONG).show();
                         }
-                        ping.setText(wifi.getPing() +" ms");
-                        lost.setText(wifi.getProportionOfLost()+" %");
-                        strength.setText(wifi.getStrength()+" %");
-                        dl.setText(wifi.getDl()+"");
+                        else {
+                            ping.setText(wifi.getPing() + " ms");
+                            lost.setText(wifi.getProportionOfLost() + " %");
+                            strength.setText(wifi.getStrength() + " %");
+                            dl.setText(wifi.getDl() + " ms");
 
-                        refresh.setEnabled(true);
-                        save.setEnabled(true);
-                        workInProgress.setVisibility(View.GONE);
+                            refresh.setEnabled(true);
+                            save.setEnabled(true);
+                            workInProgress.setVisibility(View.GONE);
+                        }
                     }
                 });
             }
