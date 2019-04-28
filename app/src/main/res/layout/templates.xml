@@ -191,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
-            android:layout_marginStart="90dp"
+            android:layout_marginStart="60dp"
             tools:text="Ping"/>
 
         <TextView
@@ -209,8 +209,8 @@
             android:textSize="28sp"
             android:textColor="@color/white"
             android:lineSpacingExtra="4sp"
-            android:layout_marginStart="90dp"
-            tools:text="12.94 ms"/>
+            android:layout_marginStart="60dp"
+            tools:text="21 ms"/>
 
         <TextView
             style="@style/TextStyle4"
@@ -218,15 +218,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
             android:layout_marginStart="20dp"
-            tools:text="Lost Packets"/>
+            tools:text="@string/lost2"/>
 
         <TextView
             style="@style/TextStyle4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
-            android:layout_marginStart="90dp"
-            tools:text="Time for up"/>
+            android:layout_marginStart="60dp"
+            tools:text="@string/time"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -243,8 +243,8 @@
             android:textSize="28sp"
             android:textColor="@color/white"
             android:lineSpacingExtra="4sp"
-            android:layout_marginStart="90dp"
-            tools:text="31.05ms"/>
+            android:layout_marginStart="60dp"
+            tools:text="3.0 Mbps"/>
     </GridLayout>
 
     <!-- New Room -->
