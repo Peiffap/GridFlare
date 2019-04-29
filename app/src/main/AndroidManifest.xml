@@ -19,6 +19,7 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".GlobalScanActivity"/>
         <activity android:name=".HomeActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="GridFlare">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

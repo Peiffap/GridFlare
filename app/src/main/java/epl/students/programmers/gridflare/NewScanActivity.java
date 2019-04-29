@@ -178,6 +178,13 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     public void saveData(View v){
         //Asserts
         closeKeyboard();
+
+        //Check if valid scan
+        if(ping.getText().toString().equals("_")){
+            Toast.makeText(getActivity(), "Can't save an invalid scan.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         DatabaseManager dm = new DatabaseManager(getActivity());
         ArrayList<Room> rooms = dm.readRoom(autoComplete.getText().toString());
         if(rooms.size() == 0)
