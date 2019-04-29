@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -159,6 +160,12 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         try {
             name = ((TextView) popup.findViewById(R.id.d_new_room_name)).getText().toString();
             floor = Integer.parseInt(((TextView) popup.findViewById(R.id.d_new_room_floor)).getText().toString());//Verifier que l'étage correspond
+            ArrayList<Room> roomsWithSamePlaces = dm.readRoom(pl);
+            for(Room ro: roomsWithSamePlaces){
+                if(ro.getRoom_name().equals(name)){
+                    throw new Exception();
+                }
+            }
             if(Objects.equals(name, "") || floor > pl.getNumber_of_floor()){
                 throw new Exception();
             }
@@ -183,6 +190,10 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     public void deleteRoom(View v){
         int roomID = (int)((View)v.getParent().getParent()).getTag();
         Room r = dm.readRoom(roomID);
+        ArrayList<Scan_information> scans = dm.readScan(r);
+        for(Scan_information s: scans){
+            dm.deleteScan(s);
+        }
         dm.deleteRoom(r);
         menuAdapter.notifyDataSetChanged();
         Toast.makeText(getActivity(),"Room deleted.",Toast.LENGTH_LONG).show();
@@ -245,7 +256,17 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
 
     public void deletePlace(View v){
         placeName = ((TextView)((View)v.getParent()).findViewById(R.id.d_place_name)).getText().toString();
-        dm.deletePlace(dm.readPlace(placeName).get(0));
+
+        Place thePlace = dm.readPlace(placeName).get(0);
+        ArrayList<Room> theRooms = dm.readRoom(thePlace);
+        for(Room room: theRooms) {
+            ArrayList<Scan_information> scans = dm.readScan(room);
+            for (Scan_information s : scans) {
+                dm.deleteScan(s);
+            }
+            dm.deleteRoom(room);
+        }
+        dm.deletePlace(thePlace);
         menuAdapter.updateList(dm.readPlace());
         menuAdapter.notifyDataSetChanged();
         Toast.makeText(getActivity(),"Place deleted.",Toast.LENGTH_LONG).show();

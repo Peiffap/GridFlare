@@ -109,14 +109,14 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public ArrayList<Scan_information> readScan(String room) {
+    public ArrayList<Scan_information> readScan(Room room) {
         try {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
             Dao<Room, Integer> dao_room = getDao(Room.class);
 
             QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
             QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
-            roomQueryBuilder.where().eq("room_name",room);
+            roomQueryBuilder.where().eq("idRoom",room.getRoomID());
 
 
             List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
