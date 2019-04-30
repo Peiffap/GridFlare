@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/d_new_room_template"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/d_new_room_template"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:background="@drawable/rounded_corner_blue"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:background="@drawable/rounded_corner_blue">
 
-    <EditText
-        android:id="@+id/d_new_room_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_centerVertical="true"
-        android:hint="Room name"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"
-        android:inputType="textCapSentences"
-        android:textColorHint="@color/cold_grey"/>
+    <RelativeLayout
+        android:layout_width="190sp"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/d_new_room_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="30sp"
+            android:hint="Room name"
+            android:inputType="textCapSentences"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/cold_grey"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+
 
     <EditText
         android:id="@+id/d_new_room_floor"
@@ -24,38 +31,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/r_7"
-        android:textSize="20sp"
         android:layout_marginEnd="37dp"
+        android:maxWidth="30sp"
+        android:layout_toStartOf="@+id/r_7"
         android:hint="0"
-        android:textColorHint="@color/cold_grey"
+        android:inputType="number"
         android:textColor="#FFFFFF"
-        android:inputType="number"/>
+        android:textColorHint="@color/cold_grey"
+        android:textSize="20sp" />
 
     <ImageButton
         android:id="@+id/validate_new_room_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:background="#00FFFFFF"
+        android:onClick="onClickSwitch"
         android:scaleX="2"
         android:scaleY="2"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/validate"
-        android:background="#00FFFFFF"
-        android:onClick="onClickSwitch"/>
+        android:src="@drawable/validate" />
 
     <ImageButton
         android:id="@+id/cancel_new_room_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="30dp"
+        android:layout_toStartOf="@+id/validate_new_room_btn"
+        android:background="#00FFFFFF"
+        android:onClick="onClickSwitch"
         android:scaleX="2"
         android:scaleY="2"
-        android:layout_toStartOf="@+id/validate_new_room_btn"
-        android:layout_marginEnd="30dp"
-        android:src="@drawable/cancel"
-        android:background="#00FFFFFF"
-        android:onClick="onClickSwitch"/>
+        android:src="@drawable/cancel" />
 
 </RelativeLayout>

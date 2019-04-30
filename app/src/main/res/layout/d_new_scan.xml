@@ -113,15 +113,17 @@
         <RelativeLayout
             android:id="@+id/r_5"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="310dp"
             android:layout_marginLeft="33dp"
             android:layout_marginRight="33dp"
             android:background="@drawable/rounded_corner_medium">
 
+            <HorizontalScrollView android:layout_width="170sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp">
             <AutoCompleteTextView
                 android:id="@+id/d_text_edit_new_scan"
-                android:layout_marginStart="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Tap to edit"
@@ -130,7 +132,9 @@
                 android:layout_centerVertical="true"
                 android:textSize="24sp"
                 android:inputType="text"
+                android:singleLine="false"
                 android:imeOptions="actionDone"/>
+            </HorizontalScrollView>
 
             <ImageButton
                 android:id="@+id/d_validate_new_scan"

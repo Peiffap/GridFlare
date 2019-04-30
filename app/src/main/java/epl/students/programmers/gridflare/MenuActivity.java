@@ -167,6 +167,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
                 }
             }
             if(Objects.equals(name, "") || floor > pl.getNumber_of_floor()){
+                System.out.println("AAAAZJAJJAZJJZAJZAZAJZJZAJZJAJA " + floor + " " + pl.getNumber_of_floor());
                 throw new Exception();
             }
         } catch (Exception e){
@@ -233,7 +234,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         if (!Objects.equals(placeName, "")){
             ArrayList<Place> samePlaces = dm.readPlace(placeName);
             if(samePlaces.size() == 0) { // No duplicate
-                Place p = new Place(placeName, 1);
+                Place p = new Place(placeName, 1000000000);
                 dm.insertPlace(p);
                 menuAdapter.updateList(dm.readPlace());
                 menuAdapter.notifyDataSetChanged();

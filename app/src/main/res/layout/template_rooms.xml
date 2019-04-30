@@ -12,25 +12,34 @@
     android:background="@drawable/rounded_corner_medium"
     android:onClick="onClickSwitch">
 
+    <HorizontalScrollView
+        android:layout_width="180sp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/d_room_floor_scroll"
+        android:layout_marginStart="20sp">
     <TextView
         android:id="@+id/d_room_name"
         style="@style/TextStyle3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/d_room_floor"
-        android:layout_marginStart="30dp"
-        android:layout_centerVertical="true"
         android:text="SleepingRoom"/>
+    </HorizontalScrollView>
 
+    <HorizontalScrollView
+        android:layout_width="40sp"
+        android:id="@+id/d_room_floor_scroll"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp">
     <TextView
         android:id="@+id/d_room_floor"
         style="@style/TextStyle3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="12dp"
         android:text="0"/>
+    </HorizontalScrollView>
 
     <ImageButton
         android:id="@+id/delete_room_btn"

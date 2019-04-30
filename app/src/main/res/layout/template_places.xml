@@ -14,6 +14,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <HorizontalScrollView android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true">
         <TextView
             android:id="@+id/d_place_name"
             style="@style/TextStyle2"
@@ -21,8 +26,8 @@
             android:layout_height="wrap_content"
             tools:text="House"
             android:textSize="22sp"
-            android:layout_centerVertical="true"
             android:onClick="onClickSwitch"/>
+        </HorizontalScrollView>
 
         <ImageButton
             android:id="@+id/share_btn"
