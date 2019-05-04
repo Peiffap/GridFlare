@@ -120,7 +120,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         } else if(currentDisplayed != -1){
             removeDisplayedData(currentDisplayedView);
         }
-        Scan_information scan = dm.readLastScan(roomID);//Verifier aussi qu'il y ait quelque chose a display
+        Scan_information scan = dm.readLastScan(roomID);
 
         if(scan == null){
             Toast.makeText(getActivity(),"Scan this room before doing this.",Toast.LENGTH_LONG).show();
