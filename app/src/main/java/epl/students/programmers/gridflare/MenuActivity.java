@@ -41,6 +41,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     RelativeLayout container_view;
     TextView emailAddress;
     TextView newPlaceName;
+    TextView newPlaceFloors;
 
     DatabaseManager dm;
 
@@ -63,6 +64,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         container_view = v.findViewById(R.id.d_menu_container);
         emailAddress = v.findViewById(R.id.d_email_address);
         newPlaceName = v.findViewById(R.id.d_new_place_name);
+        newPlaceFloors = v.findViewById(R.id.d_new_place_floors);
 
         setupButtons(v);
 
@@ -231,10 +233,11 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
 
     public void validateNewPlace(View v){
         final String placeName = newPlaceName.getText().toString();
+        final int placeFloors = Integer.parseInt((newPlaceFloors).getText().toString());
         if (!Objects.equals(placeName, "")){
             ArrayList<Place> samePlaces = dm.readPlace(placeName);
             if(samePlaces.size() == 0) { // No duplicate
-                Place p = new Place(placeName, 1000000000);
+                Place p = new Place(placeName, placeFloors);
                 dm.insertPlace(p);
                 menuAdapter.updateList(dm.readPlace());
                 menuAdapter.notifyDataSetChanged();
