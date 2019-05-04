@@ -177,17 +177,21 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public Scan_information readLastScan(String room){
+    public Scan_information readLastScan(Room room){
         try {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
             Dao<Room, Integer> dao_room = getDao(Room.class);
 
             QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
             QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
-            roomQueryBuilder.where().eq("room_name",room);
+            roomQueryBuilder.where().eq("idRoom",room.getRoomID());
 
 
             List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
+            if(test.size() == 0){
+                // No scan for this room, can happen
+                return null;
+            }
             Scan_information max = test.get(0);
             for(Scan_information scan: test){
                 if(scan.getId_Scan_information() > max.getId_Scan_information())
@@ -258,6 +262,25 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
 
             roomQueryBuilder.where().eq("floor",floor).and().eq("room_name",room);
+
+            return (ArrayList<Room>) roomQueryBuilder.query();
+        } catch( Exception exception ) {
+            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            return null;
+        }
+    }
+
+    public ArrayList<Room> readRoom(String roomName, String placeName){
+        try {
+            Dao<Room, Integer> dao_room = getDao(Room.class);
+            QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
+            roomQueryBuilder.where().eq("room_name", roomName);
+
+            Dao<Place, Integer> dao_place = getDao(Place.class);
+            QueryBuilder<Place, Integer> placeQueryBuilder = dao_place.queryBuilder();
+            placeQueryBuilder.where().eq("place_name", placeName);
+
+            roomQueryBuilder.join(placeQueryBuilder);
 
             return (ArrayList<Room>) roomQueryBuilder.query();
         } catch( Exception exception ) {

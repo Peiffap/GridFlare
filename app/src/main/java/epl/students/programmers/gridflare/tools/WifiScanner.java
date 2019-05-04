@@ -64,7 +64,7 @@ public class WifiScanner {
 
     public void update(){
         pingRequest("8.8.8.8", 5);//We could ping on google but the DNS is more stable
-        dl = uploadTime("http://ptsv2.com", 1_000_000);//Send 1_000_000 on a server and test the speed 0.01 Mb
+        dl = uploadTime("http://ptsv2.com", 10000000);//Send 10 000 000 on a server and test the speed 0.01 Mb
     }
 
     private void pingRequest(String url, int n){
@@ -152,10 +152,10 @@ public class WifiScanner {
         } catch (IOException ioe){
             Log.w("Upload file", "IOException with the connection: " + ioe.getMessage());
         } finally {
-            if(co != null)
+            if (co != null)
                 co.disconnect();
         }
-        double nbrMbits = 8 * nbrOfBytes / 1_000_000;
+        double nbrMbits = 8 * (nbrOfBytes / 1000000.0);
         return (long) (1000.0 * nbrMbits / (end - start));
     }
 

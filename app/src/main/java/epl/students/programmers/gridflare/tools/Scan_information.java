@@ -23,8 +23,8 @@ public class Scan_information implements Parcelable {
     private float proportionOfLost;
     @DatabaseField(canBeNull=false)
     private float dl;
-    @DatabaseField(canBeNull=true, foreign = true, foreignColumnName = "idData", foreignAutoCreate = true)
-    private Data data;
+    @DatabaseField(canBeNull = false)
+    private Date date;
     @DatabaseField(canBeNull = true, foreign = true, foreignColumnName = "idGlobalScan", foreignAutoCreate = true)
     private GlobalScan globalScan;
 
@@ -33,13 +33,13 @@ public class Scan_information implements Parcelable {
     //For ORM
     public Scan_information(){}
 
-    public Scan_information(Room room, int strength, float ping, float proportionOfLost, float dl, Data data) {
+    public Scan_information(Room room, int strength, float ping, float proportionOfLost, float dl) {
         this.room_idRoom = room;
         this.strength = strength;
         this.ping = ping;
         this.proportionOfLost = proportionOfLost;
         this.dl = dl;
-        this.data = data;
+        this.date = new Date();
         this.numberOfScans = 999;
     }
 
@@ -49,7 +49,7 @@ public class Scan_information implements Parcelable {
         this.ping = ping;
         this.proportionOfLost = proportionOfLost;
         this.dl = dl;
-        this.data = data;
+        this.date = new Date();
         this.numberOfScans = 999;
         this.globalScan = scan;
     }
@@ -62,7 +62,7 @@ public class Scan_information implements Parcelable {
         proportionOfLost = in.readFloat();
         dl = in.readFloat();
         numberOfScans = in.readInt();
-        data = in.readParcelable(Data.class.getClassLoader());
+        date = in.readParcelable(Date.class.getClassLoader());
     }
     @Override
     public void writeToParcel(Parcel parcel, int i) {
@@ -73,7 +73,6 @@ public class Scan_information implements Parcelable {
         parcel.writeFloat(proportionOfLost);
         parcel.writeFloat(dl);
         parcel.writeInt(numberOfScans);
-        parcel.writeParcelable(data,i);
     }
 
     public static final Creator<Scan_information> CREATOR = new Creator<Scan_information>() {
@@ -112,8 +111,8 @@ public class Scan_information implements Parcelable {
         return dl;
     }
 
-    public Data getData(){
-        return data;
+    public String getDate(){
+        return date.toString();
     }
 
     public int getNumberOfScans(){

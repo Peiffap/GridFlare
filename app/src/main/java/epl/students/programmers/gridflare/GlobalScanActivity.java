@@ -157,8 +157,8 @@ public class GlobalScanActivity extends AppCompatActivity {
     }
 
     public void saveData(View v) {
-        Room r = rooms.get(currentRoom);//Prendre le cas si y en a plusieurs aussi peut etre
-        Scan_information info = new Scan_information(r, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
+        Room r = rooms.get(currentRoom);// Is it possible to get more than one ?
+        Scan_information info = new Scan_information(r, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl());
         dm.insertScan(info);
         Toast.makeText(getBaseContext(), "Scan saved: " + r.getRoom_name() + ".", Toast.LENGTH_LONG).show();
     }
