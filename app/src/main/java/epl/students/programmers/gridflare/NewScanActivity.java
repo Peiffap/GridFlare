@@ -133,11 +133,11 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     private void setupAutoCompleteTextView(){
         DatabaseManager dm = new DatabaseManager(getActivity());
         ArrayList<Room> rooms = dm.readRoom();
-        String[] names = new String[rooms.size()];
+        Room[] names = new Room[rooms.size()];
         for(int i = 0; i < rooms.size(); i++){
-            names[i] = rooms.get(i).getRoom_name();
+            names[i] = rooms.get(i);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()), android.R.layout.select_dialog_item, names);
+        ArrayAdapter<Room> adapter = new ArrayAdapter<Room>(Objects.requireNonNull(getActivity()), android.R.layout.select_dialog_item, names);
         autoComplete.setThreshold(1);
         autoComplete.setAdapter(adapter);
         dm.close();
@@ -186,12 +186,18 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         }
 
         DatabaseManager dm = new DatabaseManager(getActivity());
-        ArrayList<Room> rooms = dm.readRoom(autoComplete.getText().toString());
+        String theRoomTotal = autoComplete.getText().toString();
+        // We assume that each room has a place attached to it. Not a very clean way
+        String[] splited = theRoomTotal.split("\n\\(");
+        String roomName = splited[0];
+        String placeName = splited[1].substring(0, splited[1].length()-1);
+
+        ArrayList<Room> rooms = dm.readRoom(roomName, placeName);
         if(rooms.size() == 0)
             Toast.makeText(getActivity(),"This room does not exist.",Toast.LENGTH_LONG).show();
         else {
-            Room r = rooms.get(0);//Prendre le cas si y en a plusieurs aussi peut etre
-            Scan_information info = new Scan_information(r, wifi.getStrength(), (int) wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
+            Room r = rooms.get(0);// Should be the only one
+            Scan_information info = new Scan_information(r, wifi.getStrength(), (int) wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl());
             dm.insertScan(info);
             dm.close();
             Toast.makeText(getActivity(),"Scan saved.",Toast.LENGTH_LONG).show();

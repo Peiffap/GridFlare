@@ -87,14 +87,14 @@ public class EmailBot extends javax.mail.Authenticator {
         for(Room room: rooms){
             Scan_information s = db.readLastScan(room);//Pas sur du room name
             if(s != null) {
-                message.append(String.format(Locale.getDefault(), "<li>%s\n" +
+                message.append(String.format(Locale.getDefault(), "<li>%s (scan from %s)\n" +
                         "<ol>\n" +
                         "<li>Strength : %d %%</li>\n" +
                         "<li>Ping : %.2f ms</li>\n" +
                         "<li>Proportion of lost : %.2f %%</li>\n" +
                         "<li>Upload rate : %.2f Mb/s</li>\n" +
                         "</ol>\n" +
-                        "</li>", room.getRoom_name(), s.getStrength(), s.getPing(), s.getProportionOfLost(), s.getDl()));
+                        "</li>", room.getRoom_name(), s.getDate(), s.getStrength(), s.getPing(), s.getProportionOfLost(), s.getDl()));
             } else {
                 message.append(String.format(Locale.getDefault(), "<li>%s\n No scan for this room </li>", room.getRoom_name()));
                 Log.e("Email Bot", "Problem solved.");
