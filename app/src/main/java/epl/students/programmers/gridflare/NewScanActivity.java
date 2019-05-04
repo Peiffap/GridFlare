@@ -1,16 +1,14 @@
 package epl.students.programmers.gridflare;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -55,9 +53,9 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.d_new_scan, container, false);
-        wifi = new WifiScanner(getActivity());
+        wifi = new WifiScanner(Objects.requireNonNull(getActivity()));
         ping = v.findViewById(R.id.d_ping_new_scan);
         strength = v.findViewById(R.id.d_strength_new_scan);
         lost = v.findViewById(R.id.d_lost_new_scan);
@@ -80,13 +78,17 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         return v;
     }
 
+    @SuppressLint("SetTextI18n")
     public void launch_test(View v){
         closeKeyboard();
-        Toast.makeText(getActivity(), "Test in progress. Stay where you are! ", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Test in progress. Stay where you are!", Toast.LENGTH_LONG).show();
+        workInProgress.setText("Scan in progress...");
         workInProgress.setVisibility(View.VISIBLE);
 
-        if(!wifi.isWifiEnabled())//Check one more time
+        if(wifi.isWifiDisabled()) {//Check one more time
             openDialog();
+            wifiName.setText(wifi.getWifiName());
+        }
 
         refresh.setEnabled(false);
         save.setEnabled(false);
@@ -95,19 +97,33 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
             public void run() {
                 wifi.update();
                 ping.post(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
+                        wifiName.setText(wifi.getWifiName());
                         if (wifi.getPing() == (float)-1 || wifi.getProportionOfLost() == (float)-1 || wifi.getStrength() == (float)-1){
-                            Toast.makeText(getActivity(), "Error. Check your connection, and try later.", Toast.LENGTH_LONG).show();
-                        }
-                        ping.setText(wifi.getPing() +" ms");
-                        lost.setText(wifi.getProportionOfLost()+" %");
-                        strength.setText(wifi.getStrength()+" %");
-                        dl.setText(wifi.getDl()+"");
 
-                        refresh.setEnabled(true);
-                        save.setEnabled(true);
-                        workInProgress.setVisibility(View.GONE);
+                            ping.setText("_");
+                            lost.setText("_");
+                            strength.setText(wifi.getStrength() + " %");
+                            dl.setText("_");
+
+                            refresh.setEnabled(true);
+                            save.setEnabled(true);
+                            workInProgress.setText("The connection failed. Try again later.");
+
+                            Toast.makeText(getActivity(), "Error. Check your connection, and try again later.", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            ping.setText(Integer.toString((int) wifi.getPing()) + " ms");
+                            lost.setText(wifi.getProportionOfLost() + " %");
+                            strength.setText(wifi.getStrength() + " %");
+                            dl.setText(wifi.getDl() + " Mbps");
+
+                            refresh.setEnabled(true);
+                            save.setEnabled(true);
+                            workInProgress.setVisibility(View.GONE);
+                        }
                     }
                 });
             }
@@ -121,7 +137,7 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         for(int i = 0; i < rooms.size(); i++){
             names[i] = rooms.get(i).getRoom_name();
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, names);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()), android.R.layout.select_dialog_item, names);
         autoComplete.setThreshold(1);
         autoComplete.setAdapter(adapter);
         dm.close();
@@ -140,12 +156,12 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
 
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("Wi-Fi disabled");
+        alertDialog.setTitle("Wi-Fi disabled.");
         alertDialog.setMessage("Do you want turn on your Wi-Fi?");
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(),"Sorry this app cannot work without Wi-Fi",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Sorry, this app cannot work without Wi-Fi.",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -162,21 +178,28 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     public void saveData(View v){
         //Asserts
         closeKeyboard();
+
+        //Check if valid scan
+        if(ping.getText().toString().equals("_")){
+            Toast.makeText(getActivity(), "Can't save an invalid scan.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         DatabaseManager dm = new DatabaseManager(getActivity());
         ArrayList<Room> rooms = dm.readRoom(autoComplete.getText().toString());
         if(rooms.size() == 0)
-            Toast.makeText(getActivity(),"This room does not exists",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"This room does not exist.",Toast.LENGTH_LONG).show();
         else {
             Room r = rooms.get(0);//Prendre le cas si y en a plusieurs aussi peut etre
-            Scan_information info = new Scan_information(r, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
+            Scan_information info = new Scan_information(r, wifi.getStrength(), (int) wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
             dm.insertScan(info);
             dm.close();
-            Toast.makeText(getActivity(),"Scan saved",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Scan saved.",Toast.LENGTH_LONG).show();
         }
     }
 
     private void closeKeyboard(){
-        View view = getActivity().getCurrentFocus();
+        View view = Objects.requireNonNull(getActivity()).getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);

@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:text="Strength"/>
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="90dp"
+        android:layout_marginStart="60dp"
         android:text="Ping"/>
 
     <TextView
@@ -33,7 +33,7 @@
         android:textSize="28sp"
         android:textColor="@color/white"
         android:lineSpacingExtra="4sp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:text="34 %"/>
 
     <TextView
@@ -43,24 +43,24 @@
         android:textSize="28sp"
         android:textColor="@color/white"
         android:lineSpacingExtra="4sp"
-        android:layout_marginLeft="90dp"
-        android:text="12.94 ms"/>
+        android:layout_marginStart="60dp"
+        android:text="21 ms"/>
 
     <TextView
         style="@style/TextStyle4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="20dp"
-        android:text="Lost Packets"/>
+        android:layout_marginStart="20dp"
+        android:text="@string/lost2"/>
 
     <TextView
         style="@style/TextStyle4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="90dp"
-        android:text="Time for up"/>
+        android:layout_marginStart="60dp"
+        android:text="@string/time"/>
 
     <TextView
         android:id="@+id/d_lost_result"
@@ -69,7 +69,7 @@
         android:textSize="28sp"
         android:textColor="@color/white"
         android:lineSpacingExtra="4sp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginBottom="25dp"
         android:text="0.0 %"/>
 
@@ -80,7 +80,7 @@
         android:textSize="28sp"
         android:textColor="@color/white"
         android:lineSpacingExtra="4sp"
-        android:layout_marginLeft="90dp"
+        android:layout_marginStart="60dp"
         android:layout_marginBottom="25dp"
-        android:text="31.05ms"/>
+        android:text="3.1 Mbps"/>
 </GridLayout>

@@ -109,14 +109,14 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public ArrayList<Scan_information> readScan(String room) {
+    public ArrayList<Scan_information> readScan(Room room) {
         try {
             Dao<Scan_information, Integer> dao = getDao( Scan_information.class );
             Dao<Room, Integer> dao_room = getDao(Room.class);
 
             QueryBuilder<Scan_information,Integer> scan_informationQueryBuilder = dao.queryBuilder();
             QueryBuilder<Room,Integer> roomQueryBuilder = dao_room.queryBuilder();
-            roomQueryBuilder.where().eq("room_name",room);
+            roomQueryBuilder.where().eq("idRoom",room.getRoomID());
 
 
             List<Scan_information> test = scan_informationQueryBuilder.join(roomQueryBuilder).query();
@@ -420,7 +420,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
             return (ArrayList<GlobalScan>) globalScanQueryBuilder.join(placeQueryBuilder).query();
         } catch( Exception exception ) {
-            Log.e( "DATABASE", "Can't insert data into Database", exception );
+            Log.e( "DATABASE", "Can't insert data into Database.", exception );
             return null;
         }
     }
@@ -431,7 +431,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
             dao_room.delete(room);
         } catch( Exception exception) {
-            Log.e("DATABASE", "Can't delete from database", exception);
+            Log.e("DATABASE", "Can't delete from database.", exception);
         }
     }
 
@@ -441,7 +441,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
             dao_scan.delete(si);
         } catch( Exception exception) {
-            Log.e("DATABASE", "Can't delete from database", exception);
+            Log.e("DATABASE", "Can't delete from database.", exception);
         }
     }
 
@@ -451,7 +451,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
             dao_scan.delete(place);
         } catch( Exception exception) {
-            Log.e("DATABASE", "Can't delete from database", exception);
+            Log.e("DATABASE", "Can't delete from database.", exception);
         }
     }
 
@@ -461,7 +461,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
 
             dao_scan.delete(globalScan);
         } catch( Exception exception) {
-            Log.e("DATABASE", "Can't delete from database", exception);
+            Log.e("DATABASE", "Can't delete from database.", exception);
         }
     }
 
@@ -470,7 +470,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Dao<Room, Integer> dao = getDao(Room.class);
             dao.update(room);
         } catch( Exception exception) {
-            Log.e("DATABASE", "Can't update the database", exception);
+            Log.e("DATABASE", "Can't update the database.", exception);
         }
     }
 
@@ -479,7 +479,7 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Dao<Place, Integer> dao = getDao(Place.class);
             dao.update(place);
         } catch( Exception exception) {
-            Log.e("DATABASE", "Can't delete the database", exception);
+            Log.e("DATABASE", "Can't delete the database.", exception);
         }
     }
 }

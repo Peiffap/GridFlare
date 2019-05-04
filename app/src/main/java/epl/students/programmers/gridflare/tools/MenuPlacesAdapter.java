@@ -80,15 +80,7 @@ public class MenuPlacesAdapter extends RecyclerView.Adapter<MenuPlacesAdapter.Lo
         return places.size();
     }
 
-    public void newPlaceAdded(){
-        this.notifyItemInserted(places.size() - 1);
-    }
-
-    public void roomUpdate(Place p){
-        this.notifyItemChanged(places.indexOf(p));
-    }
-
-    public void placeRemoved(int p){
-        this.notifyItemRemoved(p);
+    public void updateList(ArrayList<Place> places){
+        this.places = places;
     }
 }

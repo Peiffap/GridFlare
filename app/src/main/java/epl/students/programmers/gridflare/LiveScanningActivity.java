@@ -1,5 +1,7 @@
 package epl.students.programmers.gridflare;
 
+import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -7,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 import epl.students.programmers.gridflare.tools.WifiScanner; //Sera utile pour le live scanning
 
@@ -22,11 +26,11 @@ public class LiveScanningActivity extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.d_live_scanning, container, false);
         stop = false;
         pourcent = v.findViewById(R.id.d_live_value);
-        wifi = new WifiScanner(getActivity());
+        wifi = new WifiScanner(Objects.requireNonNull(getActivity()));
         startLiveScan();
         return v;
     }
@@ -39,6 +43,7 @@ public class LiveScanningActivity extends Fragment {
                 while(!stop){
                     final int rssi = wifi.update_live_scan();
                     pourcent.post(new Runnable() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void run() {
                             pourcent.setText(wifi.get_live_numeric_scale() + "%");

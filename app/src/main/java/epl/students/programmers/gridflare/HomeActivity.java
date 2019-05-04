@@ -1,5 +1,7 @@
 package epl.students.programmers.gridflare;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,11 +13,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import epl.students.programmers.gridflare.tools.WifiScanner;
+
+import static android.widget.Toast.makeText;
+
 public class HomeActivity extends AppCompatActivity {
 
     ViewPager vp;
     BottomNavigationView navigationView;
     int oldItem;
+    WifiScanner wifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +30,15 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
         navigationView = findViewById(R.id.navigation_view);
         oldItem = 0;
+
+        wifi = new WifiScanner(getApplicationContext());
+
         configureVP();
     }
 
     private void configureVP(){
         vp = findViewById(R.id.view_pager);
+        vp.setOffscreenPageLimit(3);
         vp.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -81,7 +92,8 @@ public class HomeActivity extends AppCompatActivity {
                 page.shareButton(v);
                 break;
             case R.id.delete_place_btn:
-                //TODO
+                page = (MenuActivity)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + vp.getCurrentItem());
+                page.deletePlace(v);
                 break;
             case R.id.new_room_btn:
                 page = (MenuActivity)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + vp.getCurrentItem());

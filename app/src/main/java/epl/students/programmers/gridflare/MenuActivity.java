@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -53,7 +54,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.d_places, container, false);
 
         dm = new DatabaseManager(getActivity());
@@ -106,6 +107,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         v.findViewById(R.id.cancel_new_place_btn).setOnClickListener(this);
     }
 
+    @SuppressLint("SetTextI18n")
     public void displayRoomData(View v){
         int roomID = (int)((View)v.getParent()).getTag();//Verifier qu'il arrive bien
         if(currentDisplayed == roomID) {
@@ -119,7 +121,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         Scan_information scan = dm.readLastScan(roomID);//Verifier aussi qu'il y ait quelque chose a display
 
         if(scan == null){
-            Toast.makeText(getActivity(),"Scan this room before doing this",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Scan this room before doing this.",Toast.LENGTH_LONG).show();
             currentDisplayed = -1;
             return;
         }
@@ -131,16 +133,16 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
 
         ((TextView)result_template.findViewById(R.id.d_ping_result)).setText(scan.getPing() + " ms");
         ((TextView)result_template.findViewById(R.id.d_strength_result)).setText(scan.getStrength() + " %");
-        ((TextView)result_template.findViewById(R.id.d_dl_result)).setText(scan.getDl() + " ms");
+        ((TextView)result_template.findViewById(R.id.d_dl_result)).setText(scan.getDl() + " Mbps");
         ((TextView)result_template.findViewById(R.id.d_lost_result)).setText(scan.getProportionOfLost() + " %");
 
         ((LinearLayout)v.getParent()).addView(result_template);
-        v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.rounded_corner_blue_border));
+        v.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.rounded_corner_blue_border));
     }
 
     public void removeDisplayedData(View v){
         ((LinearLayout)v.getParent()).removeViewAt(1);
-        v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.rounded_corner_medium));
+        v.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.rounded_corner_medium));
     }
 
     public void newRoomPopup(View v){
@@ -152,23 +154,31 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     public void validateNewRoom(View v){
         View popup = (View) v.getParent();//Voir si pas mieux de cast plus
         String name; int floor;
+        String place_name = ((TextView)((LinearLayout)popup.getParent()).findViewById(R.id.d_place_name)).getText().toString();
+        ArrayList<Place> p = dm.readPlace(place_name);//Encore une fois je pars du principe que pas de doublons
+        Place pl = p.get(0);
         try {
             name = ((TextView) popup.findViewById(R.id.d_new_room_name)).getText().toString();
             floor = Integer.parseInt(((TextView) popup.findViewById(R.id.d_new_room_floor)).getText().toString());//Verifier que l'étage correspond
-            if(name == null || name == ""){
+            ArrayList<Room> roomsWithSamePlaces = dm.readRoom(pl);
+            for(Room ro: roomsWithSamePlaces){
+                if(ro.getRoom_name().equals(name)){
+                    throw new Exception();
+                }
+            }
+            if(Objects.equals(name, "") || floor > pl.getNumber_of_floor()){
+                System.out.println("AAAAZJAJJAZJJZAJZAZAJZJZAJZJAJA " + floor + " " + pl.getNumber_of_floor());
                 throw new Exception();
             }
         } catch (Exception e){
-            Toast.makeText(getActivity(),"Enter valid information before",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Enter valid information first.",Toast.LENGTH_LONG).show();
             cancelNewRoom(v);
             return;
         }
-        String place_name = ((TextView)((LinearLayout)popup.getParent()).findViewById(R.id.d_place_name)).getText().toString();
-        ArrayList<Place> p = dm.readPlace(place_name);//Encore une fois je pars du principe que pas de doublons
-        Room r = new Room(name, floor, p.get(0));
+        Room r = new Room(name, floor, pl);
         dm.insertRoom(r);
         menuAdapter.notifyDataSetChanged();
-        Toast.makeText(getActivity(),"New room created",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),"New room created.",Toast.LENGTH_LONG).show();
         cancelNewRoom(v);
     }
 
@@ -181,9 +191,13 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     public void deleteRoom(View v){
         int roomID = (int)((View)v.getParent().getParent()).getTag();
         Room r = dm.readRoom(roomID);
+        ArrayList<Scan_information> scans = dm.readScan(r);
+        for(Scan_information s: scans){
+            dm.deleteScan(s);
+        }
         dm.deleteRoom(r);
         menuAdapter.notifyDataSetChanged();
-        Toast.makeText(getActivity(),"Room deleted",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),"Room deleted.",Toast.LENGTH_LONG).show();
     }
 
     String placeName;
@@ -218,13 +232,21 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     public void validateNewPlace(View v){
         final String placeName = newPlaceName.getText().toString();
         if (!Objects.equals(placeName, "")){
-            Place p = new Place(placeName, 1);
-            dm.insertPlace(p);
-            menuAdapter.notifyDataSetChanged();
-            Toast.makeText(getActivity(),"New place created",Toast.LENGTH_LONG).show();
-            cancelNewPlace(v);
+            ArrayList<Place> samePlaces = dm.readPlace(placeName);
+            if(samePlaces.size() == 0) { // No duplicate
+                Place p = new Place(placeName, 1000000000);
+                dm.insertPlace(p);
+                menuAdapter.updateList(dm.readPlace());
+                menuAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "New place created.", Toast.LENGTH_LONG).show();
+                cancelNewPlace(v);
+            }
+            else { // Duplicate
+                Toast.makeText(getActivity(), "This place already exists", Toast.LENGTH_LONG).show();
+                cancelNewPlace(v);
+            }
         } else {
-            Toast.makeText(getActivity(),"Please enter a place name",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please enter a place name.",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -233,15 +255,40 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         ((ViewGroup) popupPlace.getParent()).removeView(popupPlace);
     }
 
+    public void deletePlace(View v){
+        placeName = ((TextView)((View)v.getParent()).findViewById(R.id.d_place_name)).getText().toString();
+
+        Place thePlace = dm.readPlace(placeName).get(0);
+        ArrayList<Room> theRooms = dm.readRoom(thePlace);
+        for(Room room: theRooms) {
+            ArrayList<Scan_information> scans = dm.readScan(room);
+            for (Scan_information s : scans) {
+                dm.deleteScan(s);
+            }
+            dm.deleteRoom(room);
+        }
+        dm.deletePlace(thePlace);
+        menuAdapter.updateList(dm.readPlace());
+        menuAdapter.notifyDataSetChanged();
+        Toast.makeText(getActivity(),"Place deleted.",Toast.LENGTH_LONG).show();
+    }
+
     public void startGlobalScan(View v){
         String placeName = ((TextView)v).getText().toString();
-        Intent it = new Intent(getActivity(), GlobalScanActivity.class);
-        it.putExtra("place", placeName);
-        startActivity(it);
+        Place p = dm.readPlace(placeName).get(0);
+        ArrayList<Room> rooms = dm.readRoom(p);
+        if(rooms.size() == 0){
+            Toast.makeText(getActivity(), "You must add rooms before starting a test.", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Intent it = new Intent(getActivity(), GlobalScanActivity.class);
+            it.putExtra("place", placeName);
+            startActivity(it);
+        }
     }
 
     private void closeKeyboard(){
-        View view = getActivity().getCurrentFocus();
+        View view = Objects.requireNonNull(getActivity()).getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);

@@ -8,12 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.GridLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import epl.students.programmers.gridflare.ORM.DatabaseManager;
-import epl.students.programmers.gridflare.tools.EmailBot;
-import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.WifiScanner;
 
 import static android.widget.Toast.makeText;
@@ -27,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Launch a test");
+        setTitle("Launch a test.");
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         wifi = new WifiScanner(getApplicationContext());
-        if(!wifi.isWifiEnabled())
+        if(wifi.isWifiDisabled())
             openDialog();
 
         setSingleEvent(gridLayout);
@@ -57,18 +53,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go_to_places(View v){
-        Intent it = new Intent(this, PlacesActivity.class);
-        startActivity(it);
+        //Intent it = new Intent(this, PlacesActivity.class);
+        //startActivity(it);
     }
 
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Wi-Fi disabled");
-        alertDialog.setMessage("Do you want turn on your Wi-Fi ?");
+        alertDialog.setTitle("Wi-Fi disabled.");
+        alertDialog.setMessage("Do you want turn on your Wi-Fi?");
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                makeText(getBaseContext(),"Sorry this app cannot work without Wifi",Toast.LENGTH_LONG).show();
+                makeText(getBaseContext(),"Sorry, this app cannot work without Wi-Fi.",Toast.LENGTH_LONG).show();
             }
         });
 

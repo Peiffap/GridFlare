@@ -11,11 +11,11 @@ import java.util.Date;
 @DatabaseTable(tableName = "T_Data")
 public class Data implements Parcelable {
     @DatabaseField(generatedId = true, unique = true)
-    int idData;
+    private int idData;
     @DatabaseField(canBeNull = false)
-    int idScan;
+    private int idScan;
     @DatabaseField
-    Date date;
+    private Date date;
 
     public Data(int idScan, Date date) {
         this.idScan = idScan;
@@ -24,7 +24,7 @@ public class Data implements Parcelable {
     //For ORM
     public Data(){}
 
-    protected Data(Parcel in) {
+    private Data(Parcel in) {
         idData = in.readInt();
         idScan = in.readInt();
     }

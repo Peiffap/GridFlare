@@ -1,16 +1,12 @@
 package epl.students.programmers.gridflare;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -86,12 +82,16 @@ public class GlobalScanActivity extends AppCompatActivity {
         launch_test(null);
     }
 
+    @SuppressLint("SetTextI18n")
     public void launch_test(View v){
+        workInProgress.setText("Scan in progress...");
         workInProgress.setVisibility(View.VISIBLE);
-        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are! ", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are!", Toast.LENGTH_LONG).show();
 
-        if(!wifi.isWifiEnabled())//Check one more time
+        if(wifi.isWifiDisabled()) {//Check one more time
             openDialog();
+            wifiName.setText(wifi.getWifiName());
+        }
 
         refresh.setEnabled(false);
         save.setEnabled(false);
@@ -102,19 +102,33 @@ public class GlobalScanActivity extends AppCompatActivity {
                 ping.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (wifi.getPing() == (float)-1 || wifi.getProportionOfLost() == (float)-1 || wifi.getStrength() == (float)-1){
-                            Toast.makeText(getBaseContext(), "Error. Check your connection, and try later.", Toast.LENGTH_LONG).show();
-                        }
-                        ping.setText(wifi.getPing() +" ms");
-                        lost.setText(wifi.getProportionOfLost()+" %");
-                        strength.setText(wifi.getStrength()+" %");
-                        dl.setText(wifi.getDl()+"");
+                        wifiName.setText(wifi.getWifiName());
+                        if (wifi.getPing() == (float)-1 || wifi.getProportionOfLost() == (float)-1 || wifi.getStrength() == (float)0){
 
-                        refresh.setEnabled(true);
-                        save.setEnabled(true);
-                        nextButton.setEnabled(true);
-                        workInProgress.setVisibility(View.GONE);
-                        nextButton.setVisibility(View.VISIBLE);
+                            ping.setText("_");
+                            lost.setText("_");
+                            strength.setText(wifi.getStrength() + " %");
+                            dl.setText("_");
+
+                            refresh.setEnabled(true);
+                            save.setEnabled(true);
+                            nextButton.setEnabled(true);
+                            workInProgress.setText("The connection failed. Try again later.");
+
+                            Toast.makeText(getBaseContext(), "Error. Check your connection, and try again later.", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            ping.setText(Integer.toString((int) wifi.getPing()) + " ms");
+                            lost.setText(wifi.getProportionOfLost() + " %");
+                            strength.setText(wifi.getStrength() + " %");
+                            dl.setText(wifi.getDl() + " Mbps");
+
+                            refresh.setEnabled(true);
+                            save.setEnabled(true);
+                            nextButton.setEnabled(true);
+                            workInProgress.setVisibility(View.GONE);
+                            nextButton.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
             }
@@ -123,12 +137,12 @@ public class GlobalScanActivity extends AppCompatActivity {
 
     public void openDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Wi-Fi disabled");
+        alertDialog.setTitle("Wi-Fi disabled.");
         alertDialog.setMessage("Do you want turn on your Wi-Fi?");
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(),"Sorry this app cannot work without Wi-Fi",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Sorry, this app cannot work without Wi-Fi.",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -146,7 +160,7 @@ public class GlobalScanActivity extends AppCompatActivity {
         Room r = rooms.get(currentRoom);//Prendre le cas si y en a plusieurs aussi peut etre
         Scan_information info = new Scan_information(r, wifi.getStrength(), wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl(), null);
         dm.insertScan(info);
-        Toast.makeText(getBaseContext(), "Scan saved : " + r.getRoom_name(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Scan saved: " + r.getRoom_name() + ".", Toast.LENGTH_LONG).show();
     }
 
     public void nextRoom(View v){
@@ -154,9 +168,8 @@ public class GlobalScanActivity extends AppCompatActivity {
         currentRoom++;
         if(currentRoom == rooms.size()){//Finish scan
             dm.close();
-            Intent it = new Intent(getBaseContext(), MenuActivity.class);
-            Toast.makeText(getBaseContext(), "Global scan finished", Toast.LENGTH_LONG).show();
-            startActivity(it);
+            Toast.makeText(getBaseContext(), "Global scan finished.", Toast.LENGTH_LONG).show();
+            this.finish();
         } else {
             setCurrentRoom();
             launch_test(null);

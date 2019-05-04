@@ -1,8 +1,10 @@
 package epl.students.programmers.gridflare.tools;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +34,10 @@ public class MenuRoomsAdapter extends RecyclerView.Adapter<MenuRoomsAdapter.Loca
             room_template = itemView;
             room_floor = room_template.findViewById(R.id.d_room_floor);
             room_name = room_template.findViewById(R.id.d_room_name);
+            room_name.setMovementMethod(new ScrollingMovementMethod());
         }
 
+        @SuppressLint("SetTextI18n")
         void display(Room room){
             assert room != null;
             room_name.setText(room.getRoom_name());
@@ -44,7 +48,7 @@ public class MenuRoomsAdapter extends RecyclerView.Adapter<MenuRoomsAdapter.Loca
 
     private ArrayList<Room> rooms;
 
-    public MenuRoomsAdapter(ArrayList<Room> rooms){
+    MenuRoomsAdapter(ArrayList<Room> rooms){
         this.rooms = rooms;
     }
 

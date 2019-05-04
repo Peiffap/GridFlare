@@ -36,7 +36,7 @@
                 android:background="#00FFFFFF"
                 android:scaleX="1.4"
                 android:scaleY="1.4"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentEnd="true"/>
 
             <ImageButton
                 android:id="@+id/r_11"
@@ -47,8 +47,8 @@
                 android:background="#00FFFFFF"
                 android:scaleX="1.4"
                 android:scaleY="1.4"
-                android:layout_toLeftOf="@+id/r_10"
-                android:layout_marginRight="15dp"/>
+                android:layout_toStartOf="@+id/r_10"
+                android:layout_marginEnd="15dp"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,8 +57,8 @@
                 android:background="#00FFFFFF"
                 android:scaleX="1.4"
                 android:scaleY="1.4"
-                android:layout_toLeftOf="@+id/r_11"
-                android:layout_marginRight="15dp"/>
+                android:layout_toStartOf="@+id/r_11"
+                android:layout_marginEnd="15dp"/>
 
         </RelativeLayout>
 
@@ -84,19 +84,19 @@
             style="@style/TextStyle3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/d_room_floor"
-            android:layout_marginLeft="30dp"
+            android:layout_toEndOf="@id/d_room_floor"
+            android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
             tools:text="SleepingRoom"/>
 
-        <TextView
+        <EditText
             android:id="@+id/d_room_floor"
             style="@style/TextStyle3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="12dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="12dp"
             tools:text="0"
             android:inputType="number"/>
 
@@ -106,8 +106,8 @@
             android:layout_height="wrap_content"
             android:scaleX="1.6"
             android:scaleY="1.6"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
             android:layout_centerVertical="true"
             android:src="@drawable/cancel"
             android:background="#00FFFFFF"/>
@@ -119,8 +119,8 @@
             android:layout_centerVertical="true"
             android:scaleX="1.6"
             android:scaleY="1.6"
-            android:layout_toLeftOf="@+id/r_8"
-            android:layout_marginRight="30dp"
+            android:layout_toStartOf="@+id/r_8"
+            android:layout_marginEnd="30dp"
             android:src="@drawable/refresh"
             android:background="#00FFFFFF"/>
 
@@ -183,7 +183,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             tools:text="Strength"/>
 
         <TextView
@@ -191,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
-            android:layout_marginLeft="90dp"
+            android:layout_marginStart="60dp"
             tools:text="Ping"/>
 
         <TextView
@@ -200,7 +200,7 @@
             android:textSize="28sp"
             android:textColor="@color/white"
             android:lineSpacingExtra="4sp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             tools:text="34 %"/>
 
         <TextView
@@ -209,24 +209,24 @@
             android:textSize="28sp"
             android:textColor="@color/white"
             android:lineSpacingExtra="4sp"
-            android:layout_marginLeft="90dp"
-            tools:text="12.94 ms"/>
+            android:layout_marginStart="60dp"
+            tools:text="21 ms"/>
 
         <TextView
             style="@style/TextStyle4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
-            android:layout_marginLeft="20dp"
-            tools:text="Lost Packets"/>
+            android:layout_marginStart="20dp"
+            tools:text="@string/lost2"/>
 
         <TextView
             style="@style/TextStyle4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
-            android:layout_marginLeft="90dp"
-            tools:text="Time for up"/>
+            android:layout_marginStart="60dp"
+            tools:text="@string/time"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -234,7 +234,7 @@
             android:textSize="28sp"
             android:textColor="@color/white"
             android:lineSpacingExtra="4sp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             tools:text="0.0 %"/>
 
         <TextView
@@ -243,8 +243,8 @@
             android:textSize="28sp"
             android:textColor="@color/white"
             android:lineSpacingExtra="4sp"
-            android:layout_marginLeft="90dp"
-            tools:text="31.05ms"/>
+            android:layout_marginStart="60dp"
+            tools:text="3.0 Mbps"/>
     </GridLayout>
 
     <!-- New Room -->
@@ -259,7 +259,7 @@
             android:id="@+id/d_new_room_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_centerVertical="true"
             tools:hint="Room name"
             android:textSize="20sp"
@@ -271,8 +271,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/r_7"
-            android:layout_marginRight="37dp"
+            android:layout_toStartOf="@+id/r_7"
+            android:layout_marginEnd="37dp"
             tools:hint="0"
             android:textColorHint="@color/cold_grey"
             android:inputType="number"/>
@@ -283,8 +283,8 @@
             android:layout_height="wrap_content"
             android:scaleX="2"
             android:scaleY="2"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
             android:layout_centerVertical="true"
             android:src="@drawable/validate"
             android:background="#00FFFFFF"/>
@@ -296,8 +296,8 @@
             android:layout_centerVertical="true"
             android:scaleX="2"
             android:scaleY="2"
-            android:layout_toLeftOf="@+id/r_6"
-            android:layout_marginRight="30dp"
+            android:layout_toStartOf="@+id/r_6"
+            android:layout_marginEnd="30dp"
             android:src="@drawable/cancel"
             android:background="#00FFFFFF"/>
 
