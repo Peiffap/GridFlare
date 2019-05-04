@@ -55,6 +55,8 @@
 \renewcommand{\rho}{\varrho}
 \renewcommand{\phi}{\varphi}
 
+\usepackage{textcomp}
+
 \begin{document}
 \title{GridFlare --- Optimize Your Signal}
 \date{6 mai 2019}
@@ -74,11 +76,31 @@
 \ead{gilles.peiffer@student.uclouvain.be}
 
 \begin{abstract}
-GridFlare est une application Android permettant de mesurer la puissance d'un signal WiFi, la latence ou encore les pertes de paquets sur le réseau dans une pièce ou un bâtiment en temps réel ainsi que de sauvegarder les résultats de ces mesures de manière intuitive.
+GridFlare est une application Android\texttrademark{} permettant de mesurer la puissance d'un signal Wi-Fi, la latence ou encore les pertes de paquets sur le réseau dans une pièce ou un bâtiment en temps réel ainsi que de sauvegarder les résultats de ces mesures de manière intuitive.
 \end{abstract}
 \maketitle
 
 \section{Introduction}
+L'idée initiale derrière GridFlare était de créer une application mobile sur Android\texttrademark{} permettant de mesurer la puissance de différents signaux dans une pièce, ainsi que d'afficher en continu un résumé des mesures à l'endroit courant.
+On pourrait ainsi s'imaginer mesurer la puissance du signal Wi-Fi, d'un signal Bluetooth\textsuperscript{\textregistered}, la qualité du réseau téléphonique, etc..
+Ensuite, il serait également possible de sauvegarder ces mesures dans une base de données, en y adjoignant la position, afin d'y avoir accès par la suite.
+Grâce à une précision à quelques centimètres, il serait alors possible d'afficher un carte de la pièce, sous forme de heatmap, qui permettrait de visualiser, pour un type de signal donné, la puissance de celui-ci, en interpolant via les points de mesure ajoutés.
+Lors de la visualisation, la carte ne concernerait qu'un seul signal, mais il serait possible de changer grâce à une fonctionnalité de \emph{swipe}.
+
+Avec ces fonctionnalités, il serait facile de, par exemple, trouver l'endroit de la pièce voire même du bâtiment entier avec la meilleure puissance de signal afin d'augmenter la productivité chez soi, au travail ou encore dans les endroits ayant un Wi-Fi public.
+
+\begin{figure}[!htbp]
+	\centering
+	\frame{\includegraphics[width=0.8\textwidth]{img/poster_gridflare}}
+	\caption{Le poster original de l'application GridFlare, présenté en début de quadrimestre.}
+	\label{fig:poster}
+\end{figure}
+
+Néanmoins, nous nous sommes rapidement rendus compte que ce ne serait pas possible d'obtenir une résolution suffisamment élevée en ce qui concerne la localisation; en effet, afin de rendre cette application utile, il faudrait au moins avoir accès à une localisation précise à une dizaine de centimètres près, alors qu'avec les outils qui existent actuellement, il est difficile de faire mieux que quelques mètres avec la localisation \textsc{gps}.
+D'autres solutions n'étaient également pas envisageables; nous avions pensé à utiliser l'accéléromètre de l'appareil, mais celui-ci est prône aux erreurs, qui en plus s'accumulent rapidement.
+Une autre idée serait d'utiliser la caméra de l'appareil, de façon similaire à son utilisation dans, par exemple, les jeux de réalité augmentée.
+Cette idée fut également abandonné rapidement en raison de sa complexité démesurée par rapport à la durée du projet.
+
 \section{Rapports de sprint}
 \subsection{Premier sprint}
 \subsubsection{User stories planifiées}
