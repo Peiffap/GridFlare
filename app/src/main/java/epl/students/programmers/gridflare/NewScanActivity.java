@@ -96,7 +96,6 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
 
         if(wifi.isWifiDisabled()) {//Check one more time
             openDialog();
-            wifiName.setText(wifi.getWifiName());
         }
 
         refresh.setEnabled(false);

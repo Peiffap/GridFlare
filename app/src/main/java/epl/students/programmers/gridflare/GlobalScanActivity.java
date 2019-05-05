@@ -185,5 +185,6 @@ public class GlobalScanActivity extends AppCompatActivity {
         save.setVisibility(View.GONE);
         nextButton.setEnabled(false);
         nextButton.setVisibility(View.GONE);
+        launch_test(null);
     }
 }
