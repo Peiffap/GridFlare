@@ -16,11 +16,6 @@ import java.util.ArrayList;
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
 import epl.students.programmers.gridflare.R;
 
-/*
-Le plus simple ca va etre de faire deux adapter et de mettre dans le template de place un recycler view pour que de lui meme il aille cherhcer les pieces
-Ca va pas etre simple mais ca sera le mieux je pense
- */
-
 public class MenuRoomsAdapter extends RecyclerView.Adapter<MenuRoomsAdapter.LocalViewHolder> {
 
     class LocalViewHolder extends RecyclerView.ViewHolder{

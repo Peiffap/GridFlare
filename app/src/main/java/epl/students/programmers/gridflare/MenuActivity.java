@@ -169,7 +169,6 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
                 }
             }
             if(Objects.equals(name, "") || floor > pl.getNumber_of_floor()){
-                System.out.println("AAAAZJAJJAZJJZAJZAZAJZJZAJZJAJA " + floor + " " + pl.getNumber_of_floor());
                 throw new Exception();
             }
         } catch (Exception e){
