@@ -16,11 +16,12 @@
         android:id="@+id/d_room_name"
         style="@style/TextStyle3"
         android:layout_toRightOf="@id/d_room_floor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:text="SleepingRoom"/>
+        android:text="SleepingRoom"
+        android:autoSizeTextType="uniform"/>
 
     <TextView
         android:layout_centerVertical="true"
@@ -29,7 +30,7 @@
         android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"/>
+        android:text="0 "/>
 
     <ImageButton
         android:id="@+id/delete_room_btn"

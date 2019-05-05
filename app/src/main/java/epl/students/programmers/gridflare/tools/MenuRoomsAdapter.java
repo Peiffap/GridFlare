@@ -34,7 +34,7 @@ public class MenuRoomsAdapter extends RecyclerView.Adapter<MenuRoomsAdapter.Loca
             room_template = itemView;
             room_floor = room_template.findViewById(R.id.d_room_floor);
             room_name = room_template.findViewById(R.id.d_room_name);
-            room_name.setMovementMethod(new ScrollingMovementMethod());
+            //room_name.setMovementMethod(new ScrollingMovementMethod());
         }
 
         @SuppressLint("SetTextI18n")
