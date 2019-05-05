@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -206,7 +207,14 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
 
     public void shareButton(View v){
         placeName = ((TextView)((View)v.getParent()).findViewById(R.id.d_place_name)).getText().toString();
-        container_view.addView(popupEmail);
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/html");
+        String subject = "Scan report";
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, EmailBot.formatEmail(placeName,getActivity()));
+        startActivity(Intent.createChooser(shareIntent, "Share using"));
+        /*placeName = ((TextView)((View)v.getParent()).findViewById(R.id.d_place_name)).getText().toString();
+        container_view.addView(popupEmail);*/
     }
 
     public void confirmEmail(View v){
