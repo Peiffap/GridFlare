@@ -67,6 +67,9 @@ public class GlobalScanActivity extends AppCompatActivity {
         workInProgress = findViewById(R.id.d_work_in_progress);
         workInProgress.setVisibility(View.GONE);
 
+        View popup = findViewById(R.id.d_popup_place_selection);
+        popup.setVisibility(View.GONE);
+
         autoComplete = findViewById(R.id.d_text_edit_new_scan);
 
         String placeName = getIntent().getStringExtra("place");
