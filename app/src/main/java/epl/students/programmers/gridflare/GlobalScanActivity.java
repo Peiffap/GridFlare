@@ -79,7 +79,6 @@ public class GlobalScanActivity extends AppCompatActivity {
 
         nextButton = findViewById(R.id.d_next_new_scan);
         setCurrentRoom();
-        launch_test(null);
     }
 
     @SuppressLint("SetTextI18n")
@@ -172,7 +171,6 @@ public class GlobalScanActivity extends AppCompatActivity {
             this.finish();
         } else {
             setCurrentRoom();
-            launch_test(null);
         }
     }
 

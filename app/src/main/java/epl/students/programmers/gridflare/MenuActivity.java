@@ -212,7 +212,7 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
     public void confirmEmail(View v){
         final EmailBot bot = new EmailBot();
         final String email = emailAddress.getText().toString();
-        if (!Objects.equals(email, "") && !Objects.equals(placeName, ""))//Peut etre mettre un popup sinon
+        if (!Objects.equals(email, "") && !Objects.equals(placeName, ""))
             new Thread(new Runnable() {
                 @Override
                 public void run() {

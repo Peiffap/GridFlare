@@ -72,7 +72,7 @@ public class EmailBot extends javax.mail.Authenticator {
             Transport.send(email);//We can get an error here
             return true;
         } catch (Exception e) {
-            Log.e("EmailBot","Error while sending the email: " + e.getMessage());
+            Log.e("EmailBot","Error while sending the email: " + e);
             return false;
         }
     }
