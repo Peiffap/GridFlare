@@ -63,7 +63,7 @@ public class EmailBot extends javax.mail.Authenticator {
      */
     private synchronized boolean send(String topic, String message, String to){
         try{
-            MimeMessage email = new MimeMessage(currentSession);//We use MIME for the futur if we want to add more ressources to the email
+            MimeMessage email = new MimeMessage(currentSession);//We use MIME for the future if we want to add more ressources to the email
             email.setSender(new InternetAddress(username));
             email.setRecipient(Message.RecipientType.BCC, new InternetAddress(to));
             email.setSubject(topic);
@@ -85,16 +85,16 @@ public class EmailBot extends javax.mail.Authenticator {
         DatabaseManager db = new DatabaseManager(context);
         ArrayList<Room> rooms = db.readRoomFromPlace(placeName);
         for(Room room: rooms){
-            Scan_information s = db.readLastScan(room.room_name);//Pas sur du room name
+            Scan_information s = db.readLastScan(room);//Pas sur du room name
             if(s != null) {
-                message.append(String.format(Locale.getDefault(), "<li>%s\n" +
+                message.append(String.format(Locale.getDefault(), "<li>%s (scan from %s)\n" +
                         "<ol>\n" +
                         "<li>Strength : %d %%</li>\n" +
                         "<li>Ping : %.2f ms</li>\n" +
                         "<li>Proportion of lost : %.2f %%</li>\n" +
                         "<li>Upload rate : %.2f Mb/s</li>\n" +
                         "</ol>\n" +
-                        "</li>", room.getRoom_name(), s.getStrength(), s.getPing(), s.getProportionOfLost(), 10 / s.getDl()));
+                        "</li>", room.getRoom_name(), s.getDate(), s.getStrength(), s.getPing(), s.getProportionOfLost(), s.getDl()));
             } else {
                 message.append(String.format(Locale.getDefault(), "<li>%s\n No scan for this room </li>", room.getRoom_name()));
                 Log.e("Email Bot", "Problem solved.");

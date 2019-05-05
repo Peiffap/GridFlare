@@ -55,6 +55,8 @@
 \renewcommand{\rho}{\varrho}
 \renewcommand{\phi}{\varphi}
 
+\usepackage{textcomp}
+
 \begin{document}
 \title{GridFlare --- Optimize Your Signal}
 \date{6 mai 2019}
@@ -74,11 +76,31 @@
 \ead{gilles.peiffer@student.uclouvain.be}
 
 \begin{abstract}
-GridFlare est une application Android permettant de mesurer la puissance d'un signal WiFi, la latence ou encore les pertes de paquets sur le réseau dans une pièce ou un bâtiment en temps réel ainsi que de sauvegarder les résultats de ces mesures de manière intuitive.
+GridFlare est une application Android\texttrademark{} permettant de mesurer la puissance d'un signal Wi-Fi, la latence ou encore les pertes de paquets sur le réseau dans une pièce ou un bâtiment en temps réel ainsi que de sauvegarder les résultats de ces mesures de manière intuitive.
 \end{abstract}
 \maketitle
 
 \section{Introduction}
+L'idée initiale derrière GridFlare était de créer une application mobile sur Android\texttrademark{} permettant de mesurer la puissance de différents signaux dans une pièce, ainsi que d'afficher en continu un résumé des mesures à l'endroit courant.
+On pourrait ainsi s'imaginer mesurer la puissance du signal Wi-Fi, d'un signal Bluetooth\textsuperscript{\textregistered}, la qualité du réseau téléphonique, etc..
+Ensuite, il serait également possible de sauvegarder ces mesures dans une base de données, en y adjoignant la position, afin d'y avoir accès par la suite.
+Grâce à une précision à quelques centimètres, il serait alors possible d'afficher un carte de la pièce, sous forme de heatmap, qui permettrait de visualiser, pour un type de signal donné, la puissance de celui-ci, en interpolant via les points de mesure ajoutés.
+Lors de la visualisation, la carte ne concernerait qu'un seul signal, mais il serait possible de changer grâce à une fonctionnalité de \emph{swipe}.
+
+Avec ces fonctionnalités, il serait facile de, par exemple, trouver l'endroit de la pièce voire même du bâtiment entier avec la meilleure puissance de signal afin d'augmenter la productivité chez soi, au travail ou encore dans les endroits ayant un Wi-Fi public.
+
+\begin{figure}[!htbp]
+	\centering
+	\frame{\includegraphics[width=0.8\textwidth]{img/poster_gridflare}}
+	\caption{Le poster original de l'application GridFlare, présenté en début de quadrimestre.}
+	\label{fig:poster}
+\end{figure}
+
+Néanmoins, nous nous sommes rapidement rendus compte que ce ne serait pas possible d'obtenir une résolution suffisamment élevée en ce qui concerne la localisation; en effet, afin de rendre cette application utile, il faudrait au moins avoir accès à une localisation précise à une dizaine de centimètres près, alors qu'avec les outils qui existent actuellement, il est difficile de faire mieux que quelques mètres avec la localisation \textsc{gps}.
+D'autres solutions n'étaient également pas envisageables; nous avions pensé à utiliser l'accéléromètre de l'appareil, mais celui-ci est prône aux erreurs, qui en plus s'accumulent rapidement.
+Une autre idée serait d'utiliser la caméra de l'appareil, de façon similaire à son utilisation dans, par exemple, les jeux de réalité augmentée.
+Cette idée fut également abandonné rapidement en raison de sa complexité démesurée par rapport à la durée du projet.
+
 \section{Rapports de sprint}
 \subsection{Premier sprint}
 \subsubsection{User stories planifiées}
@@ -253,11 +275,62 @@ GridFlare est une application Android permettant de mesurer la puissance d'un si
 	\item Stocker et utiliser la date des scans.
 	\item Permettre la création de pièces dans les scans ponctuels.
 \end{itemize}
-\subsection{Cinquième sprint}
-\section{Manuel d'utilisation}
-\section{Conclusion}
 
-\section*{Références}
+\subsection{Cinquième sprint}
+\subsubsection{User stories planifiées}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{14cm}m{2cm}}
+	\toprule
+	\textsc{User story} & \textsc{Estimation}\\
+	\midrule
+	En tant qu'utilisateur, je souhaite pouvoir sauvegarder la date d'un scan afin de savoir si mes données sont encore à jour. & \est{2}\\
+	\midrule
+	En tant qu'utilisateur, je souhaite pouvoir créer des nouvelles pièces lors d'un scan ponctuel. & \estbis{5}\\
+	\midrule
+	En tant qu'utilisateur, je souhaite avoir une application qui s'adapte à la taille de mon téléphone, de sorte à pouvoir continuer son utilisation après un changement d'appareil. & \est{10}\\
+	\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{User stories effectuées}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{14cm}m{2cm}}
+	\toprule
+	\textsc{User story} & \textsc{Estimation}\\
+	\midrule
+	En tant qu'utilisateur, je souhaite pouvoir sauvegarder la date d'un scan afin de savoir si mes données sont encore à jour. & \est{1}\\
+	\midrule
+	En tant qu'utilisateur, je souhaite pouvoir créer des nouvelles pièces lors d'un scan ponctuel. & \estbis{7}\\
+	\midrule
+	En tant qu'utilisateur, je souhaite avoir une application qui s'adapte à la taille de mon téléphone, de sorte à pouvoir continuer son utilisation après un changement d'appareil. & \est{15}\\
+	\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Manuel d'utilisation}
+
+\section{Conclusion}
+Le projet d'informatique est relativement unique dans le sens où il donne beaucoup de liberté dans le choix de l'application que l'on développe.
+Comme dit dans l'introduction, cette liberté est en quelque sorte à double tranchant: elle permet de travailler pendant un quadrimestre entier sur un projet qui nous intéresse un minimum, mais l'imagination est souvent en avance sur le code; c'est pour cette raison que nous avons jugé les démonstrations à la fin de chaque sprint comme utiles.
+En nous faisant intéragir régulièrement avec le \og client\fg, on crée un environnement de développement le plus réel possible, bien qu'il soit un peu inversé dans le sens où lors du projet, ce sont les développeurs qui ont des idées folles, et que le client doit les ramener sur Terre.
+Plusieurs fois au cours du projet, nous avons par ces démonstrations été inspirés dans nos choix de fonctionnalités à implémenter: l'abandon du scan à précision centimétrique en faveur d'un scan d'une pièce entière, le fait d'oublier la visualisation par heatmap trop compliquée pour se concentrer sur la possibilité d'effectuer un scan de bâtiment en une fois, etc..
+Grâce aux commentaires des encadrants, il nous a été possible de viser un objectif atteignable, sans donner l'impression de nous limiter.
+
+Aussi utiles que ces démonstrations aient étées, les membres du groupe sont néanmoins assez unanimes quant au manque d'intérêt des séances de réunion avec notre tuteur.
+Il s'agit ici d'un problème intrinsèque à l'idée du rendez-vous, et non pas un problème spécifique à notre groupe ou notre tuteur.
+Il aurait été plus judicieux d'utiliser cette réunion comme une opportunité de soit discuter de nos problèmes techniques, soit de nous aider avec l'organisation du projet, comme par exemple vérifier la correction de nos user stories, etc..
+Dans ce sens, il semble déconnecté entièrement du projet que nous avions eu l'occasion de faire pour le cours de conception orientée-objet, ce qui nous a étonné.
+
+La méthodologie Agile est intéressante et semble devenir de plus en plus prévalente dans le domaine industriel.
+Il est donc dommage que si peu d'attention soit portée à l'apprentissage de celle-ci plus en profondeur.
+Le cours au début du quadrimestre contenait uniquement les bases, et n'était pas réellement suffisante pour profiter pleinement de ce qu'elle pouvait nous offrir pour ce projet.
+Ainsi, nous avons eu un peu de mal à nous organiser au début du projet, bien que ce problème ait été résolu par la suite sans trop de difficultés.
+
+Néanmoins, ce projet nous a permis de consolider nos acquis en programmation Java et Android et de nous familiariser davantage avec l'expérience \og software engineering \fg.
+Au-delà des aspects techniques, le développement en groupe sur des projets dépassant les tailles gérables par un seul programmeur est à la base de la philosophie utilisée en entreprise, et ce projet, bien que sa taille soit encore relativement réduite, nous a permis de vivre ceci de très près.
+Comme dit ci-dessus, la liberté qui nous a été donnée quant au choix du projet peut-être un avantage autant qu'un inconvénient, mais ce fut intéressant de voir la vie entière d'une application, de la première idée jusqu'au produit final.
 
 \bibliography{gridflare-ref}
 \bibliographystyle{elsarticle-harv}\biboptions{authoryear}
