@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import epl.students.programmers.gridflare.ORM.DatabaseManager;
+import epl.students.programmers.gridflare.tools.Place;
 import epl.students.programmers.gridflare.tools.Room;
 import epl.students.programmers.gridflare.tools.Scan_information;
 import epl.students.programmers.gridflare.tools.WifiScanner;
@@ -39,6 +43,8 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     TextView wifiName;
 
     TextView workInProgress;
+
+    View popup;
 
     ImageButton refresh;
     ImageButton save;//Encore faire son listener
@@ -68,6 +74,9 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         wifiName.setText(wifi.getWifiName());
         workInProgress = v.findViewById(R.id.d_work_in_progress);
         workInProgress.setVisibility(View.GONE);
+
+        popup = v.findViewById(R.id.d_popup_place_selection);
+        popup.setVisibility(View.GONE);
 
         View nextBtn = v.findViewById(R.id.d_next_new_scan);
         ((ViewGroup) nextBtn.getParent()).removeView(nextBtn);
@@ -185,23 +194,51 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
             return;
         }
 
-        DatabaseManager dm = new DatabaseManager(getActivity());
-        String theRoomTotal = autoComplete.getText().toString();
-        // We assume that each room has a place attached to it. Not a very clean way
-        String[] splited = theRoomTotal.split("\n\\(");
-        String roomName = splited[0];
-        String placeName = splited[1].substring(0, splited[1].length()-1);
+        String roomName; String placeName; DatabaseManager dm = new DatabaseManager(getActivity());
+        ArrayList<Room> rooms;
 
-        ArrayList<Room> rooms = dm.readRoom(roomName, placeName);
-        if(rooms.size() == 0)
-            Toast.makeText(getActivity(),"This room does not exist.",Toast.LENGTH_LONG).show();
-        else {
+        try {
+            String theRoomTotal = autoComplete.getText().toString();
+            // We assume that each room has a place attached to it. Not a very clean way
+            String[] splited = theRoomTotal.split("\n\\(");
+            roomName = splited[0];
+            placeName = splited[1].substring(0, splited[1].length() - 1);
+            rooms = dm.readRoom(roomName, placeName);
             Room r = rooms.get(0);// Should be the only one
             Scan_information info = new Scan_information(r, wifi.getStrength(), (int) wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl());
             dm.insertScan(info);
             dm.close();
-            Toast.makeText(getActivity(),"Scan saved.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Scan saved    ",Toast.LENGTH_LONG).show();
+        } catch (Exception e){
+            Toast.makeText(getActivity(),"This room does not exists",Toast.LENGTH_LONG).show();
+            popup.setVisibility(View.VISIBLE);//Still populate it
+            ArrayList<Place> places = dm.readPlace();
+            LinearLayout     sv = popup.findViewById(R.id.d_place_selection_scroll);
+            for(Place p : places){
+                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                View placeView = layoutInflater.inflate(R.layout.template_place_selection, null);
+                ((TextView)placeView.findViewById(R.id.d_place_selection_name)).setText(p.getPlace_name());
+                sv.addView(placeView);
+            }
+            dm.close();
         }
+    }
+
+    public void placeSelected(View v){
+        //Create the new room
+        String placeName = ((TextView)v.findViewById(R.id.d_place_selection_name)).getText().toString();
+        DatabaseManager dm = new DatabaseManager(getActivity());
+        Place p = dm.readPlace(placeName).get(0);
+        Room r = new Room(autoComplete.getText().toString(), 0, p);
+        dm.insertRoom(r);
+        //Create the scan
+        Scan_information info = new Scan_information(r, wifi.getStrength(), (int) wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl());
+        dm.insertScan(info);
+        dm.close();
+        //GUI udpate
+        popup.setVisibility(View.GONE);
+        Toast.makeText(getActivity(),"Scan saved",Toast.LENGTH_LONG).show();
+        ((RecyclerView)getActivity().findViewById(R.id.d_places_scroll)).getAdapter().notifyDataSetChanged();
     }
 
     private void closeKeyboard(){

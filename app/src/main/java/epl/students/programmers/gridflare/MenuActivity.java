@@ -78,7 +78,6 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
         menuAdapter = new MenuPlacesAdapter(dm.readPlace());
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL,false));
         rv.setAdapter(menuAdapter);
-
         return v;
     }
 

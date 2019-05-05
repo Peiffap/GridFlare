@@ -107,6 +107,10 @@ public class HomeActivity extends AppCompatActivity {
                 page = (MenuActivity)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + vp.getCurrentItem());
                 page.cancelNewRoom(v);
                 break;
+            case R.id.d_select_place_btn:
+                NewScanActivity p = (NewScanActivity)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + vp.getCurrentItem());
+                p.placeSelected(v);
+                break;
         }
     }
 }
