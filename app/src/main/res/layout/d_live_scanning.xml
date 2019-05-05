@@ -6,20 +6,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#000000">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Strength"
+        android:layout_above="@+id/d_live_value"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:lineSpacingExtra="20sp"
+        android:textSize="43sp"/>
 
-        <TextView
-            android:id="@+id/d_live_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="93sp"
-            android:textColor="#FFFFFF"
-            android:lineSpacingExtra="20sp"
-            tools:text="15%"/>
-
-    </LinearLayout>
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/d_live_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="93sp"
+        android:textColor="#FFFFFF"
+        android:lineSpacingExtra="20sp"
+        tools:text="15%"/>
 
 </RelativeLayout>
