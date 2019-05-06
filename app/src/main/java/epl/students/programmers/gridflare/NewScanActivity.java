@@ -242,6 +242,7 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         dm.insertScan(info);
         dm.close();
         //GUI udpate
+        ((ViewGroup)popup.findViewById(R.id.d_place_selection_scroll)).removeAllViews();
         popup.setVisibility(View.GONE);
         Toast.makeText(getActivity(),"Scan saved",Toast.LENGTH_LONG).show();
         ((RecyclerView)getActivity().findViewById(R.id.d_places_scroll)).getAdapter().notifyDataSetChanged();
