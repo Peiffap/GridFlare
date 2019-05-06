@@ -90,7 +90,8 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     @SuppressLint("SetTextI18n")
     public void launch_test(View v){
         closeKeyboard();
-        Toast.makeText(getActivity(), "Test in progress. Stay where you are!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Test in progress. Stay where you are!\n" +
+                "This can take several minutes, depending on your connection", Toast.LENGTH_LONG).show();
         workInProgress.setText("Scan in progress...");
         workInProgress.setVisibility(View.VISIBLE);
 
@@ -187,6 +188,11 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         //Asserts
         closeKeyboard();
 
+        if(autoComplete.getText().toString().equals("")){
+            // No added room
+            return;
+        }
+
         //Check if valid scan
         if(ping.getText().toString().equals("_")){
             Toast.makeText(getActivity(), "Can't save an invalid scan.", Toast.LENGTH_LONG).show();
@@ -210,8 +216,13 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
             Toast.makeText(getActivity(),"Scan saved    ",Toast.LENGTH_LONG).show();
         } catch (Exception e){
             Toast.makeText(getActivity(),"This room does not exists",Toast.LENGTH_LONG).show();
-            popup.setVisibility(View.VISIBLE);//Still populate it
             ArrayList<Place> places = dm.readPlace();
+            if(places.size() == 0){
+                // No places, must add
+                Toast.makeText(getActivity(), "There is no place to add this room", Toast.LENGTH_LONG).show();
+                return;
+            }
+            popup.setVisibility(View.VISIBLE);//Still populate it
             LinearLayout     sv = popup.findViewById(R.id.d_place_selection_scroll);
             for(Place p : places){
                 LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
