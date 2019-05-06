@@ -59,6 +59,13 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(getView() != null)
+            setupAutoCompleteTextView();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.d_new_scan, container, false);
         wifi = new WifiScanner(Objects.requireNonNull(getActivity()));
@@ -138,7 +145,7 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         }).start();
     }
 
-    private void setupAutoCompleteTextView(){
+    public void setupAutoCompleteTextView(){
         DatabaseManager dm = new DatabaseManager(getActivity());
         ArrayList<Room> rooms = dm.readRoom();
         Room[] names = new Room[rooms.size()];
