@@ -88,7 +88,8 @@ public class GlobalScanActivity extends AppCompatActivity {
     public void launch_test(View v){
         workInProgress.setText("Scan in progress...");
         workInProgress.setVisibility(View.VISIBLE);
-        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Test in progress. Stay where you are!\n" +
+                "This can take several minutes, depending on your connection", Toast.LENGTH_LONG).show();
 
         if(wifi.isWifiDisabled()) {//Check one more time
             openDialog();

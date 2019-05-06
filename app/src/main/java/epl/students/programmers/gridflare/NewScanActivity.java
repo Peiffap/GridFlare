@@ -252,6 +252,7 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
             if(rr.getRoom_name().equals(room_name)){
                 Toast.makeText(getActivity(), "This room already exists", Toast.LENGTH_LONG).show();
                 popup.setVisibility(View.GONE);
+                ((ViewGroup)popup.findViewById(R.id.d_place_selection_scroll)).removeAllViews();
                 return;
             }
         }
