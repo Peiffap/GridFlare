@@ -240,23 +240,26 @@ public class MenuActivity extends Fragment implements View.OnClickListener{
 
     public void validateNewPlace(View v){
         final String placeName = newPlaceName.getText().toString();
-        final int placeFloors = Integer.parseInt((newPlaceFloors).getText().toString());
-        if (!Objects.equals(placeName, "")){
-            ArrayList<Place> samePlaces = dm.readPlace(placeName);
-            if(samePlaces.size() == 0) { // No duplicate
-                Place p = new Place(placeName, placeFloors);
-                dm.insertPlace(p);
-                menuAdapter.updateList(dm.readPlace());
-                menuAdapter.notifyDataSetChanged();
-                Toast.makeText(getActivity(), "New place created.", Toast.LENGTH_LONG).show();
-                cancelNewPlace(v);
+        if(newPlaceFloors.getText().toString().equals("")){
+            Toast.makeText(getActivity(),"Enter a valid floor.", Toast.LENGTH_LONG).show();
+        }
+        else {
+            final int placeFloors = Integer.parseInt((newPlaceFloors).getText().toString());
+            if (!Objects.equals(placeName, "")) {
+                ArrayList<Place> samePlaces = dm.readPlace(placeName);
+                if (samePlaces.size() == 0) { // No duplicate
+                    Place p = new Place(placeName, placeFloors);
+                    dm.insertPlace(p);
+                    menuAdapter.updateList(dm.readPlace());
+                    menuAdapter.notifyDataSetChanged();
+                    Toast.makeText(getActivity(), "New place created.", Toast.LENGTH_LONG).show();
+                    cancelNewPlace(v);
+                } else { // Duplicate
+                    Toast.makeText(getActivity(), "This place already exists", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getActivity(), "Please enter a place name.", Toast.LENGTH_LONG).show();
             }
-            else { // Duplicate
-                Toast.makeText(getActivity(), "This place already exists", Toast.LENGTH_LONG).show();
-                cancelNewPlace(v);
-            }
-        } else {
-            Toast.makeText(getActivity(),"Please enter a place name.",Toast.LENGTH_LONG).show();
         }
     }
 
