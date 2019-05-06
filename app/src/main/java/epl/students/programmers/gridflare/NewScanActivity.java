@@ -246,7 +246,16 @@ public class NewScanActivity extends Fragment implements View.OnClickListener{
         String placeName = ((TextView)v.findViewById(R.id.d_place_selection_name)).getText().toString();
         DatabaseManager dm = new DatabaseManager(getActivity());
         Place p = dm.readPlace(placeName).get(0);
-        Room r = new Room(autoComplete.getText().toString(), 0, p);
+        ArrayList<Room> rooms = dm.readRoom(p);
+        String room_name = autoComplete.getText().toString();
+        for(Room rr: rooms){
+            if(rr.getRoom_name().equals(room_name)){
+                Toast.makeText(getActivity(), "This room already exists", Toast.LENGTH_LONG).show();
+                popup.setVisibility(View.GONE);
+                return;
+            }
+        }
+        Room r = new Room(room_name, 0, p);
         dm.insertRoom(r);
         //Create the scan
         Scan_information info = new Scan_information(r, wifi.getStrength(), (int) wifi.getPing(), wifi.getProportionOfLost(), wifi.getDl());
